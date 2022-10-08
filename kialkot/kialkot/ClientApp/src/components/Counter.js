@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 export class Counter extends Component {
   static displayName = Counter.name;
-  state: { currentCount: number; };
 
   constructor(props) {
     super(props);
@@ -15,9 +14,6 @@ export class Counter extends Component {
     this.setState({
       currentCount: this.state.currentCount + 1
     });
-  }
-  setState(arg0: { currentCount: any; }) {
-    throw new Error('Method not implemented.');
   }
 
   decrementCounter() {
