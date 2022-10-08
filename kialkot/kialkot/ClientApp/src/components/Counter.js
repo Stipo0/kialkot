@@ -2,16 +2,27 @@ import React, { Component } from 'react';
 
 export class Counter extends Component {
   static displayName = Counter.name;
+  state: { currentCount: number; };
 
   constructor(props) {
     super(props);
     this.state = { currentCount: 0 };
     this.incrementCounter = this.incrementCounter.bind(this);
+    this.decrementCounter = this.decrementCounter.bind(this);
   }
 
   incrementCounter() {
     this.setState({
       currentCount: this.state.currentCount + 1
+    });
+  }
+  setState(arg0: { currentCount: any; }) {
+    throw new Error('Method not implemented.');
+  }
+
+  decrementCounter() {
+    this.setState({
+      currentCount: this.state.currentCount - 1
     });
   }
 
@@ -25,6 +36,7 @@ export class Counter extends Component {
         <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
 
         <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>
+        <button className="btn btn-primary m-2" onClick={this.decrementCounter}>Decrement</button>
       </div>
     );
   }
