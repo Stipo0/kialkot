@@ -21,13 +21,13 @@ namespace kialkot.Services.JwtTokenService
             var claims = new List<Claim>
             {
                 new Claim("userId", user.Id.ToString()),
-                new Claim("name", user.Name),
+                new Claim("nickName", user.NickName),
                 new Claim("role", user.Role),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_jwtOptions.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
-            var expires = DateTime.Now.Add(TimeSpan.FromDays(Int32.Parse(_jwtOptions.TTL)));
+            var expires = DateTime.UtcNow.Add(TimeSpan.FromDays(Int32.Parse(_jwtOptions.TTL)));
 
             var token = new JwtSecurityToken(
                 claims: claims,

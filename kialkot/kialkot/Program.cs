@@ -1,8 +1,10 @@
 using kialkot.Data;
 using kialkot.Models.Options;
+using kialkot.Repositories.RefreshTokenRepository;
 using kialkot.Repositories.UserRepository;
 using kialkot.Services.HttpAccesorService;
 using kialkot.Services.JwtTokenService;
+using kialkot.Services.RefreshTokenService;
 using kialkot.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +66,8 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHttpAccessorService, HttpAccessorService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 
 builder.Services.AddHttpContextAccessor();
 

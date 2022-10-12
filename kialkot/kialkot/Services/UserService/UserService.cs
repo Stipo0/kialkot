@@ -22,7 +22,7 @@ namespace kialkot.Services.UserService
 
                 var user = new User
                 {
-                    Name = request.Name,
+                    NickName = request.NickName,
                     Email = request.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,

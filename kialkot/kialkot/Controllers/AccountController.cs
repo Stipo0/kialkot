@@ -33,7 +33,7 @@ namespace kialkot.Controllers
         [SwaggerResponse(400)]
         public async Task<ActionResult> Register([FromBody] RegisterUserDto request)
         {
-            if (await _userRepository.CheckExistName(request.Name))
+            if (await _userRepository.CheckExistName(request.NickName))
             {
                 return BadRequest("Username already exists");
             }
@@ -61,9 +61,12 @@ namespace kialkot.Controllers
 
             return Ok(new UserMeDto
             {
-                Name = user.Name,
+                NickName = user.NickName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 Email = user.Email,
-                Role = user.Role
+                Role = user.Role,
+                CreatedAt = user.CreatedAt
             });
         }
     }

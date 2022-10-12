@@ -18,14 +18,14 @@ namespace kialkot.Repositories.UserRepository
             await _applicationDbContext.SaveChangesAsync();
         }
         
-        public async Task<User> GetByNameAsync(string name)
+        public Task<User> GetByNameAsync(string name)
         {
-            return await _applicationDbContext.Users.FirstOrDefaultAsync(x => x.Name == name);
+            return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.NickName == name);
         }
         
-        public async Task<User> GetByIdAsync(int id)
+        public Task<User> GetByIdAsync(int id)
         {
-            return await _applicationDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<bool> CheckExistEmail(string email)
@@ -35,7 +35,7 @@ namespace kialkot.Repositories.UserRepository
         
         public Task<bool> CheckExistName(string name)
         {
-            return _applicationDbContext.Users.AsNoTracking().AnyAsync(x => x.Name == name);
+            return _applicationDbContext.Users.AsNoTracking().AnyAsync(x => x.NickName == name);
         }
     }
 }
