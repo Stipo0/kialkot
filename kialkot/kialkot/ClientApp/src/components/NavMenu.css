@@ -3,6 +3,18 @@
   word-break: break-all;
 }
 
+a.navbar-brand img{
+  width: 20vw;
+}
+
+body {
+  background-image: url('../images/felsodisz.png');
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size: 50vw;
+}
+
+
 html {
   font-size: 14px;
 }
