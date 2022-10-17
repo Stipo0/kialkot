@@ -1,0 +1,20 @@
+body {
+	background-image: url('../../images/hatterfoltok.png');
+	background-size: 1vw;
+}
+
+#root {
+	width: 80%;
+	margin: 0 10%;
+	height: 100vh;
+	background-color: white;
+	background-attachment: scroll;
+	background-position: center;
+}
+
+header {
+	background-image: url('../../images/felsodisz.png');
+	background-position: right top;
+	background-repeat: no-repeat;
+	background-size: 50vw;
+}
