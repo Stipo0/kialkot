@@ -28,6 +28,10 @@ bld/
 
 # Visual Studio 2015 cache/options directory
 .vs/
+
+#Visual Studio Code cache/options directory
+.vscode/
+
 # Uncomment if you have tasks that create the project's static files in wwwroot
 #wwwroot/
 
@@ -275,7 +279,6 @@ __pycache__/
 kialkot/.vs/kialkot/DesignTimeBuild/.dtbcache.v2
 kialkot/.vs/kialkot/v17/.suo
 kialkot/.vs/kialkot/v17/.suo
-.vscode
 kialkot/.vs/kialkot/DesignTimeBuild/.dtbcache.v2
 kialkot/.vs/kialkot/v17/.futdcache.v2
 kialkot/.vs/kialkot/v17/.suo
@@ -286,3 +289,4 @@ kialkot/.vs/kialkot/v17/.futdcache.v2
 kialkot/.vs/kialkot/v17/.suo
 kialkot/.vs/ProjectEvaluation/kialkot.metadata.v5.1
 kialkot/.vs/ProjectEvaluation/kialkot.projects.v5.1
+
