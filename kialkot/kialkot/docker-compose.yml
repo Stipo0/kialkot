@@ -1,0 +1,14 @@
+﻿version: "3.9"
+services:
+    sqlservercontainer:
+        image: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: "password"
+    app:
+        build: .
+        depends_on:
+            - sqlservercontainer
+        ports:
+            - "80:80"
