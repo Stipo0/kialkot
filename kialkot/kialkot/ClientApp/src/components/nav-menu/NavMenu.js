@@ -22,8 +22,8 @@ export class NavMenu extends Component {
       collapsed: true,
       RouteConfig: [
         { label: "", link: "/" },
-        { label: "Counter", link: "/counter" },
-        { label: "Fetch Data", link: "/fetch-data" },
+        { label: "Registration", link: "/registration" },
+        { label: "Login", link: "/login" },
       ],
     };
   }

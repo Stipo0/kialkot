@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container } from "reactstrap";
-import { NavMenu } from "../NavMenu/NavMenu";
-import { SideBand } from "../SideBand/SideBand";
+import { NavMenu } from "../nav-menu/NavMenu";
+import { SideBand } from "../side-band/SideBand";
 import "./Layout.css";
 
 export class Layout extends Component {
