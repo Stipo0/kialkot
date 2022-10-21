@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import { Page } from "../../components/page/Page";
 
-export class Counter extends Component {
-  static displayName = Counter.name;
+export class Registration extends Component {
+  static displayName = Registration.name;
 
   constructor(props) {
     super(props);
@@ -24,9 +25,7 @@ export class Counter extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Counter</h1>
-
+      <Page title="Counter">
         <p>This is a simple example of a React component.</p>
 
         <p aria-live="polite">
@@ -39,7 +38,7 @@ export class Counter extends Component {
         <button className="btn btn-primary m-2" onClick={this.decrementCounter}>
           Decrement
         </button>
-      </div>
+      </Page>
     );
   }
 }

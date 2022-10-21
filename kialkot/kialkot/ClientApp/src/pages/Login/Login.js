@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { Form } from 'react-router-dom';
+import { Page } from '../../components/page/Page';
+import { TextField } from '../../components/text-field/TextField';
 
-export class FetchData extends Component {
-  static displayName = FetchData.name;
+export class Login extends Component {
+  static displayName = Login.name;
 
   constructor(props) {
     super(props);
@@ -40,14 +43,18 @@ export class FetchData extends Component {
   render() {
     let contents = this.state.loading
       ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+      : Login.renderForecastsTable(this.state.forecasts);
 
     return (
-      <div>
-        <h1 id="tabelLabel" >Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
+      <Page title="Login">
+        <Form >
+        {/* 
+          <TextField name="email" label="Email" type="email" />
+          <button type='submit'>Elküldés</button>
+        */}
+         </Form>
         {contents}
-      </div>
+      </Page>
     );
   }
 
