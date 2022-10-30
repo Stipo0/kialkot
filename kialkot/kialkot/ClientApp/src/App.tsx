@@ -1,55 +1,61 @@
 import { Component } from "react";
+import { Navigate, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import { AUTH_TOKEN } from "./util/constants";
+import { getDataFromTokenModel } from "./util/token";
 
 interface AppProps {}
 
 interface AppState {
-  counter: number;
+  token: string | null;
+  role: Role | null;
 }
 
 class App extends Component<AppProps, AppState> {
-  readonly state: AppState = { counter: 0 };
+  readonly state: AppState = {
+    token: localStorage.getItem(AUTH_TOKEN),
+    role: getDataFromTokenModel("role") as Role,
+  };
 
-  setCounterValue = (increase: boolean) => {
-    this.setState(({ counter }) => {
-      const newValue = increase ? counter + 1 : counter - 1;
-      return { counter: newValue };
+  setToken = (token: string | null) => {
+    if (token) {
+      localStorage.setItem(AUTH_TOKEN, token);
+    } else {
+      localStorage.removeItem(AUTH_TOKEN);
+    }
+    this.setState({
+      token,
+      role: getDataFromTokenModel("role") as Role,
     });
   };
 
-  clearValue = () => {
-    this.setState({ counter: 0 });
-  };
-
   render() {
+    const { token, role } = this.state;
+
+    const UserRouteElement = <Navigate to="/" replace />;
+
     return (
       <div className="App">
         <header className="App-header">
-          <Navbar />
+          <Navbar isLoggedIn={!!token} setToken={this.setToken} />
         </header>
-        <div className="container d-flex justify-content-center">
-          <div className="card my-4  p-4 bg-white shadow text-center">
-            <h5>Counter: {this.state.counter}</h5>
-            <div className="d-flex justify-content-center flex-wrap gap-2">
-              <button
-                className="btn btn-primary"
-                onClick={() => this.setCounterValue(true)}
-              >
-                Increase +
-              </button>
-              <button
-                className="btn btn-secondary"
-                onClick={() => this.setCounterValue(false)}
-              >
-                Decrease -
-              </button>
-              <button className="btn btn-danger" onClick={this.clearValue}>
-                Clear
-              </button>
-            </div>
-          </div>
-        </div>
+        <Routes>
+          {token ? (
+            <>
+              <Route path="*" element={<Navigate to="/home" replace />} />
+            </>
+          ) : (
+            <>
+              <Route
+                path="/login"
+                element={<LoginPage setToken={this.setToken} />}
+              />
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </>
+          )}
+        </Routes>
       </div>
     );
   }

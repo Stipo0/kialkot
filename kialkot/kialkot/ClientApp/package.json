@@ -17,6 +17,7 @@
     "bootstrap": "^5.2.0",
     "classnames": "^2.3.1",
     "formik": "^2.2.9",
+    "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
@@ -28,10 +29,10 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "set PORT=44491 && react-scripts start",
+    "build": "set PORT=44491 && react-scripts build",
+    "test": "set PORT=44491 && react-scripts test",
+    "eject": "set PORT=44491 && react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
