@@ -1,4 +1,5 @@
 ﻿using kialkot.Models.Request;
+using kialkot.Models.Response;
 using kialkot.Repositories.RefreshTokenRepository;
 using kialkot.Repositories.UserRepository;
 using kialkot.Services.JwtTokenService;
@@ -50,7 +51,11 @@ namespace kialkot.Controllers
                     Expires = refreshToken.Expires
                 });
 
-                return Ok(token);
+                return Ok(new TokenDto
+                    {
+                        token = token,
+                    }
+                );
             }
             return Unauthorized();
         }

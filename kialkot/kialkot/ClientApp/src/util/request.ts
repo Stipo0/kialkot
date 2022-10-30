@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { toast } from "react-toastify";
+import { AUTH_TOKEN } from "./constants";
 
 export enum Methods {
   GET = "GET",
@@ -28,7 +29,7 @@ export interface RequestConfig extends AxiosRequestConfig {
 }
 
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
-  const authToken = localStorage.getItem("auth-token");
+  const authToken = localStorage.getItem(AUTH_TOKEN);
   if (authToken && config.headers) {
     config.headers.Authorization = authToken;
   }

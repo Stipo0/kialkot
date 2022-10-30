@@ -9,7 +9,7 @@ class AuthService {
 	async login(credentials: CredentialsModel) {
 		return request<LoginResponse>({
 			method: Methods.POST,
-			resource: "login",
+			resource: "api/Auth/login",
 			data: credentials,
 		})
 	}

@@ -29,10 +29,12 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "set PORT=44491 && react-scripts start",
-    "build": "set PORT=44491 && react-scripts build",
-    "test": "set PORT=44491 && react-scripts test",
-    "eject": "set PORT=44491 && react-scripts eject"
+    "prestart": "node aspnetcore-https && node aspnetcore-react",
+    "start": "rimraf ./build && react-scripts start",
+    "build": "react-scripts build",
+    "test": "cross-env CI=true react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src/"
   },
   "eslintConfig": {
     "extends": [
