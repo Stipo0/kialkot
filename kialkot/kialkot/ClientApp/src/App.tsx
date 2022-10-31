@@ -3,6 +3,7 @@ import { Navigate, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import UserPage from "./pages/UserPage/UserPage";
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
 
@@ -44,7 +45,8 @@ class App extends Component<AppProps, AppState> {
         <Routes>
           {token ? (
             <>
-              <Route path="*" element={<Navigate to="/home" replace />} />
+              <Route path="/profil" element={<UserPage />} />
+              <Route path="*" element={<Navigate to="/profil" replace />} />
             </>
           ) : (
             <>

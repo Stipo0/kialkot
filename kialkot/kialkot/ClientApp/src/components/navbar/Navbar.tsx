@@ -24,8 +24,8 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   const nickName = getDataFromTokenModel("nickName");
   const routes: RouteConfig[] = [
     {
-      link: "/",
-      label: "Home",
+      link: "/profile",
+      label: "Profil",
     },
   ];
 
