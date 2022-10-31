@@ -22,7 +22,12 @@ namespace kialkot.Repositories.UserRepository
         {
             return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.NickName == name);
         }
-        
+
+        public Task<User> GetByEmailAsync(string email)
+        {
+            return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
         public Task<User> GetByIdAsync(int id)
         {
             return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);

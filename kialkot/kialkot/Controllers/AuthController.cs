@@ -35,7 +35,7 @@ namespace kialkot.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginUserDto request)
         {
-            var user = await _userRepository.GetByNameAsync(request.Name);
+            var user = await _userRepository.GetByEmailAsync(request.Email);
             if (user == null)
             {
                 return BadRequest("User not found");
@@ -53,13 +53,13 @@ namespace kialkot.Controllers
 
                 return Ok(new TokenDto
                     {
-                        token = token,
+                        Token = token,
                     }
                 );
             }
             return Unauthorized();
         }
-        //refresh token
+
         [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken()
         {
@@ -87,7 +87,10 @@ namespace kialkot.Controllers
             });
             
             var token = _jwtTokenService.CreateTokenAsync(user);
-            return Ok(token);
+            return Ok(new TokenDto
+            {
+                Token = token,
+            });
         }
     }
 }
