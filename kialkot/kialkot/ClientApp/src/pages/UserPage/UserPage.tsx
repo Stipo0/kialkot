@@ -29,9 +29,9 @@ const UserPage = () => {
 
   const schema = Yup.object().shape({
     email: Yup.string().email().required(),
+    nickName: Yup.string().required(),
     firstName: Yup.string().required(),
     lastName: Yup.string().required(),
-    nickName: Yup.string().required(),
   });
 
   const handleSubmit = async (values: UserFormValues) => {
@@ -55,14 +55,14 @@ const UserPage = () => {
       >
         <Form>
           <TextField name="nickName" label="Felhasználó név" />
-          <TextField name="lastName" label="Vezetéknév" />
-          <TextField name="firstName" label="Keresztnév" />
+          <TextField name="firstName" label="Vezetéknév" />
+          <TextField name="lastName" label="Keresztnév" />
           <TextField name="email" type="email" label="Email cím" />
           <div className="mt-3">
             <Button
               color="secondary"
               type="button"
-              className="me-2"
+              className="m-2"
               onClick={goToProfil}
             >
               Vissza

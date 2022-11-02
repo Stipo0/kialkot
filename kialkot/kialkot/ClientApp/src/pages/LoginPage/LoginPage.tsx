@@ -1,8 +1,12 @@
+import { Alert } from "@mui/material";
 import { Form, Formik } from "formik";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+
 import Button from "../../components/button/Button";
 import TextField from "../../components/text-field/TextField";
-import { CredentialsModel } from "../../models/auth.model";
+import { LoginCredentialsModel } from "../../models/auth.model";
 import { authService } from "../../service/auth.service";
 
 interface LoginPageProps {
@@ -10,21 +14,28 @@ interface LoginPageProps {
 }
 
 const LoginPage = ({ setToken }: LoginPageProps) => {
-  const initialValues: CredentialsModel = { name: "", password: "" };
+  const initialValues: LoginCredentialsModel = { email: "", password: "" };
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const schema = Yup.object().shape({
-    name: Yup.string().required(),
-    password: Yup.string().required(),
+    email: Yup.string().email().required(),
+    password: Yup.string().min(6).required(),
   });
 
-  const handleSubmit = async (values: CredentialsModel) => {
+  const handleSubmit = async (values: LoginCredentialsModel) => {
     try {
       const { token } = await authService.login(values);
       setToken(token);
     } catch (e) {
+      setError("Hibás email cím vagy rossz jelszó!");
       setToken(null);
     }
   };
+
+  const goToRegistration = () => {
+    navigate("/registration");
+  }
 
   return (
     <div className="container">
@@ -40,8 +51,9 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
               >
                 <Form>
                   <TextField
-                    name="name"
-                    label="Felhasználó név"
+                    name="email"
+                    label="Email cím"
+                    type="email"
                     className="mb-3"
                   />
                   <TextField
@@ -50,7 +62,16 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
                     type="password"
                     className="mb-3"
                   />
+                  {error ? <Alert className="mb-3" severity="error">{error}</Alert> : null}
                   <Button type="submit">Bejelentkezés</Button>
+                  <Button
+                    color="secondary"
+                    type="button"
+                    className="m-2"
+                    onClick={goToRegistration}
+                  >
+                    Regisztráció
+                  </Button>
                 </Form>
               </Formik>
             </div>

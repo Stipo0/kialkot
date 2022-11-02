@@ -1,4 +1,4 @@
-import { CredentialsModel } from "../models/auth.model";
+import { LoginCredentialsModel } from "../models/auth.model";
 import request, { Methods } from "../util/request";
 
 interface LoginResponse {
@@ -6,7 +6,7 @@ interface LoginResponse {
 }
 
 class AuthService {
-	async login(credentials: CredentialsModel) {
+	async login(credentials: LoginCredentialsModel) {
 		return request<LoginResponse>({
 			method: Methods.POST,
 			resource: "api/Auth/login",

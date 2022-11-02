@@ -3,6 +3,7 @@ import { Navigate, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import UserPage from "./pages/UserPage/UserPage";
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
@@ -54,6 +55,7 @@ class App extends Component<AppProps, AppState> {
                 path="/login"
                 element={<LoginPage setToken={this.setToken} />}
               />
+              <Route path="/registration" element={<RegistrationPage />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
             </>
           )}
