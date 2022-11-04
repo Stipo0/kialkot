@@ -38,10 +38,6 @@ const UserPage = () => {
     goToProfil();
   };
 
-  const goToLogin = () => {
-    navigate("/login");
-  };
-
   const goToProfil = () => {
     navigate("/profil");
   };
