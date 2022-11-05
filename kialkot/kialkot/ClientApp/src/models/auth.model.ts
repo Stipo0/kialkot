@@ -11,3 +11,7 @@ export interface RegistrationCredentialsModel {
   password: string;
   confirmPassword: string;
 }
+
+export interface LostPasswordCredentialsModel {
+	email: string;
+}

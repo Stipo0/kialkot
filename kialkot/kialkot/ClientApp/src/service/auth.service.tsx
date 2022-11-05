@@ -1,4 +1,4 @@
-import { LoginCredentialsModel } from "../models/auth.model";
+import { LoginCredentialsModel, LostPasswordCredentialsModel } from "../models/auth.model";
 import request, { Methods } from "../util/request";
 
 interface LoginResponse {
@@ -10,6 +10,14 @@ class AuthService {
 		return request<LoginResponse>({
 			method: Methods.POST,
 			resource: "api/Auth/login",
+			data: credentials,
+		})
+	}
+
+	async lostPassword(credentials: LostPasswordCredentialsModel) {
+		return request<string>({
+			method: Methods.POST,
+			resource: "api/Auth/forgotPassword",
 			data: credentials,
 		})
 	}
