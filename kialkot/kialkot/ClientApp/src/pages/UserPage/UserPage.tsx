@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import Button from "../../components/button/Button";
 
+import Page from "../../components/page/Page";
 import TextField from "../../components/text-field/TextField";
 import { UserFormValues, UserModel } from "../../models/user.model";
 import { userService } from "../../service/user.service";
