@@ -15,7 +15,7 @@ interface LoginPageProps {
 
 const LoginPage = ({ setToken }: LoginPageProps) => {
   const initialValues: LoginCredentialsModel = { email: "", password: "" };
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const schema = Yup.object().shape({
@@ -35,12 +35,12 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
 
   const goToRegistration = () => {
     navigate("/registration");
-  }
+  };
 
   return (
     <div className="container">
       <div className="row">
-        <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div className="col-sm-9 col-md-7 col-lg-7 mx-auto">
           <div className="card shadow mt-3">
             <div className="card-body">
               <h5 className="card-title text-center">Bejelentkezés</h5>
@@ -62,7 +62,11 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
                     type="password"
                     className="mb-3"
                   />
-                  {error ? <Alert className="mb-3" severity="error">{error}</Alert> : null}
+                  {error ? (
+                    <Alert className="mb-3" severity="error">
+                      {error}
+                    </Alert>
+                  ) : null}
                   <Button type="submit">Bejelentkezés</Button>
                   <Button
                     color="secondary"
@@ -74,6 +78,7 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
                   </Button>
                 </Form>
               </Formik>
+              <a href="/lostPassword">Elfelejtett Jelszó</a>
             </div>
           </div>
         </div>
