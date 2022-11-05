@@ -1,6 +1,6 @@
 import { FC } from "react";
 import classNames from "classnames";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -9,6 +9,7 @@ import { getDataFromTokenModel } from "../../util/token";
 
 import classes from "./Navbar.module.scss";
 import "./Navbar.scss";
+import { string } from "yup";
 
 interface RouteConfig {
   link: string;
@@ -22,12 +23,17 @@ interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   const nickName = getDataFromTokenModel("nickName");
+  const location = useLocation();
   const routes: RouteConfig[] = [
     {
-      link: "/profile",
+      link: "/profil",
       label: "Profil",
     },
   ];
+
+  const toImage = (link: string, label: string) => {
+      return <img src={require("../../images/nav" + link + ".png")} alt={label} width="100vw" />
+  }
 
   return (
     <nav className={classNames("navbar p-3", [classes.Navbar])}>
@@ -41,7 +47,7 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
           <div className="d-flex">
             {routes.map(({ link, label}) => (
               <NavLink key={link} to={link} className="nav-link me-4">
-                {label}
+                {location.pathname === link ? toImage(link,label) : label}
               </NavLink>
             ))}
           </div>
