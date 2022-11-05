@@ -1,6 +1,5 @@
 ﻿using kialkot.Models.Domain;
 using kialkot.Repositories.RefreshTokenRepository;
-using Microsoft.AspNetCore.Http;
 
 namespace kialkot.Services.RefreshTokenService
 {
@@ -17,7 +16,7 @@ namespace kialkot.Services.RefreshTokenService
         public async Task<RefreshToken> CreateOrUpdateRefreshTokenAsync(User user)
         {
             var responseToken = new RefreshToken();
-            var existingToken = await _refreshTokenRepository.GetRefreshTokenAsync(user);
+            var existingToken = await _refreshTokenRepository.GetRefreshTokenByUserIdAsync(user.Id);
             if (existingToken != null)
             {
                 existingToken.Token = Guid.NewGuid().ToString();
