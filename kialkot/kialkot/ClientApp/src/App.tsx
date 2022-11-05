@@ -5,6 +5,7 @@ import Navbar from "./components/navbar/Navbar";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import UserPage from "./pages/UserPage/UserPage";
+import { userService } from "./service/user.service";
 import { AUTH_TOKEN } from "./util/constants";
 
 import './App.scss';

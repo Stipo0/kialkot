@@ -9,7 +9,7 @@ import { getDataFromTokenModel } from "../../util/token";
 
 import classes from "./Navbar.module.scss";
 import "./Navbar.scss";
-import { string } from "yup";
+import logo from "../../images/kialkotlogo.png";
 
 interface RouteConfig {
   link: string;
@@ -32,11 +32,20 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   ];
 
   const toImage = (link: string, label: string) => {
-      return <img src={require("../../images/nav" + link + ".png")} alt={label} width="100vw" />
-  }
+    return (
+      <img
+        src={require("../../images/nav" + link + ".png")}
+        alt={label}
+        width="100vw"
+      />
+    );
+  };
 
   return (
     <nav className={classNames("navbar p-3", [classes.Navbar])}>
+      <a href="/">
+        <img src={logo} alt="Logo" id="logo" />
+      </a>
       <div
         className={classNames(
           classes.MinWidth0,
@@ -45,15 +54,15 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
       >
         {isLoggedIn && (
           <div className="d-flex">
-            {routes.map(({ link, label}) => (
+            {routes.map(({ link, label }) => (
               <NavLink key={link} to={link} className="nav-link me-4">
-                {location.pathname === link ? toImage(link,label) : label}
+                {location.pathname === link ? toImage(link, label) : label}
               </NavLink>
             ))}
           </div>
         )}
         <div
-          className={classNames("d-flex align-items-center", classes.MinWidth0)}
+          className={classNames("d-flex align-items-right", classes.MinWidth0)}
         >
           <p className={classNames(classes.Greeting, "mb-0")}>
             Welcome {nickName ? nickName : "to Jó Kérdés App"}
