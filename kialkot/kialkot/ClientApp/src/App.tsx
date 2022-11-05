@@ -6,7 +6,8 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import UserPage from "./pages/UserPage/UserPage";
 import { AUTH_TOKEN } from "./util/constants";
-import { getDataFromTokenModel } from "./util/token";
+
+import './App.scss';
 
 interface AppProps {}
 
