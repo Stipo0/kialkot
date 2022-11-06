@@ -23,8 +23,9 @@ const LostPasswordPage = () => {
   const handleSubmit = async (values: LostPasswordCredentialsModel) => {
     try {
       await authService.lostPassword(values);
+      alert("Az email elküdve!");
     } catch (e) {
-      setError("Hibás email cím és felhasználónév páros!");
+      setError("Hibás email cím!");
     }
   };
 

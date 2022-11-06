@@ -17,7 +17,7 @@ class AuthService {
 	async lostPassword(credentials: LostPasswordCredentialsModel) {
 		return request<string>({
 			method: Methods.POST,
-			resource: "api/Auth/forgotPassword",
+			resource: "api/Account/forgotpassword",
 			data: credentials,
 		})
 	}
