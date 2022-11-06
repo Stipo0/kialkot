@@ -2,12 +2,14 @@ import { Component } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
+
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import LostPasswordPage from "./pages/LostPasswordPage/LostPasswordPage";
 import UserPage from "./pages/UserPage/UserPage";
-import { userService } from "./service/user.service";
+
 import { AUTH_TOKEN } from "./util/constants";
+import { getDataFromTokenModel } from "./util/token";
 
 import './App.scss';
 
@@ -37,9 +39,7 @@ class App extends Component<AppProps, AppState> {
   };
 
   render() {
-    const { token, role } = this.state;
-
-    const UserRouteElement = <Navigate to="/" replace />;
+    const { token} = this.state;
 
     return (
       <div className="App">
