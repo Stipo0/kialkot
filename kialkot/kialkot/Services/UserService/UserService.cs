@@ -79,15 +79,17 @@ namespace kialkot.Services.UserService
                 forgotPasswordToken.IsValid = true;
                 await _forgotPasswordRepository.UpdateAsync(forgotPasswordToken);
             }
-
-            var url = $"{_configuration["ForgotPasswordMailContent:Url"]}?token={forgotPasswordToken.Token}";
+            
+            var template = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "Templates", "ForgotPasswordEmail.html"));
+            
+            template = template.Replace("{0}", user.NickName);
+            template = template.Replace("{1}", $"{_configuration["ForgotPasswordMailContent:Url"]}?token={forgotPasswordToken.Token}");
+            
             return (
                 await _smtpService.SendEmail(
                     user.Email,
                     _configuration.GetValue<string>("ForgotPasswordMailContent:Subject"),
-                    $"{_configuration.GetValue<string>("ForgotPasswordMailContent:Body")}"
-                    .Replace("{0}", user.NickName)
-                    .Replace("{1}", url)
+                    template
                 ));
         }
         public async Task<bool> ResetPassword(string token, ResetPasswordDto request)
