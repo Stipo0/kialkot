@@ -23,12 +23,13 @@ const RegistrationPage = () => {
     confirmPassword: "",
   };
 
+  const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
-    email: Yup.string().email().required(),
-    nickName: Yup.string().required(),
-    firstName: Yup.string().required(),
-    lastName: Yup.string().required(),
-    password: Yup.string().min(6).required(),
+    email: Yup.string().email().required(kotelezo),
+    nickName: Yup.string().required(kotelezo),
+    firstName: Yup.string().required(kotelezo),
+    lastName: Yup.string().required(kotelezo),
+    password: Yup.string().min(6).required(kotelezo),
     confirmPassword: Yup.string().oneOf([
       Yup.ref("password"),
       "A két jelszó nem egyezik meg!",
