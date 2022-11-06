@@ -2,6 +2,7 @@
 using kialkot.Models.Request;
 using kialkot.Repositories.ForgotPasswordRepository;
 using kialkot.Repositories.UserRepository;
+using kialkot.Services.SmtpService;
 using System.Security.Cryptography;
 
 namespace kialkot.Services.UserService
@@ -10,11 +11,17 @@ namespace kialkot.Services.UserService
     {
         private readonly IUserRepository _userRepository;
         private readonly IForgotPasswordRepository _forgotPasswordRepository;
+        private readonly ISmtpService _smtpService;
+        private readonly IConfiguration _configuration;
         public UserService(IUserRepository userRepository,
-            IForgotPasswordRepository forgotPasswordRepository)
+            IForgotPasswordRepository forgotPasswordRepository,
+            ISmtpService smtpService,
+            IConfiguration configuration)
         {
             _userRepository = userRepository;
             _forgotPasswordRepository = forgotPasswordRepository;
+            _smtpService = smtpService;
+            _configuration = configuration;
         }
         
         public async Task RegisterUser(RegisterUserDto request)
@@ -73,8 +80,15 @@ namespace kialkot.Services.UserService
                 await _forgotPasswordRepository.UpdateAsync(forgotPasswordToken);
             }
 
-            //TODO email kiküldése
-            return true;
+            var url = $"{_configuration["ForgotPasswordMailContent:Url"]}?token={forgotPasswordToken.Token}";
+            return (
+                await _smtpService.SendEmail(
+                    user.Email,
+                    _configuration.GetValue<string>("ForgotPasswordMailContent:Subject"),
+                    $"{_configuration.GetValue<string>("ForgotPasswordMailContent:Body")}"
+                    .Replace("{0}", user.NickName)
+                    .Replace("{1}", url)
+                ));
         }
         public async Task<bool> ResetPassword(string token, ResetPasswordDto request)
         {

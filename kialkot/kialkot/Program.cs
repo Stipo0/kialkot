@@ -6,6 +6,7 @@ using kialkot.Repositories.UserRepository;
 using kialkot.Services.HttpAccesorService;
 using kialkot.Services.JwtTokenService;
 using kialkot.Services.RefreshTokenService;
+using kialkot.Services.SmtpService;
 using kialkot.Services.UserService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +62,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 //config read
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
+builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("SmtpOptions"));
 
 //dependency injection
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
@@ -70,6 +72,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IForgotPasswordRepository, ForgotPasswordRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+builder.Services.AddScoped<ISmtpService, SmtpService>();
+
 
 builder.Services.AddHttpContextAccessor();
 
