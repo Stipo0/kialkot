@@ -6,6 +6,7 @@ import Navbar from "./components/navbar/Navbar";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import LostPasswordPage from "./pages/LostPasswordPage/LostPasswordPage";
+import RenewPasswordPage from "./pages/RenewPasswordPage/RenewPasswordPage";
 import UserPage from "./pages/UserPage/UserPage";
 
 import { AUTH_TOKEN } from "./util/constants";
@@ -59,7 +60,8 @@ class App extends Component<AppProps, AppState> {
                 element={<LoginPage setToken={this.setToken} />}
               />
               <Route path="/registration" element={<RegistrationPage />} />
-              <Route path="lostPassword" element={<LostPasswordPage />} />
+              <Route path="/lostPassword" element={<LostPasswordPage />} />
+              <Route path="/resetPassword" element={<RenewPasswordPage />} />
               <Route path="*" element={<Navigate to="/login" replace />} />
             </>
           )}

@@ -7,6 +7,7 @@ interface TextFieldProps {
 	name: string;
 	type?: string;
 	className?: string;
+	hidden?: boolean;
 }
 
 const TextField = ({

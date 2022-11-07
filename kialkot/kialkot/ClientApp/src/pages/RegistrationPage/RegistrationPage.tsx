@@ -3,11 +3,13 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+
 import Button from "../../components/button/Button";
 import FormCard from "../../components/form-card/FormCard";
-
 import TextField from "../../components/text-field/TextField";
+
 import { RegistrationCredentialsModel } from "../../models/auth.model";
+
 import { userService } from "../../service/user.service";
 
 const RegistrationPage = () => {
