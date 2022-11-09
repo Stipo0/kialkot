@@ -2,6 +2,7 @@ import { Component } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/navbar/Navbar";
+import SideBand from "./components/side-band/SideBand";
 
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
@@ -12,7 +13,7 @@ import UserPage from "./pages/UserPage/UserPage";
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
 
-import './App.scss';
+import "./App.scss";
 
 interface AppProps {}
 
@@ -40,32 +41,36 @@ class App extends Component<AppProps, AppState> {
   };
 
   render() {
-    const { token} = this.state;
+    const { token } = this.state;
 
     return (
       <div className="App">
         <header className="App-header">
           <Navbar isLoggedIn={!!token} setToken={this.setToken} />
         </header>
-        <Routes>
-          {token ? (
-            <>
-              <Route path="/profil" element={<UserPage />} />
-              <Route path="*" element={<Navigate to="/profil" replace />} />
-            </>
-          ) : (
-            <>
-              <Route
-                path="/login"
-                element={<LoginPage setToken={this.setToken} />}
-              />
-              <Route path="/registration" element={<RegistrationPage />} />
-              <Route path="/lostPassword" element={<LostPasswordPage />} />
-              <Route path="/resetPassword" element={<RenewPasswordPage />} />
-              <Route path="*" element={<Navigate to="/login" replace />} />
-            </>
-          )}
-        </Routes>
+        <SideBand />
+        <div className="MainContainer">
+          <Routes>
+            {token ? (
+              <>
+                <Route path="/profil" element={<UserPage />} />
+                <Route path="*" element={<Navigate to="/profil" replace />} />
+              </>
+            ) : (
+              <>
+                <Route
+                  path="/login"
+                  element={<LoginPage setToken={this.setToken} />}
+                />
+                <Route path="/registration" element={<RegistrationPage />} />
+                <Route path="/lostPassword" element={<LostPasswordPage />} />
+                <Route path="/resetPassword" element={<RenewPasswordPage />} />
+                <Route path="*" element={<Navigate to="/login" replace />} />
+              </>
+            )}
+          </Routes>
+        </div>
+        <SideBand side="right" />
       </div>
     );
   }

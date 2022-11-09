@@ -21,9 +21,10 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
-    email: Yup.string().email().required(),
-    password: Yup.string().min(6).required(),
+    email: Yup.string().email().required(kotelezo),
+    password: Yup.string().min(6).required(kotelezo),
   });
 
   const handleSubmit = async (values: LoginCredentialsModel) => {
@@ -52,13 +53,11 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
             name="email"
             label="Email cím"
             type="email"
-            className="mb-3"
           />
           <TextField
             name="password"
             label="Jelszó"
             type="password"
-            className="mb-3"
           />
           {error ? (
             <Alert className="mb-3" severity="error">
@@ -69,7 +68,7 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
           <Button
             color="secondary"
             type="button"
-            className="m-2"
+            className="m-3"
             onClick={goToRegistration}
           >
             Regisztráció

@@ -15,15 +15,17 @@ import { authService } from "../../service/auth.service";
 const LostPasswordPage = () => {
   const initialValues: LostPasswordCredentialsModel = { email: "" };
   const [error, setError] = useState("");
+  const [succes, setSuccess] = useState("");
 
+  const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
-    email: Yup.string().email().required(),
+    email: Yup.string().email().required(kotelezo),
   });
 
   const handleSubmit = async (values: LostPasswordCredentialsModel) => {
     try {
       await authService.lostPassword(values);
-      alert("Az email elküdve!");
+      setSuccess("Az email elküdve!");
     } catch (e) {
       setError("Hibás email cím!");
     }
@@ -45,7 +47,12 @@ const LostPasswordPage = () => {
           />
           {error ? (
             <Alert className="mb-3" severity="error">
-              {error}
+              {error }
+            </Alert>
+          ) : null}
+          {succes ? (
+            <Alert className="mb-3" severity="success">
+              {succes}
             </Alert>
           ) : null}
           <Button type="submit">Igénylés</Button>

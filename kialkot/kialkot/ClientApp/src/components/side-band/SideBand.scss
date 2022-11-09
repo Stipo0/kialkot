@@ -1,11 +1,17 @@
 .side-band {
 	background-image: url('../../images/hatterfoltok.png');
-	background-size: 13%;
-	width: 10%;
-	height: 100vh;
+	background-size: 20%;
 	background-repeat: repeat;
+	background-color:#b5dedc;
+	width: 15%;
+	height: 100vh;
 	position: fixed;
 	display: inline;
+
+	img {
+		width: 100%;
+		height: 60%;
+	}
 }
 
 .left {

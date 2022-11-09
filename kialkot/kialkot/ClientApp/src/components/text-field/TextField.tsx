@@ -17,8 +17,8 @@ const TextField = ({
 	className,
 }: TextFieldProps) => {
 	return (
-		<BaseField className={className} name={name} label={label}>
-			<Field name={name} type={type} className="form-control" />
+		<BaseField className={className} name={name}>
+			<Field name={name} type={type} placeholder={label} className="form-control mb-2 mt-2" />
 		</BaseField>
 	);
 };
