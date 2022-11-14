@@ -2,7 +2,6 @@ import { Alert } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Exception } from "sass";
 import * as Yup from "yup";
 
 import Button from "../../components/button/Button";
