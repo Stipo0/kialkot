@@ -46,7 +46,8 @@ axios.interceptors.response.use(
 );
 
 export function generateUrl(resource: string = "") {
-  return `https://localhost:7275/${resource}`;
+  const url = window.location.hostname;
+  return `https://${url}:7275/${resource}`;
 }
 
 async function request<T = void>({
