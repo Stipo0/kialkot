@@ -16,7 +16,7 @@ interface RouteConfig {
   label: string;
 }
 
-interface NavbarProps {
+export interface NavbarProps {
   isLoggedIn: boolean;
   setToken: (token: null) => void;
 }

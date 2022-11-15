@@ -12,6 +12,8 @@ import { LoginCredentialsModel } from "../../models/auth.model";
 
 import { authService } from "../../service/auth.service";
 
+import "./LoginPage.scss";
+
 interface LoginPageProps {
   setToken: (token: string | null) => void;
 }
@@ -42,41 +44,40 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
   };
 
   return (
-    <FormCard title="Bejelentkezés">
-      <Formik
-        initialValues={initialValues}
-        validationSchema={schema}
-        onSubmit={handleSubmit}
-      >
-        <Form>
-          <TextField
-            name="email"
-            label="Email cím"
-            type="email"
-          />
-          <TextField
-            name="password"
-            label="Jelszó"
-            type="password"
-          />
-          {error ? (
-            <Alert className="mb-3" severity="error">
-              {error}
-            </Alert>
-          ) : null}
-          <Button type="submit">Bejelentkezés</Button>
-          <Button
-            color="secondary"
-            type="button"
-            className="m-3"
-            onClick={goToRegistration}
-          >
-            Regisztráció
-          </Button>
-        </Form>
-      </Formik>
-      <a href="/lostPassword">Elfelejtett Jelszó</a>
-    </FormCard>
+    <div className="LoginPage">
+      <h5 className="pt-4 text-center">
+        <abbr title="Grafikust keres, vagy grafikus létére munkát, itt a helye. Ha még nem tag regisztráljon!">
+          Mi ez?
+        </abbr>
+      </h5>
+      <FormCard title="Bejelentkezés">
+        <Formik
+          initialValues={initialValues}
+          validationSchema={schema}
+          onSubmit={handleSubmit}
+        >
+          <Form>
+            <TextField name="email" label="Email cím" type="email" />
+            <TextField name="password" label="Jelszó" type="password" />
+            {error ? (
+              <Alert className="mb-3" severity="error">
+                {error}
+              </Alert>
+            ) : null}
+            <Button type="submit">Bejelentkezés</Button>
+            <Button
+              color="secondary"
+              type="button"
+              className="m-3"
+              onClick={goToRegistration}
+            >
+              Regisztráció
+            </Button>
+          </Form>
+        </Formik>
+        <a href="/lostPassword">Elfelejtett Jelszó</a>
+      </FormCard>
+    </div>
   );
 };
 

@@ -1,8 +1,7 @@
-import { Component } from "react";
+import { Component, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/navbar/Navbar";
-import SideBand from "./components/side-band/SideBand";
+import Layout from "./components/layout/Layout";
 
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
@@ -45,16 +44,18 @@ class App extends Component<AppProps, AppState> {
 
     return (
       <div className="App">
-        <header className="App-header">
-          <Navbar isLoggedIn={!!token} setToken={this.setToken} />
-        </header>
-        <SideBand />
-        <div className="MainContainer">
+        <Suspense fallback={<div className="container">Loading...</div>}>
           <Routes>
             {token ? (
               <>
-                <Route path="/profil" element={<UserPage />} />
-                <Route path="*" element={<Navigate to="/profil" replace />} />
+                <Route
+                  element={
+                    <Layout isLoggedIn={!!token} setToken={this.setToken} />
+                  }
+                >
+                  <Route path="/profil" element={<UserPage />} />
+                  <Route path="*" element={<Navigate to="/profil" replace />} />
+                </Route>
               </>
             ) : (
               <>
@@ -62,15 +63,23 @@ class App extends Component<AppProps, AppState> {
                   path="/login"
                   element={<LoginPage setToken={this.setToken} />}
                 />
-                <Route path="/registration" element={<RegistrationPage />} />
-                <Route path="/lostPassword" element={<LostPasswordPage />} />
-                <Route path="/resetPassword" element={<RenewPasswordPage />} />
-                <Route path="*" element={<Navigate to="/login" replace />} />
+                <Route
+                  element={
+                    <Layout isLoggedIn={!!token} setToken={this.setToken} />
+                  }
+                >
+                  <Route path="/registration" element={<RegistrationPage />} />
+                  <Route path="/lostPassword" element={<LostPasswordPage />} />
+                  <Route
+                    path="/resetPassword"
+                    element={<RenewPasswordPage />}
+                  />
+                  <Route path="*" element={<Navigate to="/login" replace />} />
+                </Route>
               </>
             )}
           </Routes>
-        </div>
-        <SideBand side="right" />
+        </Suspense>
       </div>
     );
   }
