@@ -46,9 +46,8 @@ axios.interceptors.response.use(
 );
 
 export function generateUrl(resource: string = "") {
-  var url: string = window.location.hostname;
-  url += process.env.REACT_APP_BACKEND_PORT;
-  return `https://${url}/${resource}`;
+  const url = process.env.REACT_APP_BACKEND_PORT;
+  return `${url}/${resource}`;
 }
 
 async function request<T = void>({
