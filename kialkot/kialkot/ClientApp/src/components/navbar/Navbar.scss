@@ -1,0 +1,29 @@
+.nav-link {
+	color: white;
+	opacity: 0.8;
+	border-bottom: 2px solid transparent;
+	transition: 150ms ease-in border;
+
+	&:hover,
+	&.active {
+		opacity: 1;
+		color: white;
+	}
+
+	&.active {
+		border-bottom: 2px solid white;
+	}
+}
+
+#logo {
+	width: 15vw;
+	margin-right: 10px;
+}
+
+nav {
+	background-image: url('../../images/felsodisz.png');
+	background-position: right top;
+	background-repeat: no-repeat;
+	background-size: 45vw;
+	display: inline-block ;
+}

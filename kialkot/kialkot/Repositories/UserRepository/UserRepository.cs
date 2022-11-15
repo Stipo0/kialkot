@@ -18,12 +18,23 @@ namespace kialkot.Repositories.UserRepository
             await _applicationDbContext.SaveChangesAsync();
         }
         
-        public Task<User> GetByNameAsync(string name)
+        public async Task UpdateAsync(User user)
+        {
+            _applicationDbContext.Update(user);
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
+        public Task<User?> GetByNameAsync(string name)
         {
             return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.NickName == name);
         }
-        
-        public Task<User> GetByIdAsync(int id)
+
+        public Task<User?> GetByEmailAsync(string email)
+        {
+            return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
+        public Task<User?> GetByIdAsync(int id)
         {
             return _applicationDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
         }

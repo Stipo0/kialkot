@@ -19,6 +19,36 @@ namespace kialkot.Migrations
                 .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("kialkot.Models.Domain.ForgotPasswordToken", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ForgotPasswordTokens");
+                });
+
             modelBuilder.Entity("kialkot.Models.Domain.RefreshToken", b =>
                 {
                     b.Property<int>("Id")
@@ -63,6 +93,9 @@ namespace kialkot.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<int>("ForgotPasswordId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -91,6 +124,17 @@ namespace kialkot.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("kialkot.Models.Domain.ForgotPasswordToken", b =>
+                {
+                    b.HasOne("kialkot.Models.Domain.User", "User")
+                        .WithOne("ForgotPasswordToken")
+                        .HasForeignKey("kialkot.Models.Domain.ForgotPasswordToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("kialkot.Models.Domain.RefreshToken", b =>
                 {
                     b.HasOne("kialkot.Models.Domain.User", "User")
@@ -104,6 +148,8 @@ namespace kialkot.Migrations
 
             modelBuilder.Entity("kialkot.Models.Domain.User", b =>
                 {
+                    b.Navigation("ForgotPasswordToken");
+
                     b.Navigation("RefreshToken");
                 });
 #pragma warning restore 612, 618

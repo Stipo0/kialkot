@@ -1,4 +1,6 @@
 ﻿using kialkot.Models.Request;
+using kialkot.Models.Response;
+using kialkot.Repositories.ForgotPasswordRepository;
 using kialkot.Repositories.RefreshTokenRepository;
 using kialkot.Repositories.UserRepository;
 using kialkot.Services.JwtTokenService;
@@ -34,7 +36,7 @@ namespace kialkot.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginUserDto request)
         {
-            var user = await _userRepository.GetByNameAsync(request.Name);
+            var user = await _userRepository.GetByEmailAsync(request.Email);
             if (user == null)
             {
                 return BadRequest("User not found");
@@ -50,11 +52,15 @@ namespace kialkot.Controllers
                     Expires = refreshToken.Expires
                 });
 
-                return Ok(token);
+                return Ok(new TokenDto
+                    {
+                        Token = token,
+                    }
+                );
             }
             return Unauthorized();
         }
-        //refresh token
+
         [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken()
         {
@@ -63,15 +69,15 @@ namespace kialkot.Controllers
             {
                 return BadRequest("No refresh token in cookie");
             }
-            var userid = await _refreshTokenRepository.GetUserAsync(refreshToken);
-            if (userid == null)
+            var userToken = await _refreshTokenRepository.GetTokenAsync(refreshToken);
+            if (userToken == null || userToken.Expires < DateTime.UtcNow)
             {
-                return Unauthorized("Invalid refresh token");
+                return BadRequest("Refresh token is invalid or expired");
             }
-            var user = await _userRepository.GetByIdAsync(userid);
-            if (user.RefreshToken.Expires < DateTime.UtcNow)
+            var user = await _userRepository.GetByIdAsync(userToken.Id);
+            if (user == null)
             {
-                return Unauthorized("Refresh token expired");
+                return BadRequest("User not found");
             }
             
             var newRefreshToken = await _refreshTokenService.CreateOrUpdateRefreshTokenAsync(user);
@@ -82,7 +88,10 @@ namespace kialkot.Controllers
             });
             
             var token = _jwtTokenService.CreateTokenAsync(user);
-            return Ok(token);
+            return Ok(new TokenDto
+            {
+                Token = token,
+            });
         }
     }
 }

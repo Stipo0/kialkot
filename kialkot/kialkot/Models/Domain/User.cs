@@ -13,6 +13,9 @@
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public int RefreshTokenId { get; set; }
         public RefreshToken? RefreshToken { get; set; }
+        public int ForgotPasswordId { get; set; }
+        public ForgotPasswordToken? ForgotPasswordToken { get; set; }
+
 
     }
 }

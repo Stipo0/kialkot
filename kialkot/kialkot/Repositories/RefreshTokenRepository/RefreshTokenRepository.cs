@@ -7,7 +7,7 @@ namespace kialkot.Repositories.RefreshTokenRepository
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
         private readonly ApplicationDbContext _context;
-        public RefreshTokenRepository(ApplicationDbContext context)
+        public RefreshTokenRepository (ApplicationDbContext context)
         {
             _context = context;
         }
@@ -23,15 +23,14 @@ namespace kialkot.Repositories.RefreshTokenRepository
             await _context.SaveChangesAsync();
         }
 
-        public Task<RefreshToken> GetRefreshTokenAsync(User user)
+        public Task<RefreshToken?> GetRefreshTokenByUserIdAsync(int userId)
         {
-            return _context.RefreshTokens.FirstOrDefaultAsync(x => x.User.Id == user.Id);
+            return _context.RefreshTokens.FirstOrDefaultAsync(x => x.User.Id == userId);
         }
         
-        public async Task<int> GetUserAsync(string refreshToken)
+        public Task<RefreshToken?> GetTokenAsync(string refreshToken)
         {
-            var token = await _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == refreshToken);
-            return token.UserId;
+            return _context.RefreshTokens.FirstOrDefaultAsync(x => x.Token == refreshToken);
         }
     }
 }
