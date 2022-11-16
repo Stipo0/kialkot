@@ -204,7 +204,18 @@ namespace kialkot.Controllers
                 }
                 if (await _userService.UpdateUser(user, request))
                 {
-                    return Ok(Me());
+                    user = await _userRepository.GetByIdAsync(user.Id);
+                    return Ok(new UserMeDto
+                    {
+                        NickName = user.NickName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        Verified = user.Verified,
+                        Role = user.Role.ToString(),
+                        CreatedAt = user.CreatedAt,
+                        UpdatedAt = user.UpdatedAt
+                    });
                 }
                 return BadRequest(new ErrorDto { Error = "Update failed" });
 
