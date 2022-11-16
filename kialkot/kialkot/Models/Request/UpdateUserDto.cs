@@ -2,7 +2,7 @@
 
 namespace kialkot.Models.Request
 {
-    public class RegisterUserDto
+    public class UpdateUserDto
     {
         [Required]
         public string NickName { get; set; } = string.Empty;
