@@ -21,8 +21,8 @@ namespace kialkot.Services.JwtTokenService
             var claims = new List<Claim>
             {
                 new Claim("userId", user.Id.ToString()),
-                new Claim("nickName", user.NickName),
-                new Claim("role", user.Role),
+                new Claim("verified", user.Verified.ToString()),
+                new Claim("role", user.Role.ToString()),
             };
 
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_jwtOptions.Key));

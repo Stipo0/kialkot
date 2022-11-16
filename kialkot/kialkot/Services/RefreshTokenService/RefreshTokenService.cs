@@ -1,44 +1,44 @@
-﻿using kialkot.Models.Domain;
-using kialkot.Repositories.RefreshTokenRepository;
+﻿using kialkot.Enums;
+using kialkot.Models.Domain;
+using kialkot.Repositories.CustomTokenRepository;
 
 namespace kialkot.Services.RefreshTokenService
 {
     public class RefreshTokenService : IRefreshTokenService
     {
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly ICustomTokenRepository _customTokenRepository;
         public RefreshTokenService(
-            IRefreshTokenRepository refreshTokenRepository
+            ICustomTokenRepository customTokenRepository
         )
         {
-            _refreshTokenRepository = refreshTokenRepository;
+            _customTokenRepository = customTokenRepository;
         }
 
-        public async Task<RefreshToken> CreateOrUpdateRefreshTokenAsync(User user)
+        public async Task<CustomToken> CreateOrUpdateRefreshTokenAsync(User user)
         {
-            var responseToken = new RefreshToken();
-            var existingToken = await _refreshTokenRepository.GetRefreshTokenByUserIdAsync(user.Id);
+            var existingToken = await _customTokenRepository.GetTokenByUserIdAsync(user.Id, TokenType.RefreshToken);
             if (existingToken != null)
             {
                 existingToken.Token = Guid.NewGuid().ToString();
                 existingToken.Expires = DateTime.UtcNow.AddDays(7);
-                await _refreshTokenRepository.UpdateAsync(existingToken);
-                responseToken = existingToken;
+                await _customTokenRepository.UpdateAsync(existingToken);
+                return existingToken;
             }
             else
             {
-                var newToken = new RefreshToken
+                var newToken = new CustomToken
                 {
                     Token = Guid.NewGuid().ToString(),
+                    TokenType = TokenType.RefreshToken,
                     CreatedAt = DateTime.UtcNow,
                     Expires = DateTime.UtcNow.AddDays(7),
                     User = user,
                     UserId = user.Id
                 };
-                await _refreshTokenRepository.CreateAsync(newToken);
-                responseToken = newToken;
+                await _customTokenRepository.CreateAsync(newToken);
+                return newToken;
 
             }
-            return responseToken;
         }
     }
 }

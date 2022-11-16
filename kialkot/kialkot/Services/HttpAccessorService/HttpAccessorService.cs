@@ -13,9 +13,15 @@ namespace kialkot.Services.HttpAccesorService
 
         public int GetUserId()
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst("userId").Value;
+            var userId = _httpContextAccessor.HttpContext!.User.FindFirst("userId")!.Value;
 
             return Convert.ToInt32(userId);
+        }
+        public bool IsVerified()
+        {
+            var isVerified = _httpContextAccessor.HttpContext!.User.FindFirst("verified")!.Value;
+
+            return Convert.ToBoolean(isVerified);
         }
     }
 }

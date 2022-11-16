@@ -4,6 +4,6 @@ namespace kialkot.Services.RefreshTokenService
 {
     public interface IRefreshTokenService
     {
-        Task<RefreshToken> CreateOrUpdateRefreshTokenAsync(User user);
+        Task<CustomToken> CreateOrUpdateRefreshTokenAsync(User user);
     }
 }
