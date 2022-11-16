@@ -171,6 +171,7 @@ namespace kialkot.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
+                    Verified = user.Verified,
                     Role = user.Role.ToString(),
                     CreatedAt = user.CreatedAt,
                     UpdatedAt = user.UpdatedAt
