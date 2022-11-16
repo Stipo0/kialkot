@@ -204,10 +204,7 @@ namespace kialkot.Controllers
                 }
                 if (await _userService.UpdateUser(user, request))
                 {
-                    return Ok(new OkDto
-                    {
-                        Ok = "Update successful"
-                    });
+                    return Ok(Me());
                 }
                 return BadRequest(new ErrorDto { Error = "Update failed" });
 

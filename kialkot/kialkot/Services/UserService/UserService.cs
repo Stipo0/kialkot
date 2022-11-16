@@ -163,7 +163,7 @@ namespace kialkot.Services.UserService
             user.LastName = request.LastName;
             user.Email = request.Email;
 
-            if (VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
+            if (!VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
             {
                 using (var hmac = new HMACSHA512())
                 {
