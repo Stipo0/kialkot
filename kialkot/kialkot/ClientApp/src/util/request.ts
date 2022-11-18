@@ -41,6 +41,13 @@ axios.interceptors.response.use(
   async (response) => response,
   async (error: AxiosError) => {
     toast.error(error.message);
+    if (error.response && error.config) {
+      const { status } = error.response;
+      if (status === Status.UNAUTHORIZED && localStorage.getItem('token')) {
+        localStorage.removeItem('token');
+        window.history.go(0);
+      }
+    }
     return Promise.reject(error);
   }
 );

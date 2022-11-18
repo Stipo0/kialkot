@@ -3,15 +3,6 @@ export interface LoginCredentialsModel {
   password: string;
 }
 
-export interface RegistrationCredentialsModel {
-  nickName: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
 export interface LostPasswordCredentialsModel {
   email: string;
 }

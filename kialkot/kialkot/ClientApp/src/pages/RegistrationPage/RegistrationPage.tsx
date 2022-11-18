@@ -1,4 +1,5 @@
 import { Alert } from "@mui/material";
+import { AxiosError } from "axios";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +9,16 @@ import Button from "../../components/button/Button";
 import FormCard from "../../components/form-card/FormCard";
 import TextField from "../../components/text-field/TextField";
 
-import { RegistrationCredentialsModel } from "../../models/auth.model";
+import { StoreAndUpdateCredentialsModel } from "../../models/user.model";
 
 import { userService } from "../../service/user.service";
+import { HanleCatch } from "../../util/handleCatch";
 
 const RegistrationPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const initialValues: RegistrationCredentialsModel = {
+  const initialValues: StoreAndUpdateCredentialsModel = {
     email: "",
     nickName: "",
     firstName: "",
@@ -38,13 +40,13 @@ const RegistrationPage = () => {
     ]),
   });
 
-  const handleSubmit = async (values: RegistrationCredentialsModel) => {
-    let requestError = "";
+  const handleSubmit = async (values: StoreAndUpdateCredentialsModel) => {
     try {
-      requestError = await userService.storeMe(values);
+      await userService.storeMe(values);
+      alert("A regisztrációt emialben erősítheted meg!");
       goToLogin();
     } catch (e) {
-      setError(requestError);
+      setError(HanleCatch(e));
     }
   };
 

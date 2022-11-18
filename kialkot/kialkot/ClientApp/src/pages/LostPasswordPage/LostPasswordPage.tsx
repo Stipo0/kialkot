@@ -11,6 +11,7 @@ import Button from "../../components/button/Button";
 import { LostPasswordCredentialsModel } from "../../models/auth.model";
 
 import { authService } from "../../service/auth.service";
+import { HanleCatch } from "../../util/handleCatch";
 
 const LostPasswordPage = () => {
   const initialValues: LostPasswordCredentialsModel = { email: "" };
@@ -27,7 +28,7 @@ const LostPasswordPage = () => {
       await authService.lostPassword(values);
       setSuccess("Az email elküdve!");
     } catch (e) {
-      setError("Hibás email cím!");
+      setError(HanleCatch(e));
     }
   };
 
