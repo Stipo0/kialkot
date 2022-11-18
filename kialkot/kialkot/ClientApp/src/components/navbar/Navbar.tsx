@@ -26,6 +26,10 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   const location = useLocation();
   const routes: RouteConfig[] = [
     {
+      link: "/jobs",
+      label: "Munka",
+    },
+    {
       link: "/profil",
       label: "Profil",
     },

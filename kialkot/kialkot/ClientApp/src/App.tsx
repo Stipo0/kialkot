@@ -13,6 +13,7 @@ import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
 
 import "./App.scss";
+import JobsPage from "./pages/JobsPage/JobsPage";
 
 interface AppProps {}
 
@@ -53,8 +54,9 @@ class App extends Component<AppProps, AppState> {
                     <Layout isLoggedIn={!!token} setToken={this.setToken} />
                   }
                 >
+                  <Route path="/jobs" element={<JobsPage/>} />
                   <Route path="/profil" element={<UserPage />} />
-                  <Route path="*" element={<Navigate to="/profil" replace />} />
+                  <Route path="*" element={<Navigate to="/jobs" replace />} />
                 </Route>
               </>
             ) : (
