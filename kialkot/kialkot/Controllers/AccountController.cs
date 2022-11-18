@@ -72,9 +72,6 @@ namespace kialkot.Controllers
             {
                 return BadRequest(new ErrorDto { Error = "User not verified" });
             }
-            {
-                return BadRequest(new ErrorDto { Error = "You can't change password from the same IP" });
-            }
             if (await _userService.CreateOrUpdateForgotTokenAsync(user))
             {
                 return Ok(new OkDto
