@@ -11,6 +11,7 @@ import TextField from "../../components/text-field/TextField";
 import { LoginCredentialsModel } from "../../models/auth.model";
 
 import { authService } from "../../service/auth.service";
+import { HanleCatch } from "../../util/handleCatch";
 
 import "./LoginPage.scss";
 
@@ -34,7 +35,7 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
       const { token } = await authService.login(values);
       setToken(token);
     } catch (e) {
-      setError("Hibás email cím vagy rossz jelszó!");
+      setError(HanleCatch(e));
       setToken(null);
     }
   };

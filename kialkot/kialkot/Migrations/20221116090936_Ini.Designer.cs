@@ -11,8 +11,8 @@ using kialkot.Data;
 namespace kialkot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221104174245_ADD-forgottpassword-table")]
-    partial class ADDforgottpasswordtable
+    [Migration("20221116090936_Ini")]
+    partial class Ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace kialkot.Migrations
                 .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("kialkot.Models.Domain.ForgotPasswordToken", b =>
+            modelBuilder.Entity("kialkot.Models.Domain.CustomToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,44 +38,22 @@ namespace kialkot.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int>("TokenType")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("Token")
                         .IsUnique();
 
-                    b.ToTable("ForgotPasswordTokens");
-                });
+                    b.HasIndex("UserId");
 
-            modelBuilder.Entity("kialkot.Models.Domain.RefreshToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Expires")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("CustomTokens");
                 });
 
             modelBuilder.Entity("kialkot.Models.Domain.User", b =>
@@ -89,14 +67,11 @@ namespace kialkot.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("ForgotPasswordId")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -104,7 +79,7 @@ namespace kialkot.Migrations
 
                     b.Property<string>("NickName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
@@ -114,34 +89,31 @@ namespace kialkot.Migrations
                         .IsRequired()
                         .HasColumnType("longblob");
 
-                    b.Property<int>("RefreshTokenId")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Verified")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("NickName")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("kialkot.Models.Domain.ForgotPasswordToken", b =>
+            modelBuilder.Entity("kialkot.Models.Domain.CustomToken", b =>
                 {
                     b.HasOne("kialkot.Models.Domain.User", "User")
-                        .WithOne("ForgotPasswordToken")
-                        .HasForeignKey("kialkot.Models.Domain.ForgotPasswordToken", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("kialkot.Models.Domain.RefreshToken", b =>
-                {
-                    b.HasOne("kialkot.Models.Domain.User", "User")
-                        .WithOne("RefreshToken")
-                        .HasForeignKey("kialkot.Models.Domain.RefreshToken", "UserId")
+                        .WithMany("CustomTokens")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -150,9 +122,7 @@ namespace kialkot.Migrations
 
             modelBuilder.Entity("kialkot.Models.Domain.User", b =>
                 {
-                    b.Navigation("ForgotPasswordToken");
-
-                    b.Navigation("RefreshToken");
+                    b.Navigation("CustomTokens");
                 });
 #pragma warning restore 612, 618
         }

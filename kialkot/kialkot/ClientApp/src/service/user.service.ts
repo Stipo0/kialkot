@@ -1,9 +1,9 @@
-import { RegistrationCredentialsModel } from "../models/auth.model";
-import { UserFormValues, UserModel } from "../models/user.model";
+
+import { StoreAndUpdateCredentialsModel, UserModel } from "../models/user.model";
 import request, { Methods } from "../util/request";
 
 class UsersService {
-	async storeMe(credentials: RegistrationCredentialsModel) {
+	async storeMe(credentials: StoreAndUpdateCredentialsModel) {
 		return request<string>({
 			method: Methods.POST,
 			resource: "api/Account/register",
@@ -15,9 +15,9 @@ class UsersService {
 		return request<UserModel>({ resource: "api/Account/me", method: Methods.GET })
 	}
 
-	async updateMe(data: UserFormValues) {
+	async updateMe(data: StoreAndUpdateCredentialsModel) {
 		return request<UserModel>({
-			method: Methods.PATCH,
+			method: Methods.PUT,
 			data,
 			resource: 'api/Account/update',
 		});

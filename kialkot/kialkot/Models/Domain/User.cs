@@ -1,4 +1,6 @@
-﻿namespace kialkot.Models.Domain
+﻿using kialkot.Enums;
+
+namespace kialkot.Models.Domain
 {
     public class User
     {
@@ -9,13 +11,13 @@
         public string Email { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
         public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
-        public string Role { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public int RefreshTokenId { get; set; }
-        public RefreshToken? RefreshToken { get; set; }
-        public int ForgotPasswordId { get; set; }
-        public ForgotPasswordToken? ForgotPasswordToken { get; set; }
-
+        public Role Role { get; set; }
+        public bool Verified { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public List<CustomToken> CustomTokens { get; set; } = null!;
+        
+        
 
     }
 }

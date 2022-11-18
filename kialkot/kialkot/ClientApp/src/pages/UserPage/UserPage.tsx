@@ -1,3 +1,4 @@
+import Alert from "@mui/material/Alert";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,11 +7,14 @@ import Button from "../../components/button/Button";
 import FormCard from "../../components/form-card/FormCard";
 
 import TextField from "../../components/text-field/TextField";
-import { UserFormValues, UserModel } from "../../models/user.model";
+import { StoreAndUpdateCredentialsModel, UserModel } from "../../models/user.model";
 import { userService } from "../../service/user.service";
+import { HanleCatch } from "../../util/handleCatch";
 
 const UserPage = () => {
   const [user, setUser] = useState<UserModel>();
+  const [error, setError] = useState("");
+  const [success, setSucces] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,23 +24,35 @@ const UserPage = () => {
     fetchUser();
   }, []);
 
-  const initialValues: UserFormValues = {
+  const initialValues: StoreAndUpdateCredentialsModel = {
     email: user?.email || "",
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     nickName: user?.nickName || "",
+    password: "",
+    confirmPassword: "",
   };
 
+  const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
-    email: Yup.string().email().required(),
-    nickName: Yup.string().required(),
-    firstName: Yup.string().required(),
-    lastName: Yup.string().required(),
+    email: Yup.string().email().required(kotelezo),
+    nickName: Yup.string().required(kotelezo),
+    firstName: Yup.string().required(kotelezo),
+    lastName: Yup.string().required(kotelezo),
+    password: Yup.string().min(6).required(kotelezo),
+    confirmPassword: Yup.string().oneOf([
+      Yup.ref("password"),
+      "A két jelszó nem egyezik meg!",
+    ]),
   });
 
-  const handleSubmit = async (values: UserFormValues) => {
-    await userService.updateMe(values);
-    goToProfil();
+  const handleSubmit = async (values: StoreAndUpdateCredentialsModel) => {
+    try {
+      setUser(await userService.updateMe(values));
+      setSucces("A frissitést elmentettük!")
+    } catch (e) {
+      setError(HanleCatch(e));
+    }
   };
 
   const goToProfil = () => {
@@ -58,6 +74,22 @@ const UserPage = () => {
           <TextField name="lastName" label="Vezetéknév" />
           <TextField name="firstName" label="Keresztnév" />
           <TextField name="email" type="email" label="Email cím" />
+          <TextField name="password" type="password" label="Jelszó" />
+          <TextField
+            name="confirmPassword"
+            type="password"
+            label="Jelszó megerősítése"
+          />
+          {error ? (
+            <Alert className="mb-3" severity="error">
+              {error}
+            </Alert>
+          ) : null}
+          {success ? (
+            <Alert className="mb-3" severity="success">
+              {success}
+            </Alert>
+          ) : null}
           <div className="mt-3">
             <Button
               color="secondary"

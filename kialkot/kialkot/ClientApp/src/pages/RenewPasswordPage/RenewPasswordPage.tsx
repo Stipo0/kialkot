@@ -11,6 +11,7 @@ import TextField from "../../components/text-field/TextField";
 import { RenewPaswordCredentialsModel } from "../../models/auth.model";
 
 import { authService } from "../../service/auth.service";
+import { HanleCatch } from "../../util/handleCatch";
 
 export interface QueryTokenModel {
 	tokenIsValid?: boolean;
@@ -27,10 +28,10 @@ const RenewPasswordPage = () => {
 			try {
 				const getToken = await authService.verificateToken(token);
 				if (! getToken.isValid) {
-					throw new Error("A token hibás vagy lejárt!");
+					alert("A token hibás vagy lejárt!");
 				}
 			} catch (e) {
-				alert(String(e));
+				setError(HanleCatch(e));
 			}
 		}
 		fetchToken(token);
@@ -55,8 +56,7 @@ const RenewPasswordPage = () => {
       await authService.resetPassword(values, token);
       goToLogin();
     } catch (e) {
-      setError(String(e));
-      console.log(e);
+      setError(HanleCatch(e));
     }
   };
 

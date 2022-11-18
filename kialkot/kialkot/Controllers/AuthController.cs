@@ -1,11 +1,13 @@
-﻿using kialkot.Models.Request;
+﻿using kialkot.Enums;
+using kialkot.Models.Request;
 using kialkot.Models.Response;
-using kialkot.Repositories.ForgotPasswordRepository;
-using kialkot.Repositories.RefreshTokenRepository;
+using kialkot.Repositories.CustomTokenRepository;
 using kialkot.Repositories.UserRepository;
+using kialkot.Services.HttpAccesorService;
 using kialkot.Services.JwtTokenService;
 using kialkot.Services.RefreshTokenService;
 using kialkot.Services.UserService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace kialkot.Controllers
@@ -18,31 +20,37 @@ namespace kialkot.Controllers
         private readonly IUserService _userService;
         private readonly IJwtTokenService _jwtTokenService;
         private readonly IRefreshTokenService _refreshTokenService;
-        private readonly IRefreshTokenRepository _refreshTokenRepository;
+        private readonly ICustomTokenRepository _customTokenRepository;
 
         public AuthController(IUserRepository userRepository,
             IUserService userService,
             IJwtTokenService jwtTokenService,
             IRefreshTokenService refreshTokenService,
-            IRefreshTokenRepository refreshTokenRepository)
+            ICustomTokenRepository customTokenRepository)
         {
             _userRepository = userRepository;
             _userService = userService;
             _jwtTokenService = jwtTokenService;
             _refreshTokenService = refreshTokenService;
-            _refreshTokenRepository = refreshTokenRepository;
+            _customTokenRepository = customTokenRepository;
         }
         
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login([FromBody] LoginUserDto request)
         {
             var user = await _userRepository.GetByEmailAsync(request.Email);
             if (user == null)
             {
-                return BadRequest("User not found");
+                return BadRequest(new ErrorDto { Error = "User not found" });
             }
             if (_userService.VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
             {
+                if (!user.Verified)
+                {
+                    return BadRequest(new ErrorDto { Error = "User not verified" });
+                }
+                
                 var token = _jwtTokenService.CreateTokenAsync(user);
 
                 var refreshToken = await _refreshTokenService.CreateOrUpdateRefreshTokenAsync(user);
@@ -58,26 +66,32 @@ namespace kialkot.Controllers
                     }
                 );
             }
-            return Unauthorized();
+            return Unauthorized(new ErrorDto { Error = "Invalid email or password" });
         }
-
+        
+        [AllowAnonymous]
         [HttpPost("refresh-token")]
         public async Task<ActionResult<string>> RefreshToken()
         {
             var refreshToken = Request.Cookies["refreshToken"];
             if (string.IsNullOrEmpty(refreshToken))
             {
-                return BadRequest("No refresh token in cookie");
+                return BadRequest(new ErrorDto { Error = "No refresh token in cookie" });
             }
-            var userToken = await _refreshTokenRepository.GetTokenAsync(refreshToken);
+            var userToken = await _customTokenRepository.GetToken(refreshToken, TokenType.RefreshToken);
             if (userToken == null || userToken.Expires < DateTime.UtcNow)
             {
-                return BadRequest("Refresh token is invalid or expired");
+                return BadRequest(new ErrorDto { Error = "Refresh token is invalid or expired" });
             }
             var user = await _userRepository.GetByIdAsync(userToken.Id);
             if (user == null)
             {
-                return BadRequest("User not found");
+                return BadRequest(new ErrorDto { Error = "User not found" });
+            }
+            
+            if (!user.Verified)
+            {
+                return BadRequest(new ErrorDto { Error = "User not verified" });
             }
             
             var newRefreshToken = await _refreshTokenService.CreateOrUpdateRefreshTokenAsync(user);

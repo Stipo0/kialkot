@@ -1,7 +1,6 @@
 using kialkot.Data;
 using kialkot.Models.Options;
-using kialkot.Repositories.ForgotPasswordRepository;
-using kialkot.Repositories.RefreshTokenRepository;
+using kialkot.Repositories.CustomTokenRepository;
 using kialkot.Repositories.UserRepository;
 using kialkot.Services.HttpAccesorService;
 using kialkot.Services.JwtTokenService;
@@ -69,8 +68,7 @@ builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHttpAccessorService, HttpAccessorService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IForgotPasswordRepository, ForgotPasswordRepository>();
-builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<ICustomTokenRepository, CustomTokenRepository>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<ISmtpService, SmtpService>();
 
@@ -81,7 +79,10 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
         builder.SetIsOriginAllowed(_ => true)
-        .AllowAnyHeader());
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin()
+        );
 });
 
 
