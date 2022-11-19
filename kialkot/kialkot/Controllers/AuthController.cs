@@ -89,11 +89,6 @@ namespace kialkot.Controllers
                 return BadRequest(new ErrorDto { Error = "User not found" });
             }
             
-            if (!user.Verified)
-            {
-                return BadRequest(new ErrorDto { Error = "User not verified" });
-            }
-            
             var newRefreshToken = await _refreshTokenService.CreateOrUpdateRefreshTokenAsync(user);
             Response.Cookies.Append("refreshToken", newRefreshToken.Token, new CookieOptions
             {

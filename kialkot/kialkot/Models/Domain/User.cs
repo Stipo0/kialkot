@@ -17,7 +17,5 @@ namespace kialkot.Models.Domain
         public DateTime UpdatedAt { get; set; }
         public List<CustomToken> CustomTokens { get; set; } = null!;
         
-        
-
     }
 }

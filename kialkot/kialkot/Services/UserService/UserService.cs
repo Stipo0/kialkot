@@ -40,7 +40,7 @@ namespace kialkot.Services.UserService
                     Email = request.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    Role = Role.User,
+                    Role = (request.IsDesinger)? Role.Desinger : Role.User,
                     Verified = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow

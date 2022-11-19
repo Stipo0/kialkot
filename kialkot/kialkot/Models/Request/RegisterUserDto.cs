@@ -5,6 +5,8 @@ namespace kialkot.Models.Request
     public class RegisterUserDto
     {
         [Required]
+        public bool IsDesinger { get; set; }
+        [Required]
         public string NickName { get; set; } = string.Empty;
         [Required]
         public string FirstName { get; set; } = string.Empty;

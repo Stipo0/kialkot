@@ -17,11 +17,11 @@ namespace kialkot.Services.HttpAccesorService
 
             return Convert.ToInt32(userId);
         }
-        public bool IsVerified()
+        public string GetRole()
         {
-            var isVerified = _httpContextAccessor.HttpContext!.User.FindFirst("verified")!.Value;
+            var role = _httpContextAccessor.HttpContext!.User.FindFirst("role")!.Value;
 
-            return Convert.ToBoolean(isVerified);
+            return role;
         }
     }
 }
