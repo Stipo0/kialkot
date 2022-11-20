@@ -1,21 +1,39 @@
-import { JobModel } from "../models/job.model";
+import { MinJobModel } from "../models/job.model";
 import request, { Methods } from "../util/request";
 
 class JobsService {
-	async getJobs() {
-		var Jobs = [
-			{
-				id: 5,
-				name: "Első Munka",
-				image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",
-				shortDescription: "rövid leírás",
-				longDesccription: "Hosszú leírás",
-				createdAt: "2022.11.18",
-			},
-		]
-		return Jobs;
-		//return request<JobModel[]>({method: Methods.GET, resource: "/api/Jobs/all"});
-	}
+  // TODO Innentől kell törölni ha kész az útvonal
+  private Job = () => {
+    var jobs = [];
+    for (let i = 0; i < 10; i++) {
+      jobs.push({
+        id: i,
+        name: "Első Munka",
+        image:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",
+        shortDescription:
+          "Rövid leírása a feladatnak melyet a kialkot csapat hozott létre",
+        longDescription:
+          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
+          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
+          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
+          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
+          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!",
+        createdAt: "2022.11.18",
+      });
+    }
+    return jobs;
+  };
+
+  // TODO Eddig
+  async getJobs() {
+    // TODO ezeket pedig felcsélni és úgy törölni
+    return this.Job();
+    /* return request<MinJobModel[]>({
+      method: Methods.GET,
+      resource: "/api/Jobs",
+    }); */
+  }
 }
 
 export const jobsService = new JobsService();
