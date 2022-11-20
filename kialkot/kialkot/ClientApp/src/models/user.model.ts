@@ -9,14 +9,17 @@ export interface UserModel {
 	updatedAt: Date;
 }
 
-
-export interface StoreAndUpdateCredentialsModel {
+export interface UpdateCredentialsModel {
   nickName: string;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface StoreCredentialsModel extends UpdateCredentialsModel {
+	isDesinger: string;
 }
 
 export interface UserFormValues extends Omit<UserModel, "id" | "createdAt" | "role"> {}

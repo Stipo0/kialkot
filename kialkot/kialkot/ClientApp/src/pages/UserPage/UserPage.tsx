@@ -7,7 +7,7 @@ import Button from "../../components/button/Button";
 import FormCard from "../../components/form-card/FormCard";
 
 import TextField from "../../components/text-field/TextField";
-import { StoreAndUpdateCredentialsModel, UserModel } from "../../models/user.model";
+import { UpdateCredentialsModel, UserModel } from "../../models/user.model";
 import { userService } from "../../service/user.service";
 import { HanleCatch } from "../../util/handleCatch";
 
@@ -24,7 +24,7 @@ const UserPage = () => {
     fetchUser();
   }, []);
 
-  const initialValues: StoreAndUpdateCredentialsModel = {
+  const initialValues: UpdateCredentialsModel = {
     email: user?.email || "",
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
@@ -46,7 +46,7 @@ const UserPage = () => {
     ]),
   });
 
-  const handleSubmit = async (values: StoreAndUpdateCredentialsModel) => {
+  const handleSubmit = async (values: UpdateCredentialsModel) => {
     try {
       setUser(await userService.updateMe(values));
       setSucces("A frissitést elmentettük!")
