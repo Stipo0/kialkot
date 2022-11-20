@@ -1,7 +1,7 @@
 import { Alert } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import Button from "../../components/button/Button";
@@ -76,7 +76,7 @@ const LoginPage = ({ setToken }: LoginPageProps) => {
             </Button>
           </Form>
         </Formik>
-        <a href="/lostPassword">Elfelejtett Jelszó</a>
+        <Link to="/lostPassword">Elfelejtett Jelszó</Link>
       </FormCard>
     </div>
   );
