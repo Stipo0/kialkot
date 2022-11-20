@@ -1,4 +1,4 @@
-import { MinJobModel } from "../models/job.model";
+import { JobModel, MinJobModel } from "../models/job.model";
 import request, { Methods } from "../util/request";
 
 class JobsService {
@@ -19,7 +19,7 @@ class JobsService {
           "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
           "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
           "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!",
-        createdAt: "2022.11.18",
+        createdAt: "2022.11.18"
       });
     }
     return jobs;
@@ -34,6 +34,19 @@ class JobsService {
       resource: "/api/Jobs",
     }); */
   }
+
+  // TODO Eddig
+  async getJob(id: string) {
+    // TODO ezeket pedig felcsélni és úgy törölni
+    return this.Job()[Number(id)];
+    /* return request<JobModel>({
+      method: Methods.GET,
+      resource: `/api/Jobs/${id}`,
+    }); */
+  }
 }
 
 export const jobsService = new JobsService();
+function UserModel() {
+  throw new Error("Function not implemented.");
+}
