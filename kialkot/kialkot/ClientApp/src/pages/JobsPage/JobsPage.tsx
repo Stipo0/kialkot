@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import Job from "../../components/job/Job";
+import { useNavigate } from "react-router-dom";
+import JobCard from "../../components/job-card/JobCard";
 
 import Page from "../../components/page/Page";
-import { JobModel } from "../../models/job.model";
+import { MinJobModel } from "../../models/job.model";
 import { jobsService } from "../../service/job.service";
 
 const JobsPage = () => {
-  const [jobs, setJobs] = useState<JobModel[]>([]);
+  const [jobs, setJobs] = useState<MinJobModel[]>([]);
+  const navigation = useNavigate();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -20,8 +22,8 @@ const JobsPage = () => {
     <Page title="Munkák" noCard>
       <div className="row">
         {jobs.map((job) => (
-          <div key={job.id} className="col-lg-4 col-md-6 col-sm-12">
-            <Job job={job} />
+          <div key={job.id} onClick={()=> navigation("/jobs" + job.id)} className="col-lg-4 col-md-6 col-sm-12">
+            <JobCard job={job} />
           </div>
         ))}
       </div>

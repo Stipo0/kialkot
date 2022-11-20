@@ -1,12 +1,12 @@
 import classNames from "classnames";
 
-import { JobModel } from "../../models/job.model";
+import { MinJobModel } from "../../models/job.model";
 import JobImage from "../job-image/JobImage";
 
-import classes from "./Job.module.scss";
+import classes from "./JobCard.module.scss";
 
 interface JobProps {
-  job: JobModel;
+  job: MinJobModel;
   className?: string;
 }
 
