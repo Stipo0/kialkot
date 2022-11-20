@@ -7,5 +7,5 @@ export interface MinJobModel {
 }
 
 export interface JobModel extends MinJobModel {
-  longDesccription: string;
+  longDescription: string;
 }
