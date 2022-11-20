@@ -22,7 +22,7 @@ const JobsPage = () => {
     <Page title="Munkák" noCard>
       <div className="row">
         {jobs.map((job) => (
-          <div key={job.id} onClick={()=> navigation("/jobs" + job.id)} className="col-lg-4 col-md-6 col-sm-12">
+          <div key={job.id} onClick={()=> navigation("/jobs/" + job.id)} className="col-lg-4 col-md-6 col-sm-12">
             <JobCard job={job} />
           </div>
         ))}
