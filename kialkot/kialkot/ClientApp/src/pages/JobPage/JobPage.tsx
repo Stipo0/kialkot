@@ -16,14 +16,14 @@ const JobPage = () => {
   }, [id]);
 
   return (
-    <Page title={job?.name}>
+    <Page title={`${job?.name} részletes reírás`}>
       <div>
-        <h6>Rövid Leírás:</h6>
-        <p>{job?.shortDescription}</p>
-        <h6>Hosszú Leírás:</h6>
-        <p>{job?.longDescription}</p>
+        <h6>Tipus:</h6>
+        <p>{job?.jobType}</p>
+        <h6>Leírás:</h6>
+        <p>{job?.description}</p>
         <h6>Mellékletek:</h6>
-        <img src={`${job?.image}`} alt={job?.name}  width="50%"/>
+        <img src={`${job?.image}`} alt={job?.name} width="50%" />
         <h6>Létrehozva: </h6>
         {job?.createdAt}
       </div>

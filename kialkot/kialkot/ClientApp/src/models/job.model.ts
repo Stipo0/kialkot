@@ -1,11 +1,13 @@
 export interface MinJobModel {
   id: number;
   name: string;
+  creatorName: string;
   image: string;
-  shortDescription: string;
-  createdAt: string;
+  jobType: string;
+  deadline: string;
 }
 
 export interface JobModel extends MinJobModel {
-  longDescription: string;
+  description: string;
+  createdAt: string;
 }

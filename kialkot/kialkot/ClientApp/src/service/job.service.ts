@@ -1,5 +1,5 @@
-import { JobModel, MinJobModel } from "../models/job.model";
-import request, { Methods } from "../util/request";
+/* import { JobModel, MinJobModel } from "../models/job.model";
+import request, { Methods } from "../util/request"; */
 
 class JobsService {
   // TODO Innentől kell törölni ha kész az útvonal
@@ -8,18 +8,22 @@ class JobsService {
     for (let i = 0; i < 10; i++) {
       jobs.push({
         id: i,
-        name: "Első Munka",
+        name: `${i}. Munka`,
+        creatorName: `Creator${i}`,
         image:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png",
-        shortDescription:
-          "Rövid leírása a feladatnak melyet a kialkot csapat hozott létre",
-        longDescription:
-          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
-          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
-          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
-          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!" +
-          "A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!! A feledat hosszú leírása!!",
-        createdAt: "2022.11.18"
+        jobType:
+          "Molinó",
+        description:
+          "A feladat leírása melyet a Jókérdés csapat alkotott meg!!" +
+          "A feladat leírása melyet a Jókérdés csapat alkotott meg!!" +
+          "A feladat leírása melyet a Jókérdés csapat alkotott meg!!" +
+          "A feladat leírása melyet a Jókérdés csapat alkotott meg!!" +
+          "A feladat leírása melyet a Jókérdés csapat alkotott meg!!" +
+          "A feladat leírása melyet a Jókérdés csapat alkotott meg!!" +
+          "A feladat leírása melyet a Jókérdés csapat alkotott meg!!",
+        deadline: "2022.11.30",
+        createdAt: "2022.11.18",
       });
     }
     return jobs;
@@ -47,6 +51,3 @@ class JobsService {
 }
 
 export const jobsService = new JobsService();
-function UserModel() {
-  throw new Error("Function not implemented.");
-}
