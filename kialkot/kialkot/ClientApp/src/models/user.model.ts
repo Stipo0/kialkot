@@ -1,4 +1,5 @@
 export interface UserModel {
+	id: number;
 	nickName: string;
 	firstName: string;
 	lastName: string;
@@ -23,3 +24,5 @@ export interface StoreCredentialsModel extends UpdateCredentialsModel {
 }
 
 export interface UserFormValues extends Omit<UserModel, "id" | "createdAt" | "role"> {}
+
+export interface MinUserModel extends Omit<UserModel, "role" | "verified" | "createdAt" | "updatedAt"> {}
