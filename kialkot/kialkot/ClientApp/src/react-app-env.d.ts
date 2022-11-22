@@ -1,3 +1,3 @@
 /// <reference types="react-scripts" />
 
-type Role = "ADMIN" | "USER";
+type Role = "Admin" | "User" | "Company";
