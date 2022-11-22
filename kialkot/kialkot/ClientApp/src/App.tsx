@@ -8,13 +8,14 @@ import RegistrationPage from "./pages/RegistrationPage/RegistrationPage";
 import LostPasswordPage from "./pages/LostPasswordPage/LostPasswordPage";
 import RenewPasswordPage from "./pages/RenewPasswordPage/RenewPasswordPage";
 import UserPage from "./pages/UserPage/UserPage";
+import JobsPage from "./pages/JobsPage/JobsPage";
+import JobPage from "./pages/JobPage/JobPage";
+import JobEditPage from "./pages/JobEditPage/JobEditPage";
 
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
 
 import "./App.scss";
-import JobsPage from "./pages/JobsPage/JobsPage";
-import JobPage from "./pages/JobPage/JobPage";
 
 interface AppProps {}
 
@@ -42,7 +43,10 @@ class App extends Component<AppProps, AppState> {
   };
 
   render() {
-    const { token } = this.state;
+    const { token, role } = this.state;
+
+    const jobRouterElement =
+      role === "User" ? <JobEditPage /> : <Navigate to="/jobs" replace />;
 
     return (
       <div className="App">
@@ -55,8 +59,10 @@ class App extends Component<AppProps, AppState> {
                     <Layout isLoggedIn={!!token} setToken={this.setToken} />
                   }
                 >
-                  <Route path="/job/:id" element={<JobPage />} />
                   <Route path="/jobs" element={<JobsPage />} />
+                  <Route path="/job/:id" element={<JobPage />} />
+                  <Route path="/job/edit" element={jobRouterElement} />
+                  <Route path="/job/edit/:id" element={jobRouterElement} />
                   <Route path="/profil" element={<UserPage />} />
                   <Route path="*" element={<Navigate to="/jobs" replace />} />
                 </Route>

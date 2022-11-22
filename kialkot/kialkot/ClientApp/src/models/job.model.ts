@@ -11,3 +11,5 @@ export interface JobModel extends MinJobModel {
   description: string;
   createdAt: string;
 }
+
+export interface JobFormValues extends Omit<JobModel, "id" | "createdAt" | "creatorName" > {}
