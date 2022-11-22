@@ -15,10 +15,12 @@ const JobPage = () => {
 
   useEffect(() => {
     const fetchJob = async (id: string) => setJob(await jobsService.getJob(id));
-    if (id) {
+    if (id && Number(id)) {
       fetchJob(id);
+    } else {
+      navigate("/jobs");
     }
-  }, [id]);
+  }, [id, navigate]);
 
   const  goToCreateJobPage = () => {
     navigate(`/job/edit/${job?.id}`);
