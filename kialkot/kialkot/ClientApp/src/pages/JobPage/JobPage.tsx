@@ -1,5 +1,9 @@
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import AccessController from "../../components/access-controller/AccessController";
+import Button from "../../components/button/Button";
 import Page from "../../components/page/Page";
 import { JobModel } from "../../models/job.model";
 import { jobsService } from "../../service/job.service";
@@ -7,6 +11,7 @@ import { jobsService } from "../../service/job.service";
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<JobModel>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJob = async (id: string) => setJob(await jobsService.getJob(id));
@@ -15,8 +20,21 @@ const JobPage = () => {
     }
   }, [id]);
 
+  const  goToCreateJobPage = () => {
+    navigate(`/job/edit/${job?.id}`);
+  };
+
   return (
     <Page title={`${job?.name} részletes reírás`}>
+      <AccessController allowedFor={["User"]}>
+      <div className="row">
+          <div className="col-3 col-sm-4 col-md-2 col-lg-1">
+            <Button className="w-100 mb-3" onClick={goToCreateJobPage}>
+              <FontAwesomeIcon icon={faEdit} />
+            </Button>
+          </div>
+        </div>
+      </AccessController>
       <div>
         <h6>Tipus:</h6>
         <p>{job?.jobType}</p>

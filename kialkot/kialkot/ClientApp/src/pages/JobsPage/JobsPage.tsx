@@ -26,7 +26,7 @@ const JobsPage = () => {
 
   return (
     <Page title="Munkák" noCard>
-      <AccessController allowedFor={["Company"]}>
+      <AccessController allowedFor={["User"]}>
         <div className="row">
           <div className="col-12 col-sm-6 col-md-4 col-lg-3">
             <Button className="w-100 mb-3" onClick={goToCreateJobPage}>
