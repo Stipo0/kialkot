@@ -59,7 +59,7 @@ const JobEditPage = () => {
 	}
 
   const  goToBackJobPage = () => {
-    navigate(`/job/${job?.id}`);
+		navigate("/job/" + (job ? job?.id : ""));
   };
 
   return (
