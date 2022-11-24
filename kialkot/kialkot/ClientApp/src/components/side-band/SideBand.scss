@@ -1,8 +1,10 @@
+@import  "../../styles/variables";
+
 .side-band {
 	background-image: url('../../images/hatterfoltok.png');
 	background-size: 20%;
 	background-repeat: repeat;
-	background-color:#b5dedc;
+	background-color: $light-green-color;
 	width: 15%;
 	height: 100vh;
 	position: fixed;
