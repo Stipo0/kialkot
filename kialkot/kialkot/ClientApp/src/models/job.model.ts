@@ -4,19 +4,19 @@ export interface JobModel {
   id: number;
   name: string;
   creatorName: string;
+  creatorEmail: string;
   image: string;
   jobType: string;
   deadline: string;
   description: string;
   createdAt: string;
-  user: MinUserModel;
+  user?: MinUserModel;
 }
 
-export interface MinJobModel extends Omit<JobModel, "description" | "createdAt" | "user" > {}
+export interface MinJobModel extends Omit<JobModel, "description" | "createdAt" | "user" | "creatorEmail" > {}
 
-export interface JobFormValues extends Omit<JobModel, "id" | "createdAt" | "creatorName" | "user" > {}
+export interface JobFormValues extends Omit<JobModel, "id" | "createdAt" | "creatorName" | "creatorEmail" | "user" > {}
 
-export interface PickJobModel {
-  userId: number;
-  jobId: number;
+export interface SubscribeJobModel {
+  jobId?: number;
 }

@@ -1,12 +1,20 @@
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import AccessController from "../../components/access-controller/AccessController";
-import Button from "../../components/button/Button";
 import Page from "../../components/page/Page";
-import { JobModel } from "../../models/job.model";
+import ActionButton from "../../components/action-button/ActionButton";
+
+import { JobModel, SubscribeJobModel } from "../../models/job.model";
+
 import { jobsService } from "../../service/job.service";
+
+import { HanleCatch } from "../../util/handleCatch";
+
+import "./JobPage.scss";
 
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,40 +22,80 @@ const JobPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchJob = async (id: string) => setJob(await jobsService.getJob(id));
-    if (id && Number(id)) {
+    const fetchJob = async (id: string) => {
+      const data = await jobsService.getJob(id);
+      if (data) setJob(data);
+      else navigate("/jobs");
+    };
+    if (id) {
       fetchJob(id);
-    } else {
-      navigate("/jobs");
     }
   }, [id, navigate]);
 
-  const  goToCreateJobPage = () => {
+  const subscribeJob = async () => {
+    try {
+      const values: SubscribeJobModel = {
+        jobId: job?.id,
+      };
+      alert(await jobsService.subscribeJob(values));
+    } catch (e) {
+      alert(HanleCatch(e));
+    }
+  };
+
+  const unSubscribeJob = async () => {
+    try {
+      const values: SubscribeJobModel = {
+        jobId: job?.id,
+      };
+      alert(await jobsService.unSubscribeJob(values));
+    } catch (e) {
+      alert(HanleCatch(e));
+    }
+  };
+
+  const goToCreateJobPage = () => {
     navigate(`/job/edit/${job?.id}`);
   };
 
   return (
-    <Page title={`${job?.name} részletes reírás`}>
+    <>
       <AccessController allowedFor={["User"]}>
-      <div className="row">
-          <div className="col-3 col-sm-4 col-md-2 col-lg-1">
-            <Button className="w-100 mb-3" onClick={goToCreateJobPage}>
-              <FontAwesomeIcon icon={faEdit} />
-            </Button>
-          </div>
-        </div>
+        <ActionButton onClick={goToCreateJobPage}>
+          <FontAwesomeIcon icon={faEdit} />
+        </ActionButton>
       </AccessController>
-      <div>
-        <h6>Tipus:</h6>
-        <p>{job?.jobType}</p>
-        <h6>Leírás:</h6>
-        <p>{job?.description}</p>
-        <h6>Mellékletek:</h6>
-        <img src={`${job?.image}`} alt={job?.name} width="50%" />
-        <h6>Létrehozva: </h6>
-        {job?.createdAt}
-      </div>
-    </Page>
+      <AccessController allowedFor={["Desinger"]}>
+        {job?.user ? (
+          <ActionButton onClick={unSubscribeJob} color="secondary">
+            Munka leadása
+          </ActionButton>
+        ) : (
+          <ActionButton onClick={subscribeJob}>Munka felvétele</ActionButton>
+        )}
+      </AccessController>
+      <Page title={`${job?.name} részletes reírás`}>
+        <div>
+          <h6 className="d-inline">Név:</h6>
+          <p className="d-inline p-2">{job?.creatorName}</p>
+          <h6 className="d-inline fa-pull-right m-auto">határidő</h6>
+          <br />
+          <h6 className="d-inline">Email cím:</h6>
+          <p className="d-inline p-2">{job?.creatorEmail}</p>
+          <p className="d-inline fa-pull-right">{job?.deadline}</p>
+          <hr className="Orange" />
+          <h4 className="m-auto">Feladat</h4>
+          <h5 className="m-auto">{job?.jobType}</h5>
+          <p>{job?.description}</p>
+          <hr className="Green" />
+          <h5>Mellékletek:</h5>
+          <img src={`${job?.image}`} alt={job?.name} width="50%" />
+          <br />
+          <h5 className="d-inline">Létrehozva: </h5>
+          <p className="d-inline">{job?.createdAt}</p>
+        </div>
+      </Page>
+    </>
   );
 };
 
