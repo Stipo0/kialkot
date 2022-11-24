@@ -1,7 +1,7 @@
 import { Alert } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import Button from "../../components/button/Button";
@@ -15,14 +15,36 @@ import { HanleCatch } from "../../util/handleCatch";
 
 import "./LoginPage.scss";
 
+export interface QueryTokenModel {
+	tokenIsValid?: boolean;
+}
+
 interface LoginPageProps {
   setToken: (token: string | null) => void;
 }
 
 const LoginPage = ({ setToken }: LoginPageProps) => {
   const initialValues: LoginCredentialsModel = { email: "", password: "" };
+  const query = new URLSearchParams(useLocation().search);
+	const token = query.get("token");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+		const fetchToken =async (token: string | null) => {
+			try {
+				const getToken = await authService.verificateEmailToken(token);
+				if (! getToken.isValid) {
+					alert("A regisztráció sikertelen!");
+				}
+			} catch (e) {
+				alert(HanleCatch(e));
+			}
+		}
+    if (token) {
+      fetchToken(token);
+    }
+	}, [token])
 
   const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
