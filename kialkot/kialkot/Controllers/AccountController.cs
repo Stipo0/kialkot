@@ -115,16 +115,16 @@ namespace kialkot.Controllers
                         await _userRepository.UpdateAsync(user);
                         tokenEntity.IsValid = false;
                         await _customTokenRepository.UpdateAsync(tokenEntity);
-                        return Ok(new OkDto
+                        return Ok(new IsValidDto
                         {
-                            Ok = "Account verified"
+                            IsValid = true
                         });
                     }
                 }
             }
-            return BadRequest(new ErrorDto
+            return BadRequest(new IsValidDto
             {
-                Error = "Invalid token"
+                IsValid = false
             });
         }
 
