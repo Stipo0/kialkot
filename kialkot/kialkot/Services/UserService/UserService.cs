@@ -40,12 +40,14 @@ namespace kialkot.Services.UserService
                     Email = request.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    Role = (request.IsDesinger)? Role.Desinger : Role.User,
                     Verified = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
 
+                if (request.IsDesinger == "1") { user.Role = Role.Desinger; }
+                if (request.IsDesinger == "0") { user.Role = Role.User; }
+                
                 var customToken = new CustomToken
                 {
                     Token = Guid.NewGuid().ToString(),

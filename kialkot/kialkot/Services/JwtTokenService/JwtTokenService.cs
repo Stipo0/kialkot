@@ -21,6 +21,7 @@ namespace kialkot.Services.JwtTokenService
             var claims = new List<Claim>
             {
                 new Claim("userId", user.Id.ToString()),
+                new Claim("NickName", user.NickName.ToString()),
                 new Claim("role", user.Role.ToString()),
             };
 
