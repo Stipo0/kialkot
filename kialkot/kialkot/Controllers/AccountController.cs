@@ -193,22 +193,29 @@ namespace kialkot.Controllers
             {
                 return BadRequest(new ErrorDto { Error = "Email already exists" });
             }
-            if (await _userService.UpdateUser(user, request))
+
+            if (!await _userService.UpdateUser(user, request))
             {
-                user = await _userRepository.GetByIdAsync(user.Id);
-                return Ok(new UserMeDto
-                {
-                    NickName = user.NickName,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Verified = user.Verified,
-                    Role = user.Role.ToString(),
-                    CreatedAt = user.CreatedAt,
-                    UpdatedAt = user.UpdatedAt
-                });
+                return BadRequest(new ErrorDto { Error = "Current Password is incorrect" });
             }
-            return BadRequest(new ErrorDto { Error = "Update failed" });
+            
+            user = await _userRepository.GetByIdAsync(user.Id);
+            if (user is null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            
+            return Ok(new UserMeDto
+            {
+                NickName = user.NickName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Verified = user.Verified,
+                Role = user.Role.ToString(),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt
+            });
         }
     }
 }

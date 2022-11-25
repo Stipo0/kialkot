@@ -160,17 +160,18 @@ namespace kialkot.Services.UserService
 
         public async Task<bool> UpdateUser(User user, UpdateUserDto request)
         {
+            if (!VerifyPassword(request.CurrentPassword,user.PasswordHash,user.PasswordHash)) { return false; }
             user.NickName = request.NickName;
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Email = request.Email;
 
-            if (!VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
+            if (!VerifyPassword(request.NewPassword, user.PasswordHash, user.PasswordSalt))
             {
                 using (var hmac = new HMACSHA512())
                 {
                     var passwordSalt = hmac.Key;
-                    var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.Password));
+                    var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.NewPassword));
 
                     user.PasswordHash = passwordHash;
                     user.PasswordSalt = passwordSalt;
