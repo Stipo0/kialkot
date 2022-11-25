@@ -3,12 +3,15 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+
 import Button from "../../components/button/Button";
 import FormCard from "../../components/form-card/FormCard";
-
 import TextField from "../../components/text-field/TextField";
+
 import { UpdateCredentialsModel, UserModel } from "../../models/user.model";
+
 import { userService } from "../../service/user.service";
+
 import { HanleCatch } from "../../util/handleCatch";
 
 const UserPage = () => {

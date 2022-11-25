@@ -1,12 +1,13 @@
 export interface UserModel {
-	nickName: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-	role: Role;
-	verified: boolean;
-	createdAt: Date;
-	updatedAt: Date;
+  id: number;
+  nickName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: Role;
+  verified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface UpdateCredentialsModel {
@@ -19,7 +20,11 @@ export interface UpdateCredentialsModel {
 }
 
 export interface StoreCredentialsModel extends UpdateCredentialsModel {
-	isDesinger: string;
+  isDesinger: string;
 }
 
-export interface UserFormValues extends Omit<UserModel, "id" | "createdAt" | "role"> {}
+export interface UserFormValues
+  extends Omit<UserModel, "id" | "createdAt" | "role"> {}
+
+export interface MinUserModel
+  extends Omit<UserModel, "role" | "verified" | "createdAt" | "updatedAt"> {}

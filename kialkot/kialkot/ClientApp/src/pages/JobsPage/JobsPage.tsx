@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AccessController from "../../components/access-controller/AccessController";
+import ActionButton from "../../components/action-button/ActionButton";
 import JobCard from "../../components/job-card/JobCard";
 
 import Page from "../../components/page/Page";
@@ -8,7 +10,7 @@ import { jobsService } from "../../service/job.service";
 
 const JobsPage = () => {
   const [jobs, setJobs] = useState<MinJobModel[]>([]);
-  const navigation = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -18,16 +20,27 @@ const JobsPage = () => {
     fetchJobs();
   }, []);
 
+  const goToCreateJobPage = () => {
+    navigate("/job/edit");
+  };
+
   return (
-    <Page title="Munkák" noCard>
-      <div className="row">
-        {jobs.map((job) => (
-          <div key={job.id} onClick={()=> navigation("/jobs/" + job.id)} className="col-lg-4 col-md-6 col-sm-12">
-            <JobCard job={job} />
-          </div>
-        ))}
-      </div>
-    </Page>
+    <>
+      <AccessController allowedFor={["User"]}>
+        <ActionButton onClick={goToCreateJobPage}>
+          Munka létrehozása
+        </ActionButton>
+      </AccessController>
+      <Page title="Munkák" noCard>
+        <div className="row">
+          {jobs.map((job) => (
+            <div key={job.id} className="col-lg-4 col-md-6 col-sm-12">
+              <JobCard job={job} />
+            </div>
+          ))}
+        </div>
+      </Page>
+    </>
   );
 };
 

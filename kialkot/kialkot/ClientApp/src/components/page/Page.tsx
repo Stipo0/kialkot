@@ -4,12 +4,13 @@ import { ReactNode } from "react";
 interface PageProps {
   title?: string;
   noCard?: boolean;
+  className?: string;
   children: ReactNode;
 }
 
-const Page = ({ children, noCard, title }: PageProps) => {
+const Page = ({ children, noCard, title, className }: PageProps) => {
   return (
-    <div className="container pt-3">
+    <div className={classNames("container mb-3 pt-3", className )}>
       {title ? <h5>{title}</h5> : null}
       <div className={classNames({ "card bg-white shadow p-3": !noCard })}>
         {children}

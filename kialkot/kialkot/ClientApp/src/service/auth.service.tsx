@@ -36,6 +36,16 @@ class AuthService {
           : ""),
     });
   }
+  
+  async verificateEmailToken(token: string | null) {
+    return request<ResponseModel>({
+      method: Methods.POST,
+      resource:
+        "api/Account/verifyaccount" + (token
+          ? "?token=" + token
+          : ""),
+    });
+  }
 
   async resetPassword(
     credentials: RenewPaswordCredentialsModel,
