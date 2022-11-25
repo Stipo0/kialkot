@@ -166,15 +166,18 @@ namespace kialkot.Services.UserService
             user.LastName = request.LastName;
             user.Email = request.Email;
 
-            if (!VerifyPassword(request.NewPassword, user.PasswordHash, user.PasswordSalt))
+            if (request.NewPassword != string.Empty)
             {
-                using (var hmac = new HMACSHA512())
+                if (!VerifyPassword(request.NewPassword, user.PasswordHash, user.PasswordSalt))
                 {
-                    var passwordSalt = hmac.Key;
-                    var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.NewPassword));
+                    using (var hmac = new HMACSHA512())
+                    {
+                        var passwordSalt = hmac.Key;
+                        var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.NewPassword));
 
-                    user.PasswordHash = passwordHash;
-                    user.PasswordSalt = passwordSalt;
+                        user.PasswordHash = passwordHash;
+                        user.PasswordSalt = passwordSalt;
+                    }
                 }
             }
             user.UpdatedAt = DateTime.UtcNow;
