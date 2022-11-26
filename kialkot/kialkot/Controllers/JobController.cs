@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace kialkot.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class JobController : Controller
@@ -27,7 +28,7 @@ namespace kialkot.Controllers
             _userRepository = userRepository;
         }
 
-        [HttpPost("Job")]
+        [HttpPost]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
         [SwaggerResponse(404)]
@@ -46,7 +47,7 @@ namespace kialkot.Controllers
             });
         }
 
-        [HttpGet("Jobs/{status}")]
+        [HttpGet("jobs/{status}")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
         public async Task<ActionResult> GetJobsByStatus([FromQuery] JobStatusEnum status)
