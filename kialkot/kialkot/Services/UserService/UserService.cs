@@ -160,7 +160,7 @@ namespace kialkot.Services.UserService
 
         public async Task<bool> UpdateUser(User user, UpdateUserDto request)
         {
-            if (!VerifyPassword(request.CurrentPassword,user.PasswordHash,user.PasswordHash)) { return false; }
+            if (!VerifyPassword(request.CurrentPassword,user.PasswordHash,user.PasswordSalt)) { return false; }
             user.NickName = request.NickName;
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
