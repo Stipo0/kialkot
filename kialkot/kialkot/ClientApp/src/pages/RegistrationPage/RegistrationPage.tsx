@@ -73,11 +73,11 @@ const RegistrationPage = () => {
             options={[
               {
                 value: "0",
-                name: "Grafikus",
+                name: "Cég",
               },
               {
                 value: "1",
-                name: "Cég",
+                name: "Grafikus",
               },
             ]}
           />
