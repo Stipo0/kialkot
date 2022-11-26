@@ -32,7 +32,8 @@ const UserPage = () => {
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     nickName: user?.nickName || "",
-    password: "",
+    currentPassword: "",
+    newPassword: "",
     confirmPassword: "",
   };
 
@@ -42,17 +43,18 @@ const UserPage = () => {
     nickName: Yup.string().required(kotelezo),
     firstName: Yup.string().required(kotelezo),
     lastName: Yup.string().required(kotelezo),
-    password: Yup.string().min(6).required(kotelezo),
+    currentPassword: Yup.string().min(6).required(kotelezo),
+    newPassword: Yup.string().min(6),
     confirmPassword: Yup.string().oneOf([
-      Yup.ref("password"),
-      "A két jelszó nem egyezik meg!",
+      Yup.ref("newPassword"),
+      "A két új jelszó nem egyezik meg!",
     ]),
   });
 
   const handleSubmit = async (values: UpdateCredentialsModel) => {
     try {
       setUser(await userService.updateMe(values));
-      setSucces("A frissitést elmentettük!")
+      setSucces("A frissitést elmentettük!");
     } catch (e) {
       setError(HanleCatch(e));
     }
@@ -77,11 +79,16 @@ const UserPage = () => {
           <TextField name="lastName" label="Vezetéknév" />
           <TextField name="firstName" label="Keresztnév" />
           <TextField name="email" type="email" label="Email cím" />
-          <TextField name="password" type="password" label="Jelszó" />
+          <TextField
+            name="currentPassword"
+            type="password"
+            label="Jelenlegi jelszó"
+          />
+          <TextField name="newPassword" type="password" label="Új jelszó" />
           <TextField
             name="confirmPassword"
             type="password"
-            label="Jelszó megerősítése"
+            label="Új jelszó megerősítése"
           />
           {error ? (
             <Alert className="mb-3" severity="error">
