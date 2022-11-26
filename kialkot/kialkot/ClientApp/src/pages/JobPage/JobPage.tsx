@@ -8,13 +8,15 @@ import AccessController from "../../components/access-controller/AccessControlle
 import Page from "../../components/page/Page";
 import ActionButton from "../../components/action-button/ActionButton";
 
-import { JobModel, SubscribeJobModel } from "../../models/job.model";
+import { JobModel, JobStatusEnum,  SubscribeJobModel } from "../../models/job.model";
 
 import { jobsService } from "../../service/job.service";
 
 import { HanleCatch } from "../../util/handleCatch";
 
 import "./JobPage.scss";
+
+
 
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -66,7 +68,7 @@ const JobPage = () => {
         </ActionButton>
       </AccessController>
       <AccessController allowedFor={["Desinger"]}>
-        {job?.user ? (
+        {job?.jobStatus === JobStatusEnum.InProgress ? (
           <ActionButton onClick={unSubscribeJob} color="secondary">
             Munka leadása
           </ActionButton>
@@ -77,11 +79,11 @@ const JobPage = () => {
       <Page title={`${job?.name} részletes reírás`}>
         <div>
           <h6 className="d-inline">Név:</h6>
-          <p className="d-inline p-2">{job?.creatorName}</p>
+          <p className="d-inline p-2">{job?.creator.nickName}</p>
           <h6 className="d-inline fa-pull-right m-auto">határidő</h6>
           <br />
           <h6 className="d-inline">Email cím:</h6>
-          <p className="d-inline p-2">{job?.creatorEmail}</p>
+          <p className="d-inline p-2">{job?.creator.email}</p>
           <p className="d-inline fa-pull-right">{job?.deadline}</p>
           <hr className="Orange" />
           <h4 className="m-auto">Feladat</h4>
@@ -91,8 +93,8 @@ const JobPage = () => {
           <h5>Mellékletek:</h5>
           <img src={`${job?.image}`} alt={job?.name} width="50%" />
           <br />
-          <h5 className="d-inline">Létrehozva: </h5>
-          <p className="d-inline">{job?.createdAt}</p>
+          <h5 className="d-inline">Állapot: </h5>
+          <p className="d-inline">{job?.jobStatus}</p>
         </div>
       </Page>
     </>

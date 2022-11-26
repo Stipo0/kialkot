@@ -10,14 +10,14 @@ class JobsService {
   async getJobs() {
     return request<MinJobModel[]>({
       method: Methods.GET,
-      resource: "/api/Jobs",
+      resource: "api/Job/jobs/Open",
     });
   }
 
   async getJob(id: string) {
     return request<JobModel>({
       method: Methods.GET,
-      resource: `/api/Jobs/${id}`,
+      resource: `api/Jobs/${id}`,
     });
   }
 
@@ -33,7 +33,7 @@ class JobsService {
     return request<JobModel>({
       method: Methods.POST,
       data,
-      resource: `api/Jobs`,
+      resource: `api/Job`,
     });
   }
 
