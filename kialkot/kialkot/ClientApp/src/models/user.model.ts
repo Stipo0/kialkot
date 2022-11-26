@@ -15,12 +15,19 @@ export interface UpdateCredentialsModel {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
-  confirmPassword: string;
+  currentPassword: string;
+  newPassword?: string;
+  confirmPassword?: string;
 }
 
-export interface StoreCredentialsModel extends UpdateCredentialsModel {
+export interface StoreCredentialsModel {
   isDesinger: string;
+  nickName: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
 }
 
 export interface UserFormValues

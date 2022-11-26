@@ -13,10 +13,6 @@ import { RenewPaswordCredentialsModel } from "../../models/auth.model";
 import { authService } from "../../service/auth.service";
 import { HanleCatch } from "../../util/handleCatch";
 
-export interface QueryTokenModel {
-	tokenIsValid?: boolean;
-}
-
 const RenewPasswordPage = () => {
 	const query = new URLSearchParams(useLocation().search);
 	const token = query.get("token");

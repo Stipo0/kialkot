@@ -15,10 +15,6 @@ import { HanleCatch } from "../../util/handleCatch";
 
 import "./LoginPage.scss";
 
-export interface QueryTokenModel {
-	tokenIsValid?: boolean;
-}
-
 interface LoginPageProps {
   setToken: (token: string | null) => void;
 }
@@ -26,25 +22,23 @@ interface LoginPageProps {
 const LoginPage = ({ setToken }: LoginPageProps) => {
   const initialValues: LoginCredentialsModel = { email: "", password: "" };
   const query = new URLSearchParams(useLocation().search);
-	const token = query.get("token");
+  const token = query.get("token");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-		const fetchToken =async (token: string | null) => {
-			try {
-				const getToken = await authService.verificateEmailToken(token);
-				if (! getToken.isValid) {
-					alert("A regisztráció sikertelen!");
-				}
-			} catch (e) {
-				alert(HanleCatch(e));
-			}
-		}
+    const fetchToken = async (token: string | null) => {
+      try {
+        const getToken = await authService.verificateEmailToken(token);
+        alert(`A regisztráció ${getToken.isValid ? "sikeres" : "sikertelen"}!`);
+      } catch (e) {
+        alert(HanleCatch(e));
+      }
+    };
     if (token) {
       fetchToken(token);
     }
-	}, [token])
+  }, [token]);
 
   const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
