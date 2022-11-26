@@ -1,8 +1,10 @@
 using kialkot.Data;
 using kialkot.Models.Options;
 using kialkot.Repositories.CustomTokenRepository;
+using kialkot.Repositories.JobRepository;
 using kialkot.Repositories.UserRepository;
 using kialkot.Services.HttpAccesorService;
+using kialkot.Services.JobService;
 using kialkot.Services.JwtTokenService;
 using kialkot.Services.RefreshTokenService;
 using kialkot.Services.SmtpService;
@@ -71,6 +73,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICustomTokenRepository, CustomTokenRepository>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<ISmtpService, SmtpService>();
+builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
 
 
 builder.Services.AddHttpContextAccessor();

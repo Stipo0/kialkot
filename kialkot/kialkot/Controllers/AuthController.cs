@@ -83,7 +83,7 @@ namespace kialkot.Controllers
             {
                 return BadRequest(new ErrorDto { Error = "Refresh token is invalid or expired" });
             }
-            var user = await _userRepository.GetByIdAsync(userToken.Id);
+            var user = await _userRepository.GetByIdAsync(userToken.UserId);
             if (user == null)
             {
                 return BadRequest(new ErrorDto { Error = "User not found" });

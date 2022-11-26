@@ -16,6 +16,7 @@ namespace kialkot.Models.Domain
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public List<CustomToken> CustomTokens { get; set; } = null!;
-        
+        public List<Job> CreatedJobs { get; set; } = null!;
+        public List<Job> WorkedJobs { get; set; } = null!;
     }
 }
