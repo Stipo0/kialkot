@@ -100,7 +100,6 @@ namespace kialkot.Controllers
         [AllowAnonymous]
         [HttpPost("verifyaccount")]
         [SwaggerResponse(200)]
-        [SwaggerResponse(400)]
         public async Task<ActionResult> VerifyAccount(string token)
         {
             if (await _customTokenRepository.TokenIsValid(token, TokenType.VerificationToken))
@@ -122,7 +121,7 @@ namespace kialkot.Controllers
                     }
                 }
             }
-            return BadRequest(new IsValidDto
+            return Ok(new IsValidDto
             {
                 IsValid = false
             });
