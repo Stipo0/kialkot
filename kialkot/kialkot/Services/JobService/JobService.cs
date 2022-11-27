@@ -61,5 +61,41 @@ namespace kialkot.Services.JobService
             }
             return minJobs;
         }
+        
+        public async Task<JobDto> GetJobById(int id)
+        {
+            var job = await _jobRepository.GetJobByIdAsync(id);
+            var result =  new JobDto
+            {
+                Id = job!.Id,
+                Name = job.Name,
+                Creator = new MinUserDto
+                {
+                    Id = job.Creator.Id,
+                    NickName = job.Creator.NickName,
+                    FirstName = job.Creator.FirstName,
+                    LastName = job.Creator.LastName,
+                    Email = job.Creator.Email,
+                },
+                Image = job.Image,
+                JobType = job.JobType,
+                CreatedAt = job.CreatedAt,
+                Deadline = job.EndDate,
+                JobStatus = job.Status.ToString(),
+                Description = job.Description,
+            };
+            if (job.Worker != null)
+            {
+                result.Worker = new MinUserDto
+                {
+                    Id = job.Worker.Id,
+                    NickName = job.Worker.NickName,
+                    FirstName = job.Worker.FirstName,
+                    LastName = job.Worker.LastName,
+                    Email = job.Worker.Email,
+                };
+            }
+            return result;
+        }
     }
 }
