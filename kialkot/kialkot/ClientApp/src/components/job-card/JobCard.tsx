@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { JobTypeEnum } from "../../enums/job.type.enum";
 
-import { JobTypeEnum, MinJobModel } from "../../models/job.model";
+import { MinJobModel } from "../../models/job.model";
 import JobImage from "../job-image/JobImage";
 
 import classes from "./JobCard.module.scss";
@@ -32,7 +33,7 @@ const Job = ({ job, className }: JobProps) => {
           Létrehozó: <span className="text-black-50">{creatorName}</span>
         </p>
         <p className="ms-2">
-          Tipus: <span className="text-black-50">{JobTypeEnum[jobType]}</span>
+          Tipus: <span className="text-black-50">{JobTypeEnum.toString(jobType)}</span>
         </p>
         <p className="ms-2">
           Határidő: <span className="text-black-50">{moment(deadline).format('YYYY. MM DD.')}</span>

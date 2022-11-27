@@ -1,5 +1,6 @@
 import Alert from "@mui/material/Alert";
 import { Form, Formik } from "formik";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
@@ -33,7 +34,7 @@ const JobEditPage = () => {
     name: job?.name || "",
     image: job?.image || "",
     jobType: job?.jobType || JobTypeEnum.Custom,
-    deadline: job?.deadline || "",
+    deadline: moment(job?.deadline).format('yyyy-MM-DD') || "",
     description: job?.description || "",
   };
 

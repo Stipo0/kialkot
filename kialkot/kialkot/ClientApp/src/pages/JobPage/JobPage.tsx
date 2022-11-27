@@ -17,6 +17,7 @@ import { jobsService } from "../../service/job.service";
 import { HanleCatch } from "../../util/handleCatch";
 
 import "./JobPage.scss";
+import moment from "moment";
 
 
 
@@ -86,14 +87,14 @@ const JobPage = () => {
           <br />
           <h6 className="d-inline">Email cím:</h6>
           <p className="d-inline p-2">{job?.creator.email}</p>
-          <p className="d-inline fa-pull-right">{job?.deadline}</p>
+          <p className="d-inline fa-pull-right">{moment(job?.deadline).format('YYYY. MM DD.')}</p>
           <hr className="Orange" />
           <h4 className="m-auto">Feladat</h4>
           <h5 className="m-auto">{job?.jobType}</h5>
           <p>{job?.description}</p>
           <hr className="Green" />
           <h5>Mellékletek:</h5>
-          <img src={`${job?.image}`} alt={job?.name} width="50%" />
+          <img className="mb-3" src={`${job?.image}`} alt={job?.name} width="50%" />
           <br />
           <h5 className="d-inline">Állapot: </h5>
           <p className="d-inline">{job?.jobStatus}</p>
