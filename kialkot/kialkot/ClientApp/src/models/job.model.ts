@@ -1,23 +1,6 @@
+import { JobStatusEnum } from "../enums/job.status.enum";
+import { JobTypeEnum } from "../enums/job.type.enum";
 import { MinUserModel } from "./user.model";
-
-export enum JobStatusEnum {
-  Open,
-  Canceled,
-  Waiting,
-  InProgress,
-  Finished,
-}
-
-export enum JobTypeEnum {
-  Custom,
-  Szórólap,
-  Plakát,
-  Kiadvány,
-  Meghívó,
-  Oklevél,
-  Arculat,
-  Design,
-}
 
 export interface JobModel {
   id: number;

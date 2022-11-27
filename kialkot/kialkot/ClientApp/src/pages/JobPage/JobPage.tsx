@@ -8,7 +8,9 @@ import AccessController from "../../components/access-controller/AccessControlle
 import Page from "../../components/page/Page";
 import ActionButton from "../../components/action-button/ActionButton";
 
-import { JobModel, JobStatusEnum,  SubscribeJobModel } from "../../models/job.model";
+import { JobStatusEnum } from "../../enums/job.status.enum";
+
+import { JobModel, SubscribeJobModel } from "../../models/job.model";
 
 import { jobsService } from "../../service/job.service";
 

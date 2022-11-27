@@ -17,11 +17,12 @@ class JobsService {
   async getJob(id: string) {
     return request<JobModel>({
       method: Methods.GET,
-      resource: `api/Jobs/${id}`,
+      resource: `api/Job/${id}`,
     });
   }
 
   async update(data: JobFormValues, jobId: number) {
+    data.jobType = Number(data.jobType);
     return request<JobModel>({
       method: Methods.PUT,
       data,
@@ -30,6 +31,7 @@ class JobsService {
   }
 
   async store(data: JobFormValues) {
+    data.jobType = Number(data.jobType);
     return request<JobModel>({
       method: Methods.POST,
       data,

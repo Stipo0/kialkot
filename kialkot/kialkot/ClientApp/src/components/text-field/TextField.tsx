@@ -4,7 +4,7 @@ import BaseField from "../base-field/BaseField";
 
 import './TextField.scss';
 
-interface OptionValues {
+export interface OptionValues {
   value: string;
   name: string;
 }

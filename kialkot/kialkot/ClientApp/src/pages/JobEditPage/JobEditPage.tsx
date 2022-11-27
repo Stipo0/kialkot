@@ -8,6 +8,8 @@ import Button from "../../components/button/Button";
 import FormCard from "../../components/form-card/FormCard";
 import TextField from "../../components/text-field/TextField";
 
+import { JobTypeEnum } from "../../enums/job.type.enum";
+
 import { JobFormValues, JobModel } from "../../models/job.model";
 
 import { jobsService } from "../../service/job.service";
@@ -30,7 +32,7 @@ const JobEditPage = () => {
   const initialValues: JobFormValues = {
     name: job?.name || "",
     image: job?.image || "",
-    jobType: job?.jobType || "",
+    jobType: job?.jobType || JobTypeEnum.Custom,
     deadline: job?.deadline || "",
     description: job?.description || "",
   };
@@ -39,7 +41,7 @@ const JobEditPage = () => {
   const schema = Yup.object().shape({
     name: Yup.string().required(kotelezo),
     image: Yup.string().required(kotelezo),
-    jobType: Yup.string().required(kotelezo),
+    jobType: Yup.mixed<JobTypeEnum>().required(kotelezo),
     deadline: Yup.string().required(kotelezo),
     description: Yup.string().required(kotelezo),
   });
@@ -74,7 +76,12 @@ const JobEditPage = () => {
         <Form>
           <TextField name="name" label="Név" />
           <TextField name="image" label="Kép url" />
-          <TextField name="jobType" label="Tipus" />
+          <TextField
+            name="jobType"
+            label="Tipus"
+            type="select"
+            options={JobTypeEnum.toOptions}
+          />
           <TextField name="deadline" label="Határidő" type="date" />
           <TextField name="description" label="Leírás" type="textarea" />
           {error ? (
