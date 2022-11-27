@@ -40,6 +40,11 @@ namespace kialkot.Repositories.JobRepository
                 .ToListAsync();
         }
 
+        //check if job exists
+        public Task<bool> JobExistsAsync(int id)
+        {
+            return _context.Jobs.AnyAsync(job => job.Id == id);
+        }
         public Task<List<Job>> GetJobsByCreatorIdAsync(int id)
         {
             return _context.Jobs.Where(x => x.CreatorId == id).ToListAsync();
