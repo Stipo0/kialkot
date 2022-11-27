@@ -7,6 +7,7 @@ namespace kialkot.Repositories.JobRepository
     {
         Task CreateAsync(Job job);
         Task UpdateAsync(Job job);
+        Task DeleteAsync(Job job);
         Task<Job?> GetJobByIdAsync(int id);
         Task<bool> JobExistsAsync(int id);
         Task<List<Job>> GetJobsByStatusAsync(JobStatusEnum status);

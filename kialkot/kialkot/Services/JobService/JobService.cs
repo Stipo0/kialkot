@@ -35,6 +35,23 @@ namespace kialkot.Services.JobService
             };
             await _jobRepository.CreateAsync(job);
         }
+        
+        public async Task UpdateJobAsync(Job job, UpdateJobDto updateJobDto)
+        {
+            job.Name = updateJobDto.Name;
+            job.Image = updateJobDto.Image;
+            job.JobType = updateJobDto.JobType;
+            job.EndDate = updateJobDto.Deadline;
+            job.Description = updateJobDto.Description;
+            job.UpdatedAt = DateTime.UtcNow;
+            await _jobRepository.UpdateAsync(job);
+        }
+        
+        public async Task DeleteJobAsync(Job job)
+        {
+            await _jobRepository.DeleteAsync(job);
+        }
+
         public async Task<List<MinJobDto>> GetJobByStatus(JobStatusEnum status)
         {
             var jobs = await _jobRepository.GetJobsByStatusAsync(status);

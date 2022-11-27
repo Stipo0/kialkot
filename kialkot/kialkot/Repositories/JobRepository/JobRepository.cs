@@ -25,6 +25,12 @@ namespace kialkot.Repositories.JobRepository
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(Job job)
+        {
+            _context.Jobs.Remove(job);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Job?> GetJobByIdAsync(int id)
         {
             return await _context.Jobs
