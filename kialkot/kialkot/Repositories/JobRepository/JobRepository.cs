@@ -14,10 +14,11 @@ namespace kialkot.Repositories.JobRepository
             _context = context;
         }
 
-        public async Task CreateAsync(Job job)
+        public async Task<Job> CreateAsync(Job job)
         {
             await _context.Jobs.AddAsync(job);
             await _context.SaveChangesAsync();
+            return job;
         }
         public async Task UpdateAsync(Job job)
         {

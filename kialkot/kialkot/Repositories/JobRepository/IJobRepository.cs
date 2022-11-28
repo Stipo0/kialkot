@@ -5,7 +5,7 @@ namespace kialkot.Repositories.JobRepository
 {
     public interface IJobRepository
     {
-        Task CreateAsync(Job job);
+        Task<Job> CreateAsync(Job job);
         Task UpdateAsync(Job job);
         Task DeleteAsync(Job job);
         Task<Job?> GetJobByIdAsync(int id);

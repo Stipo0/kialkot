@@ -18,7 +18,7 @@ namespace kialkot.Services.JobService
         }
         
 
-        public async Task CreateJobAsync(User user,CreateJobDto createJobDto)
+        public async Task<JobDto> CreateJobAsync(User user,CreateJobDto createJobDto)
         {
             var job = new Job
             {
@@ -33,7 +33,39 @@ namespace kialkot.Services.JobService
                 UpdatedAt = DateTime.UtcNow,
                 Creator = user,
             };
-            await _jobRepository.CreateAsync(job);
+            job = await _jobRepository.CreateAsync(job);
+            var result = new JobDto
+            {
+                Id = job!.Id,
+                Name = job.Name,
+                Creator = new MinUserDto
+                {
+                    Id = job.Creator.Id,
+                    NickName = job.Creator.NickName,
+                    FirstName = job.Creator.FirstName,
+                    LastName = job.Creator.LastName,
+                    Email = job.Creator.Email,
+                },
+                Image = job.Image,
+                JobType = job.JobType,
+                CreatedAt = job.CreatedAt,
+                Deadline = job.EndDate,
+                JobStatus = job.Status.ToString(),
+                Description = job.Description,
+            };
+            if (job.Worker != null)
+            {
+                result.Worker = new MinUserDto
+                {
+                    Id = job.Worker.Id,
+                    NickName = job.Worker.NickName,
+                    FirstName = job.Worker.FirstName,
+                    LastName = job.Worker.LastName,
+                    Email = job.Worker.Email,
+                };
+            }
+            return result;
+
         }
         
         public async Task UpdateJobAsync(Job job, UpdateJobDto updateJobDto)

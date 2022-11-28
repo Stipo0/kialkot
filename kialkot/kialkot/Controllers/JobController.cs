@@ -44,11 +44,7 @@ namespace kialkot.Controllers
                 return NotFound(new ErrorDto { Error = "User not found" });
             }
 
-            await _jobService.CreateJobAsync(user, request);
-            return Ok(new OkDto
-            {
-                Ok = "Job created"
-            });
+           return Ok(await _jobService.CreateJobAsync(user, request));
         }
 
         [HttpPut("{id}")]
