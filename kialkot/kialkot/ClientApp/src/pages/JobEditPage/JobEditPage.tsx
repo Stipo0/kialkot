@@ -16,25 +16,32 @@ import { JobFormValues, JobModel } from "../../models/job.model";
 import { jobsService } from "../../service/job.service";
 
 import { HanleCatch } from "../../util/handleCatch";
+import { getDataFromTokenModel } from "../../util/token";
 
 const JobEditPage = () => {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<JobModel>();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const userId = getDataFromTokenModel("userId");
 
   useEffect(() => {
-    const fetchJob = async (id: string) => setJob(await jobsService.getJob(id));
+    const fetchJob = async (id: string) => {
+      const data = await jobsService.getJob(id);
+      Number(data.creator.id) === Number(userId) ? 
+        setJob(data) :
+        navigate("/jobs");
+    };
     if (id && Number(id)) {
       fetchJob(id);
     }
-  }, [id]);
+  }, [id, navigate, userId]);
 
   const initialValues: JobFormValues = {
     name: job?.name || "",
     image: job?.image || "",
     jobType: job?.jobType || JobTypeEnum.Custom,
-    deadline: moment(job?.deadline).format('yyyy-MM-DD') || "",
+    deadline: moment(job?.deadline).format("yyyy-MM-DD") || "",
     description: job?.description || "",
   };
 
