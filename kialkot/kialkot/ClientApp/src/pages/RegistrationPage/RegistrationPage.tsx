@@ -73,7 +73,7 @@ const RegistrationPage = () => {
             options={[
               {
                 value: "0",
-                name: "Cég",
+                name: "Munkaadó",
               },
               {
                 value: "1",
