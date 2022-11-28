@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import AccessController from "../../components/access-controller/AccessController";
@@ -18,12 +18,12 @@ import { HanleCatch } from "../../util/handleCatch";
 
 import "./JobPage.scss";
 import moment from "moment";
-
-
+import { getDataFromTokenModel } from "../../util/token";
 
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<JobModel>();
+  const userId = getDataFromTokenModel("userId");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,6 +48,15 @@ const JobPage = () => {
     }
   };
 
+  const deleteJob = async () => {
+    try {
+      if (job) await jobsService.deleteJob(job?.id);
+      navigate("jobs");
+    } catch (e) {
+      alert(HanleCatch(e));
+    }
+  };
+
   const unSubscribeJob = async () => {
     try {
       const values: SubscribeJobModel = {
@@ -65,10 +74,18 @@ const JobPage = () => {
 
   return (
     <>
+    {console.log(Number(userId) === Number(job?.creator.id))}
       <AccessController allowedFor={["User"]}>
+        {Number(userId) === Number(job?.creator.id) && (
+          <>
         <ActionButton onClick={goToCreateJobPage}>
           <FontAwesomeIcon icon={faEdit} />
         </ActionButton>
+          <ActionButton color="danger" onClick={deleteJob}>
+            <FontAwesomeIcon icon={faTrash} />
+          </ActionButton>
+          </>
+        )}
       </AccessController>
       <AccessController allowedFor={["Desinger"]}>
         {job?.jobStatus === JobStatusEnum.InProgress ? (
@@ -87,14 +104,21 @@ const JobPage = () => {
           <br />
           <h6 className="d-inline">Email cím:</h6>
           <p className="d-inline p-2">{job?.creator.email}</p>
-          <p className="d-inline fa-pull-right">{moment(job?.deadline).format('YYYY. MM DD.')}</p>
+          <p className="d-inline fa-pull-right">
+            {moment(job?.deadline).format("YYYY. MM DD.")}
+          </p>
           <hr className="Orange" />
           <h4 className="m-auto">Feladat</h4>
           <h5 className="m-auto">{job?.jobType}</h5>
           <p>{job?.description}</p>
           <hr className="Green" />
           <h5>Mellékletek:</h5>
-          <img className="mb-3" src={`${job?.image}`} alt={job?.name} width="50%" />
+          <img
+            className="mb-3"
+            src={`${job?.image}`}
+            alt={job?.name}
+            width="50%"
+          />
           <br />
           <h5 className="d-inline">Állapot: </h5>
           <p className="d-inline">{job?.jobStatus}</p>

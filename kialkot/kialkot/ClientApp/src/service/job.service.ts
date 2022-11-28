@@ -39,6 +39,13 @@ class JobsService {
     });
   }
 
+  async deleteJob(id: number) {
+    return request<JobModel>({
+      method: Methods.DELETE,
+      resource: `api/Job/${id}`,
+    });
+  }
+
   async subscribeJob(data: SubscribeJobModel) {
     return request<JobModel>({
       method: Methods.POST,
