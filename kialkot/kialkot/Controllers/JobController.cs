@@ -210,7 +210,7 @@ namespace kialkot.Controllers
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
         [SwaggerResponse(404)]
-        public async Task<ActionResult> ChangeJobStatus(int id, [FromBody] JobStatusChangeEnum request, ChangeJobImage image)
+        public async Task<ActionResult> ChangeJobStatus(int id, [FromBody] JobStatusChange request)
         {
             var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
             if (user == null)
@@ -234,7 +234,7 @@ namespace kialkot.Controllers
                 return BadRequest(new ErrorDto { Error = "You are not the worker of this job" });
             }
 
-            await _jobService.DesingerUpdateJobStatus(job, request,image);
+            await _jobService.DesingerUpdateJobStatus(job, request);
             return Ok(await _jobService.GetJobById(id));
         }
 
