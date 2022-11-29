@@ -50,7 +50,7 @@ namespace kialkot.Services.JobService
                 JobType = job.JobType,
                 CreatedAt = job.CreatedAt,
                 Deadline = job.EndDate,
-                JobStatus = job.Status.ToString(),
+                JobStatus = job.Status,
                 Description = job.Description,
             };
             if (job.Worker != null)
@@ -130,7 +130,7 @@ namespace kialkot.Services.JobService
                 JobType = job.JobType,
                 CreatedAt = job.CreatedAt,
                 Deadline = job.EndDate,
-                JobStatus = job.Status.ToString(),
+                JobStatus = job.Status,
                 Description = job.Description,
             };
             if (job.Worker != null)

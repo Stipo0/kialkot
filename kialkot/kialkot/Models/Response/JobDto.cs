@@ -12,7 +12,7 @@ namespace kialkot.Models.Response
         public DateTime Deadline { get; set; }
         public string Description { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
-        public string JobStatus { get; set; } = string.Empty;
+        public JobStatusEnum JobStatus { get; set; }
         public MinUserDto Worker { get; set; } = null!;
 
     }
