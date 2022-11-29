@@ -11,13 +11,14 @@ export interface JobModel {
   deadline: string;
   description: string;
   jobStatus: JobStatusEnum;
+  worker?: MinJobModel;
 }
 
 export interface MinJobModel
-  extends Omit<JobModel, "description" | "jobStatus"> {}
+  extends Omit<JobModel, "description" | "jobStatus" | "worker"> {}
 
 export interface JobFormValues
-  extends Omit<JobModel, "id" | "jobStatus" | "creator"> {}
+  extends Omit<JobModel, "id" | "jobStatus" | "creator" | "worker"> {}
 
 export interface SubscribeJobModel {
   jobId?: number;

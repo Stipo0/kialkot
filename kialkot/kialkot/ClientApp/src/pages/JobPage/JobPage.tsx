@@ -9,8 +9,6 @@ import AccessController from "../../components/access-controller/AccessControlle
 import Page from "../../components/page/Page";
 import ActionButton from "../../components/action-button/ActionButton";
 
-import { JobStatusEnum } from "../../enums/job.status.enum";
-
 import { JobModel } from "../../models/job.model";
 
 import { jobsService } from "../../service/job.service";
@@ -87,12 +85,12 @@ const JobPage = () => {
         )}
       </AccessController>
       <AccessController allowedFor={["Desinger"]}>
-        {job?.jobStatus === JobStatusEnum.Open ? (
-          <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
-        ) : (
+        {Number(userId) === Number(job?.worker?.id) ? (
           <ActionButton onClick={rejectJob} color="secondary">
             Munka leadása
           </ActionButton>
+          ) : (
+          <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
         )}
       </AccessController>
       <Page title={`${job?.name} részletes reírás`}>
