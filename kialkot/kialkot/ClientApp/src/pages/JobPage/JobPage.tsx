@@ -74,7 +74,6 @@ const JobPage = () => {
 
   return (
     <>
-    {console.log(Number(userId) === Number(job?.creator.id))}
       <AccessController allowedFor={["User"]}>
         {Number(userId) === Number(job?.creator.id) && (
           <>
