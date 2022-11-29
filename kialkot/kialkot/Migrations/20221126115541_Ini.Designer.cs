@@ -11,7 +11,7 @@ using kialkot.Data;
 namespace kialkot.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221116090936_Ini")]
+    [Migration("20221126115541_Ini")]
     partial class Ini
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,54 @@ namespace kialkot.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("CustomTokens");
+                });
+
+            modelBuilder.Entity("kialkot.Models.Domain.Job", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("JobType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int?>("WorkerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("WorkerId");
+
+                    b.ToTable("Jobs");
                 });
 
             modelBuilder.Entity("kialkot.Models.Domain.User", b =>
@@ -120,9 +168,31 @@ namespace kialkot.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("kialkot.Models.Domain.Job", b =>
+                {
+                    b.HasOne("kialkot.Models.Domain.User", "Creator")
+                        .WithMany("CreatedJobs")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("kialkot.Models.Domain.User", "Worker")
+                        .WithMany("WorkedJobs")
+                        .HasForeignKey("WorkerId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Worker");
+                });
+
             modelBuilder.Entity("kialkot.Models.Domain.User", b =>
                 {
+                    b.Navigation("CreatedJobs");
+
                     b.Navigation("CustomTokens");
+
+                    b.Navigation("WorkedJobs");
                 });
 #pragma warning restore 612, 618
         }

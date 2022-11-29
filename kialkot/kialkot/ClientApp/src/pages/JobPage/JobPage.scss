@@ -1,0 +1,19 @@
+@import  "../../styles/variables";
+
+.description {
+	white-space: pre;
+}
+
+hr {
+	border: 3px solid !important;
+	opacity: 1 !important;
+	
+}
+
+.Orange {
+	color: $orange-color !important;
+}
+
+.Green {
+	color: $green-color !important;
+}

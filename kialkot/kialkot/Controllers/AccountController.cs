@@ -47,7 +47,7 @@ namespace kialkot.Controllers
                 return BadRequest(new ErrorDto { Error = "Email already exists" });
             }
             if (await _userService.RegisterUser(request))
-                {
+            {
                 return Ok(new OkDto
                 {
                     Ok = "Registration successful"
@@ -100,7 +100,6 @@ namespace kialkot.Controllers
         [AllowAnonymous]
         [HttpPost("verifyaccount")]
         [SwaggerResponse(200)]
-        [SwaggerResponse(400)]
         public async Task<ActionResult> VerifyAccount(string token)
         {
             if (await _customTokenRepository.TokenIsValid(token, TokenType.VerificationToken))
@@ -115,16 +114,16 @@ namespace kialkot.Controllers
                         await _userRepository.UpdateAsync(user);
                         tokenEntity.IsValid = false;
                         await _customTokenRepository.UpdateAsync(tokenEntity);
-                        return Ok(new OkDto
+                        return Ok(new IsValidDto
                         {
-                            Ok = "Account verified"
+                            IsValid = true
                         });
                     }
                 }
             }
-            return BadRequest(new ErrorDto
+            return Ok(new IsValidDto
             {
-                Error = "Invalid token"
+                IsValid = false
             });
         }
 
@@ -153,28 +152,24 @@ namespace kialkot.Controllers
         [SwaggerResponse(404)]
         public async Task<ActionResult<UserMeDto>> Me()
         {
-            if (_httpAccessorService.IsVerified())
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+
+            if (user == null)
             {
-                var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
-
-                if (user == null)
-                {
-                    return NotFound(new ErrorDto { Error = "User not found" });
-                }
-
-                return Ok(new UserMeDto
-                {
-                    NickName = user.NickName,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    Verified = user.Verified,
-                    Role = user.Role.ToString(),
-                    CreatedAt = user.CreatedAt,
-                    UpdatedAt = user.UpdatedAt
-                });
+                return NotFound(new ErrorDto { Error = "User not found" });
             }
-            return BadRequest(new ErrorDto { Error = "User not verified" });
+
+            return Ok(new UserMeDto
+            {
+                NickName = user.NickName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Verified = user.Verified,
+                Role = user.Role.ToString(),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt
+            });
         }
 
         [HttpPut("update")]
@@ -183,41 +178,43 @@ namespace kialkot.Controllers
         [SwaggerResponse(404)]
         public async Task<ActionResult> Update([FromBody] UpdateUserDto request)
         {
-            if (_httpAccessorService.IsVerified())
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+
+            if (user == null)
             {
-                var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
-
-                if (user == null)
-                {
-                    return NotFound(new ErrorDto { Error = "User not found" });
-                }
-                if (request.NickName != user.NickName && await _userRepository.CheckExistName(request.NickName))
-                {
-                    return BadRequest(new ErrorDto { Error = "Username already exists" });
-                }
-                if (request.Email != user.Email && await _userRepository.CheckExistEmail(request.Email))
-                {
-                    return BadRequest(new ErrorDto { Error = "Email already exists" });
-                }
-                if (await _userService.UpdateUser(user, request))
-                {
-                    user = await _userRepository.GetByIdAsync(user.Id);
-                    return Ok(new UserMeDto
-                    {
-                        NickName = user.NickName,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Email = user.Email,
-                        Verified = user.Verified,
-                        Role = user.Role.ToString(),
-                        CreatedAt = user.CreatedAt,
-                        UpdatedAt = user.UpdatedAt
-                    });
-                }
-                return BadRequest(new ErrorDto { Error = "Update failed" });
-
+                return NotFound(new ErrorDto { Error = "User not found" });
             }
-            return BadRequest(new ErrorDto { Error = "User not verified" });
+            if (request.NickName != user.NickName && await _userRepository.CheckExistName(request.NickName))
+            {
+                return BadRequest(new ErrorDto { Error = "Username already exists" });
+            }
+            if (request.Email != user.Email && await _userRepository.CheckExistEmail(request.Email))
+            {
+                return BadRequest(new ErrorDto { Error = "Email already exists" });
+            }
+
+            if (!await _userService.UpdateUser(user, request))
+            {
+                return BadRequest(new ErrorDto { Error = "Current Password is incorrect" });
+            }
+            
+            user = await _userRepository.GetByIdAsync(user.Id);
+            if (user is null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            
+            return Ok(new UserMeDto
+            {
+                NickName = user.NickName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Verified = user.Verified,
+                Role = user.Role.ToString(),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt
+            });
         }
     }
 }

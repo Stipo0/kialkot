@@ -22,9 +22,13 @@ export interface NavbarProps {
 }
 
 const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
-  const nickName = getDataFromTokenModel("nickName");
+  const nickName = getDataFromTokenModel("NickName");
   const location = useLocation();
   const routes: RouteConfig[] = [
+    {
+      link: "/jobs",
+      label: "Munkák",
+    },
     {
       link: "/profil",
       label: "Profil",

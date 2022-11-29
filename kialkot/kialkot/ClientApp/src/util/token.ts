@@ -4,7 +4,7 @@ import { AUTH_TOKEN } from "./constants";
 
 interface TokenModel {
   userId: number;
-  nickName: string;
+  NickName: string;
   role: Role | null;
   exp: string;
 }

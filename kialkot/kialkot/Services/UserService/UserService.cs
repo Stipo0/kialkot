@@ -40,12 +40,14 @@ namespace kialkot.Services.UserService
                     Email = request.Email,
                     PasswordHash = passwordHash,
                     PasswordSalt = passwordSalt,
-                    Role = Role.User,
                     Verified = false,
                     CreatedAt = DateTime.UtcNow,
                     UpdatedAt = DateTime.UtcNow
                 };
 
+                if (request.IsDesinger == "1") { user.Role = Role.Desinger; }
+                if (request.IsDesinger == "0") { user.Role = Role.User; }
+                
                 var customToken = new CustomToken
                 {
                     Token = Guid.NewGuid().ToString(),
@@ -158,20 +160,24 @@ namespace kialkot.Services.UserService
 
         public async Task<bool> UpdateUser(User user, UpdateUserDto request)
         {
+            if (!VerifyPassword(request.CurrentPassword,user.PasswordHash,user.PasswordSalt)) { return false; }
             user.NickName = request.NickName;
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Email = request.Email;
 
-            if (!VerifyPassword(request.Password, user.PasswordHash, user.PasswordSalt))
+            if (request.NewPassword != string.Empty)
             {
-                using (var hmac = new HMACSHA512())
+                if (!VerifyPassword(request.NewPassword, user.PasswordHash, user.PasswordSalt))
                 {
-                    var passwordSalt = hmac.Key;
-                    var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.Password));
+                    using (var hmac = new HMACSHA512())
+                    {
+                        var passwordSalt = hmac.Key;
+                        var passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(request.NewPassword));
 
-                    user.PasswordHash = passwordHash;
-                    user.PasswordSalt = passwordSalt;
+                        user.PasswordHash = passwordHash;
+                        user.PasswordSalt = passwordSalt;
+                    }
                 }
             }
             user.UpdatedAt = DateTime.UtcNow;

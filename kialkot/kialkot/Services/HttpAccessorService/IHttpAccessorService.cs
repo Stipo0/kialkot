@@ -3,6 +3,6 @@
     public interface IHttpAccessorService
     {
         int GetUserId();
-        bool IsVerified();
+        string GetRole();
     }
 }

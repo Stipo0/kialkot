@@ -1,5 +1,6 @@
 export interface ResponseModel {
-	error?: string;
-	ok?: string;
-	isValid?: boolean;
+  error?: string;
+  ok?: string;
+  isValid?: boolean;
+  title?: string;
 }

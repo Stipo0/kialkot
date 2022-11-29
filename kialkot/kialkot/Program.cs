@@ -1,8 +1,10 @@
 using kialkot.Data;
 using kialkot.Models.Options;
 using kialkot.Repositories.CustomTokenRepository;
+using kialkot.Repositories.JobRepository;
 using kialkot.Repositories.UserRepository;
 using kialkot.Services.HttpAccesorService;
+using kialkot.Services.JobService;
 using kialkot.Services.JwtTokenService;
 using kialkot.Services.RefreshTokenService;
 using kialkot.Services.SmtpService;
@@ -13,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +74,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ICustomTokenRepository, CustomTokenRepository>();
 builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<ISmtpService, SmtpService>();
+builder.Services.AddScoped<IJobService, JobService>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
 
 
 builder.Services.AddHttpContextAccessor();
@@ -85,6 +90,8 @@ builder.Services.AddCors(options =>
         );
 });
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options => { options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); });
 
 var app = builder.Build();
 

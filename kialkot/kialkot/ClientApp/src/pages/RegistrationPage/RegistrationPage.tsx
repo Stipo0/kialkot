@@ -8,7 +8,7 @@ import Button from "../../components/button/Button";
 import FormCard from "../../components/form-card/FormCard";
 import TextField from "../../components/text-field/TextField";
 
-import { StoreAndUpdateCredentialsModel } from "../../models/user.model";
+import { StoreCredentialsModel } from "../../models/user.model";
 
 import { userService } from "../../service/user.service";
 import { HanleCatch } from "../../util/handleCatch";
@@ -17,7 +17,8 @@ const RegistrationPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const initialValues: StoreAndUpdateCredentialsModel = {
+  const initialValues: StoreCredentialsModel = {
+    isDesinger: "",
     email: "",
     nickName: "",
     firstName: "",
@@ -28,6 +29,7 @@ const RegistrationPage = () => {
 
   const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
+    isDesinger: Yup.string().required(kotelezo),
     email: Yup.string().email().required(kotelezo),
     nickName: Yup.string().required(kotelezo),
     firstName: Yup.string().required(kotelezo),
@@ -39,7 +41,7 @@ const RegistrationPage = () => {
     ]),
   });
 
-  const handleSubmit = async (values: StoreAndUpdateCredentialsModel) => {
+  const handleSubmit = async (values: StoreCredentialsModel) => {
     try {
       await userService.storeMe(values);
       alert("A regisztrációt emialben erősítheted meg!");
@@ -64,6 +66,21 @@ const RegistrationPage = () => {
         validateOnMount
       >
         <Form>
+          <TextField
+            name="isDesinger"
+            label="Foglalkozás"
+            type="select"
+            options={[
+              {
+                value: "0",
+                name: "Munkaadó",
+              },
+              {
+                value: "1",
+                name: "Grafikus",
+              },
+            ]}
+          />
           <TextField name="nickName" label="Felhasználó név" />
           <TextField name="lastName" label="Vezetéknév" />
           <TextField name="firstName" label="Keresztnév" />
