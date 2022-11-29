@@ -47,6 +47,20 @@ namespace kialkot.Repositories.JobRepository
                 .ToListAsync();
         }
 
+        public Task<List<Job>> GetJobsByStatusAndCreatorIdAsync(JobStatusEnum status, int creatorId)
+        {
+            return _context.Jobs.Include(job => job.Creator)
+                .Where(x => x.Status == status && x.CreatorId == creatorId)
+                .ToListAsync();
+        }
+
+        public Task<List<Job>> GetJobsByStatusAndWorkerIdAsync(JobStatusEnum status, int workerId)
+        {
+            return _context.Jobs.Include(job => job.Creator)
+                .Where(x => x.Status == status && (x.WorkerId == workerId || x.WorkerId == null))
+                .ToListAsync();
+        }
+
         public Task<bool> JobExistsAsync(int id)
         {
             return _context.Jobs.AnyAsync(job => job.Id == id);

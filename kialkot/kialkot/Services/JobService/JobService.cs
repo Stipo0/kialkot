@@ -84,9 +84,18 @@ namespace kialkot.Services.JobService
             await _jobRepository.DeleteAsync(job);
         }
 
-        public async Task<List<MinJobDto>> GetJobByStatus(JobStatusEnum status)
+        public async Task<List<MinJobDto>> GetJobByStatus(JobStatusEnum status,User user)
         {
-            var jobs = await _jobRepository.GetJobsByStatusAsync(status);
+            var jobs = new List<Job>();
+            if (user.Role == Role.User)
+                jobs = await _jobRepository.GetJobsByStatusAndCreatorIdAsync(status, user.Id);
+
+            if (user.Role == Role.Desinger)
+                jobs = await _jobRepository.GetJobsByStatusAndWorkerIdAsync(status, user.Id);
+
+            if (user.Role == Role.Admin)
+                jobs = await _jobRepository.GetJobsByStatusAsync(status);
+            
             List<MinJobDto> minJobs = new List<MinJobDto>();
             foreach (var job in jobs)
             {

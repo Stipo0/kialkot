@@ -109,9 +109,14 @@ namespace kialkot.Controllers
         [SwaggerResponse(400)]
         public async Task<ActionResult> GetJobsByStatus(JobStatusEnum status)
         {
-            return Ok(await _jobService.GetJobByStatus(status));
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            return Ok(await _jobService.GetJobByStatus(status, user));
         }
-        
+
         [HttpGet ("{id}")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
