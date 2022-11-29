@@ -126,5 +126,116 @@ namespace kialkot.Controllers
             
             return Ok(await _jobService.GetJobById(id));
         }
+
+        [HttpPut("desinger/acceptjob/{id}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
+        public async Task<ActionResult> AcceptJob(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+
+            if (user.Role != Role.Desinger)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not a designer" });
+            }
+
+            var job = await _jobRepository.GetJobByIdAsync(id);
+            if (job == null)
+            {
+                return NotFound(new ErrorDto { Error = "Job not found" });
+            }
+
+            if (job.WorkerId != null)
+            {
+                return BadRequest(new ErrorDto { Error = "Job already has a worker" });
+            }
+            if (job.WorkerId == user.Id)
+            {
+                return BadRequest(new ErrorDto { Error = "You have this job" });
+            }
+
+            await _jobService.DesingerAcceptJob(job, user);
+            return Ok(new OkDto
+            {
+                Ok = "Job accepted"
+            });
+        }
+
+        [HttpPut("desinger/rejectjob/{id}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
+        public async Task<ActionResult> RejectJob(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+
+            if (user.Role != Role.Desinger)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not a designer" });
+            }
+
+            var job = await _jobRepository.GetJobByIdAsync(id);
+            if (job == null)
+            {
+                return NotFound(new ErrorDto { Error = "Job not found" });
+            }
+
+            if (job.WorkerId != null)
+            {
+                return BadRequest(new ErrorDto { Error = "Job already has a worker" });
+            }
+            if (job.CreatorId == user.Id)
+            {
+                return BadRequest(new ErrorDto { Error = "You have this job" });
+            }
+
+            await _jobService.DesingerCancelJob(job);
+            return Ok(new OkDto
+            {
+                Ok = "Job canceled"
+            });
+        }
+
+        [HttpPut("desinger/changejobstatus/{id}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
+        public async Task<ActionResult> ChangeJobStatus(int id, [FromBody] JobStatusChangeEnum request)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            
+            if (user.Role != Role.Desinger)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not a designer" });
+            }
+
+            var job = await _jobRepository.GetJobByIdAsync(id);
+            if (job == null)
+            {
+                return NotFound(new ErrorDto { Error = "Job not found" });
+            }
+
+            if (job.WorkerId != user.Id)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not the worker of this job" });
+            }
+
+            await _jobService.DesingerUpdateJobStatus(job, request);
+            return Ok(await _jobService.GetJobById(id));
+        }
+
     }
 }

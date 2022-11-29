@@ -146,5 +146,30 @@ namespace kialkot.Services.JobService
             }
             return result;
         }
+
+        public async Task DesingerAcceptJob(Job job, User user)
+        {
+            job.WorkerId = user.Id;
+            job.Worker = user;
+            job.Status = JobStatusEnum.Waiting;
+            job.UpdatedAt = DateTime.UtcNow;
+            await _jobRepository.UpdateAsync(job);
+        }
+
+        public async Task DesingerUpdateJobStatus(Job job, JobStatusChangeEnum status)
+        {
+            job.Status = (JobStatusEnum)status;
+            job.UpdatedAt = DateTime.UtcNow;
+            await _jobRepository.UpdateAsync(job);
+        }
+
+        public async Task DesingerCancelJob(Job job)
+        {
+            job.WorkerId = null;
+            job.Worker = null;
+            job.Status = JobStatusEnum.Open;
+            job.UpdatedAt = DateTime.UtcNow;
+            await _jobRepository.UpdateAsync(job);
+        }
     }
 }
