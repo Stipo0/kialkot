@@ -26,7 +26,7 @@ class JobsService {
     return request<JobModel>({
       method: Methods.PUT,
       data,
-      resource: `api/Jobs/${jobId}`,
+      resource: `api/Job/${jobId}`,
     });
   }
 
