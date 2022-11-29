@@ -3,22 +3,23 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from "moment";
 
 import AccessController from "../../components/access-controller/AccessController";
 import Page from "../../components/page/Page";
 import ActionButton from "../../components/action-button/ActionButton";
 
 import { JobStatusEnum } from "../../enums/job.status.enum";
+import { JobTypeEnum } from "../../enums/job.type.enum";
 
 import { JobModel, SubscribeJobModel } from "../../models/job.model";
 
 import { jobsService } from "../../service/job.service";
 
 import { HanleCatch } from "../../util/handleCatch";
+import { getDataFromTokenModel } from "../../util/token";
 
 import "./JobPage.scss";
-import moment from "moment";
-import { getDataFromTokenModel } from "../../util/token";
 
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -108,8 +109,8 @@ const JobPage = () => {
           </p>
           <hr className="Orange" />
           <h4 className="m-auto">Feladat</h4>
-          <h5 className="m-auto">{job?.jobType}</h5>
-          <p>{job?.description}</p>
+          <h5 className="m-auto">{JobTypeEnum.toString(job?.jobType as JobTypeEnum)}</h5>
+          <p className="description">{job?.description}</p>
           <hr className="Green" />
           <h5>Mellékletek:</h5>
           <img
