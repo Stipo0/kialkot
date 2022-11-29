@@ -10,7 +10,6 @@ import Page from "../../components/page/Page";
 import ActionButton from "../../components/action-button/ActionButton";
 
 import { JobStatusEnum } from "../../enums/job.status.enum";
-import { JobTypeEnum } from "../../enums/job.type.enum";
 
 import { JobModel, SubscribeJobModel } from "../../models/job.model";
 
@@ -109,7 +108,7 @@ const JobPage = () => {
           </p>
           <hr className="Orange" />
           <h4 className="m-auto">Feladat</h4>
-          <h5 className="m-auto">{JobTypeEnum.toString(job?.jobType as JobTypeEnum)}</h5>
+          <h5 className="m-auto">{job?.jobType}</h5>
           <p className="description">{job?.description}</p>
           <hr className="Green" />
           <h5>Mellékletek:</h5>
