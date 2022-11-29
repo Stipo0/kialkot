@@ -1,3 +1,4 @@
+import { JobStatusEnum } from "../enums/job.status.enum";
 import {
   JobModel,
   MinJobModel,
@@ -7,10 +8,10 @@ import {
 import request, { Methods } from "../util/request";
 
 class JobsService {
-  async getJobs() {
+  async getJobs(jobstatus: JobStatusEnum) {
     return request<MinJobModel[]>({
       method: Methods.GET,
-      resource: "api/Job/jobs/Open",
+      resource: `api/Job/jobs/${jobstatus}`,
     });
   }
 
@@ -26,7 +27,7 @@ class JobsService {
     return request<JobModel>({
       method: Methods.PUT,
       data,
-      resource: `api/Jobs/${jobId}`,
+      resource: `api/Job/${jobId}`,
     });
   }
 

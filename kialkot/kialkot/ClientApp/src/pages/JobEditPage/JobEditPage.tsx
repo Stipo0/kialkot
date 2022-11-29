@@ -28,9 +28,9 @@ const JobEditPage = () => {
   useEffect(() => {
     const fetchJob = async (id: string) => {
       const data = await jobsService.getJob(id);
-      Number(data.creator.id) === Number(userId) ? 
-        setJob(data) :
-        navigate("/jobs");
+      Number(data.creator.id) === Number(userId)
+        ? setJob(data)
+        : navigate("/jobs");
     };
     if (id && Number(id)) {
       fetchJob(id);
@@ -56,11 +56,12 @@ const JobEditPage = () => {
 
   const handleSubmit = async (values: JobFormValues) => {
     try {
-      if (job?.id) {
-        setJob(await jobsService.update(values, job.id));
-      } else {
-        setJob(await jobsService.store(values));
-      }
+      setJob(
+        job?.id
+          ? await jobsService.update(values, job.id)
+          : await jobsService.store(values)
+      );
+      console.info(job);
       navigate(`/job/${job?.id}`);
     } catch (e) {
       setError(HanleCatch(e));
