@@ -3,8 +3,8 @@ import {
   JobModel,
   MinJobModel,
   JobFormValues,
-  SubscribeJobModel,
 } from "../models/job.model";
+import { ResponseModel } from "../models/response.model";
 import request, { Methods } from "../util/request";
 
 class JobsService {
@@ -39,25 +39,23 @@ class JobsService {
   }
 
   async deleteJob(id: number) {
-    return request<JobModel>({
+    return request<ResponseModel>({
       method: Methods.DELETE,
       resource: `api/Job/${id}`,
     });
   }
 
-  async subscribeJob(data: SubscribeJobModel) {
-    return request<JobModel>({
-      method: Methods.POST,
-      data,
-      resource: `api/Jobs/enroll`,
+  async acceptJob(id: number) {
+    return request<ResponseModel>({
+      method: Methods.PUT,
+      resource: `api/Job/desinger/acceptjob/${id}`,
     });
   }
 
-  async unSubscribeJob(data: SubscribeJobModel) {
-    return request<JobModel>({
-      method: Methods.DELETE,
-      data,
-      resource: `api/Jobs/enroll`,
+  async rejectJob(id: number) {
+    return request<ResponseModel>({
+      method: Methods.PUT,
+      resource: `api/Job/desinger/rejectjob/${id}`,
     });
   }
 }

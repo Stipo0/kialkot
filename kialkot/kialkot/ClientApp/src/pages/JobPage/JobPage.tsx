@@ -11,7 +11,7 @@ import ActionButton from "../../components/action-button/ActionButton";
 
 import { JobStatusEnum } from "../../enums/job.status.enum";
 
-import { JobModel, SubscribeJobModel } from "../../models/job.model";
+import { JobModel } from "../../models/job.model";
 
 import { jobsService } from "../../service/job.service";
 
@@ -37,12 +37,10 @@ const JobPage = () => {
     }
   }, [id, navigate]);
 
-  const subscribeJob = async () => {
+  const acceptJob = async () => {
     try {
-      const values: SubscribeJobModel = {
-        jobId: job?.id,
-      };
-      alert(await jobsService.subscribeJob(values));
+      alert(await (await jobsService.acceptJob(job?.id as number)).ok);
+      refreshPage();
     } catch (e) {
       alert(HanleCatch(e));
     }
@@ -50,22 +48,24 @@ const JobPage = () => {
 
   const deleteJob = async () => {
     try {
-      if (job) await jobsService.deleteJob(job?.id);
+      if (job) await jobsService.deleteJob(job?.id as number);
       navigate("jobs");
     } catch (e) {
       alert(HanleCatch(e));
     }
   };
 
-  const unSubscribeJob = async () => {
+  const rejectJob = async () => {
     try {
-      const values: SubscribeJobModel = {
-        jobId: job?.id,
-      };
-      alert(await jobsService.unSubscribeJob(values));
+      alert(await (await jobsService.rejectJob(job?.id as number)).ok);
+      refreshPage();
     } catch (e) {
       alert(HanleCatch(e));
     }
+  };
+
+  const refreshPage = () => {
+    navigate(`job/${job?.id}`);
   };
 
   const goToCreateJobPage = () => {
@@ -77,22 +77,22 @@ const JobPage = () => {
       <AccessController allowedFor={["User"]}>
         {Number(userId) === Number(job?.creator.id) && (
           <>
-        <ActionButton onClick={goToCreateJobPage}>
-          <FontAwesomeIcon icon={faEdit} />
-        </ActionButton>
-          <ActionButton color="danger" onClick={deleteJob}>
-            <FontAwesomeIcon icon={faTrash} />
-          </ActionButton>
+            <ActionButton onClick={goToCreateJobPage}>
+              <FontAwesomeIcon icon={faEdit} />
+            </ActionButton>
+            <ActionButton color="danger" onClick={deleteJob}>
+              <FontAwesomeIcon icon={faTrash} />
+            </ActionButton>
           </>
         )}
       </AccessController>
       <AccessController allowedFor={["Desinger"]}>
-        {job?.jobStatus === JobStatusEnum.InProgress ? (
-          <ActionButton onClick={unSubscribeJob} color="secondary">
+        {job?.jobStatus === JobStatusEnum.Open ? (
+          <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
+        ) : (
+          <ActionButton onClick={rejectJob} color="secondary">
             Munka leadása
           </ActionButton>
-        ) : (
-          <ActionButton onClick={subscribeJob}>Munka felvétele</ActionButton>
         )}
       </AccessController>
       <Page title={`${job?.name} részletes reírás`}>
