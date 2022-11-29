@@ -194,13 +194,9 @@ namespace kialkot.Controllers
                 return NotFound(new ErrorDto { Error = "Job not found" });
             }
 
-            if (job.WorkerId != null)
+            if (job.WorkerId != user.Id)
             {
-                return BadRequest(new ErrorDto { Error = "Job already has a worker" });
-            }
-            if (job.CreatorId == user.Id)
-            {
-                return BadRequest(new ErrorDto { Error = "You have this job" });
+                return BadRequest(new ErrorDto { Error = "You are not the worker of this job" });
             }
 
             await _jobService.DesingerCancelJob(job);
@@ -214,7 +210,7 @@ namespace kialkot.Controllers
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
         [SwaggerResponse(404)]
-        public async Task<ActionResult> ChangeJobStatus(int id, [FromBody] JobStatusChangeEnum request)
+        public async Task<ActionResult> ChangeJobStatus(int id, [FromBody] JobStatusChangeEnum request, ChangeJobImage image)
         {
             var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
             if (user == null)
@@ -238,7 +234,7 @@ namespace kialkot.Controllers
                 return BadRequest(new ErrorDto { Error = "You are not the worker of this job" });
             }
 
-            await _jobService.DesingerUpdateJobStatus(job, request);
+            await _jobService.DesingerUpdateJobStatus(job, request,image);
             return Ok(await _jobService.GetJobById(id));
         }
 

@@ -165,8 +165,9 @@ namespace kialkot.Services.JobService
             await _jobRepository.UpdateAsync(job);
         }
 
-        public async Task DesingerUpdateJobStatus(Job job, JobStatusChangeEnum status)
+        public async Task DesingerUpdateJobStatus(Job job, JobStatusChangeEnum status,string image)
         {
+            job.Image = image;
             job.Status = (JobStatusEnum)status;
             job.UpdatedAt = DateTime.UtcNow;
             await _jobRepository.UpdateAsync(job);

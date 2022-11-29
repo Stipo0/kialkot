@@ -13,7 +13,7 @@ namespace kialkot.Services.JobService
         Task UpdateJobAsync(Job job, UpdateJobDto updateJobDto);
         Task DeleteJobAsync(Job job);
         Task DesingerAcceptJob(Job job, User user);
-        Task DesingerUpdateJobStatus(Job job, JobStatusChangeEnum status);
+        Task DesingerUpdateJobStatus(Job job, JobStatusChangeEnum status, string image);
         Task DesingerCancelJob(Job job);
 
 
