@@ -19,7 +19,7 @@ export namespace JobTypeEnum {
   export const toOptions: OptionValues[] = Object.values(JobTypeEnum)
     .filter((value) => typeof value === "string")
     .map((value) => ({
-      value: JobTypeEnum[value as number],
+      value: value as string,
       name: value as string,
     }));
 }

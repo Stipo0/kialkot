@@ -61,8 +61,7 @@ const JobEditPage = () => {
           ? await jobsService.update(values, job.id)
           : await jobsService.store(values)
       );
-      console.info(job);
-      navigate(`/job/${job?.id}`);
+      navigate(job?.id ? `/job/${job?.id}` : "/jobs");
     } catch (e) {
       setError(HanleCatch(e));
     }
