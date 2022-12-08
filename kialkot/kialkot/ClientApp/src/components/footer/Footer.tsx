@@ -23,7 +23,7 @@ const Footer = () => {
             </p>
             <p>
               <img className="ikon" alt="ikon" src={Email} />
-              paptutu@gmail.com
+              <a href="mailto:kialkotproject@gmail.com">kialkotproject@gmail.com</a>
             </p>
           </td>
           <td>
