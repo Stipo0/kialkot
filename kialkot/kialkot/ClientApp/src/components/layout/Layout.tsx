@@ -13,7 +13,7 @@ const Layout = ({ isLoggedIn, setToken }: NavbarProps) => {
         <Navbar isLoggedIn={isLoggedIn} setToken={setToken} />
       </header>
       <Background />
-      <div className="MainContainer">
+      <div className="MainContainer pb-3">
         <Outlet />
       </div>
       <Footer />
