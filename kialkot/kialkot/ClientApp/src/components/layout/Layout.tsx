@@ -1,7 +1,10 @@
 import { Outlet } from "react-router-dom";
+import Footer from "../footer/Footer";
 
 import Navbar, { NavbarProps } from "../navbar/Navbar";
-import SideBand from "../side-band/SideBand";
+import Background from "../background/Background";
+
+import "./Layout.scss";
 
 const Layout = ({ isLoggedIn, setToken }: NavbarProps) => {
   return (
@@ -9,11 +12,11 @@ const Layout = ({ isLoggedIn, setToken }: NavbarProps) => {
       <header className="App-header">
         <Navbar isLoggedIn={isLoggedIn} setToken={setToken} />
       </header>
-      <SideBand />
-      <div className="MainContainer">
+      <Background />
+      <div className="MainContainer pb-3">
         <Outlet />
       </div>
-      <SideBand side="right" />
+      <Footer />
     </div>
   );
 };

@@ -15,8 +15,6 @@ import JobEditPage from "./pages/JobEditPage/JobEditPage";
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
 
-import "./App.scss";
-
 interface AppProps {}
 
 interface AppState {
