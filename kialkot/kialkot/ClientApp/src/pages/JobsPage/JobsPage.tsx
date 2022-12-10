@@ -19,12 +19,14 @@ const JobsPage = ({ isLoggedIn }: JobsPageProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      setJobs(await jobsService.getJobs(JobStatusEnum.Open));
+    const fetchJobs = async (isLoggedIn:boolean) => {
+      isLoggedIn ?
+      setJobs(await jobsService.getJobs(JobStatusEnum.Open)) :
+      setJobs(await jobsService.getJobsAnonim());
     };
 
-    fetchJobs();
-  }, []);
+    fetchJobs(isLoggedIn);
+  }, [isLoggedIn]);
 
   const fetchJobs = async (jobStatus: JobStatusEnum) => {
     try {
