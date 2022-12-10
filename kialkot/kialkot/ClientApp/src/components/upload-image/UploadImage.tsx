@@ -1,5 +1,5 @@
 import Alert from "@mui/material/Alert";
-import { Form, Formik } from "formik";
+import { useFormik, Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -8,6 +8,7 @@ import { JobStatusEnum } from "../../enums/job.status.enum";
 import { ChangeJobStatusModel, JobModel } from "../../models/job.model";
 import { jobsService } from "../../service/job.service";
 import { HanleCatch } from "../../util/handleCatch";
+import BaseField from "../base-field/BaseField";
 import Button from "../button/Button";
 import FormCard from "../form-card/FormCard";
 import TextField from "../text-field/TextField";
@@ -21,14 +22,15 @@ const UploadImage = ({ jobId, setJob }: UploadImageProps) => {
   const [error, setError] = useState("");
 
   const initialValues: ChangeJobStatusModel = {
-    image: "",
+    image: null,
     status: JobStatusEnum.InProgress,
   };
 
   const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
-    image: Yup.string().required(kotelezo),
     status: Yup.mixed<JobStatusEnum>().required(kotelezo),
+    image: Yup.mixed()
+      .required(kotelezo),
   });
 
   const handleSubmit = async (values: ChangeJobStatusModel) => {
@@ -40,7 +42,7 @@ const UploadImage = ({ jobId, setJob }: UploadImageProps) => {
   };
 
   return (
-    <FormCard title="">
+    <FormCard title="Kép hozzáadása" className="mb-3">
       <Formik
         initialValues={initialValues}
         validationSchema={schema}
@@ -49,16 +51,29 @@ const UploadImage = ({ jobId, setJob }: UploadImageProps) => {
         validateOnMount
         validateOnChange
       >
-        <Form>
-          <TextField name="image" label="Melléklet" />
-          <TextField name="status" type="hidden" label="" />
-          {error && (
-            <Alert className="mb-3" severity="error">
-              {error}
-            </Alert>
-          )}
-          <Button type="submit">Hozzáadás</Button>
-        </Form>
+        {(formProps) => (
+          <Form>
+            <BaseField name="image">
+              <input
+                name="image"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={(e) => {
+                  formProps.setFieldValue("image", e.target.files);
+                }}
+                className="form-control mb-2 mt-2"
+              />
+            </BaseField>
+            <TextField name="status" type="hidden" label="" />
+            {error && (
+              <Alert className="mb-3" severity="error">
+                {error}
+              </Alert>
+            )}
+            <Button type="submit">Feltöltés</Button>
+          </Form>
+        )}
       </Formik>
     </FormCard>
   );
