@@ -5,7 +5,7 @@ import { MinUserModel } from "./user.model";
 export interface JobModel {
   id: number;
   name: string;
-  creator: MinUserModel;
+  creator?: MinUserModel;
   image: string;
   jobType: JobTypeEnum;
   deadline: string;

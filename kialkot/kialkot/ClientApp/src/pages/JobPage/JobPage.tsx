@@ -73,7 +73,7 @@ const JobPage = () => {
   return (
     <>
       <AccessController allowedFor={["User"]}>
-        {Number(userId) === Number(job?.creator.id) && (
+        {Number(userId) === Number(job?.creator?.id) && (
           <>
             <ActionButton onClick={goToCreateJobPage}>
               <FontAwesomeIcon icon={faEdit} />
@@ -96,11 +96,11 @@ const JobPage = () => {
       <Page title={`${job?.name} részletes reírás`}>
         <div>
           <h6 className="d-inline">Név:</h6>
-          <p className="d-inline p-2">{job?.creator.nickName}</p>
+          <p className="d-inline p-2">{job?.creator?.nickName}</p>
           <h6 className="d-inline fa-pull-right m-auto">határidő</h6>
           <br />
           <h6 className="d-inline">Email cím:</h6>
-          <p className="d-inline p-2">{job?.creator.email}</p>
+          <p className="d-inline p-2">{job?.creator?.email}</p>
           <p className="d-inline fa-pull-right">
             {moment(job?.deadline).format("YYYY. MM DD.")}
           </p>

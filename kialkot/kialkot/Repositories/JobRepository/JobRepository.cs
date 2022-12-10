@@ -46,6 +46,10 @@ namespace kialkot.Repositories.JobRepository
                 .Where(x => x.Status == status)
                 .ToListAsync();
         }
+        public Task<List<Job>> GetJobsByAnonym()
+        {
+            return _context.Jobs.Where(x => x.Status == JobStatusEnum.Open).ToListAsync();
+        }
 
         public Task<List<Job>> GetJobsByStatusAndCreatorIdAsync(JobStatusEnum status, int creatorId)
         {

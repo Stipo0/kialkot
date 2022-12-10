@@ -1,7 +1,7 @@
 import { FC } from "react";
 import classNames from "classnames";
-import { NavLink, useLocation } from "react-router-dom";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { faSignIn, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Button from "../button/Button";
@@ -24,6 +24,7 @@ export interface NavbarProps {
 const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   const nickName = getDataFromTokenModel("NickName");
   const location = useLocation();
+  const navigation = useNavigate();
   const routes: RouteConfig[] = [
     {
       link: "/jobs",
@@ -43,6 +44,10 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
         width="100vw"
       />
     );
+  };
+
+  const goToLoginPage = () => {
+    navigation("/login");
   };
 
   return (
@@ -65,19 +70,21 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
             ))}
           </div>
         )}
-        <div
-          className={classNames("d-flex align-items-right", classes.MinWidth0)}
-        >
+        <div className={classNames("d-flex fa-pull-right", classes.MinWidth0)}>
           <p className={classNames(classes.Greeting, "mb-0")}>
             Welcome {nickName ? nickName : "to Jó Kérdés App"}
           </p>
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <Button
               onClick={() => setToken(null)}
               color="secondary"
-              className="ms-3"
+              className="ms-3 fa-pull-right"
             >
               <FontAwesomeIcon icon={faSignOutAlt} />
+            </Button>
+          ) : (
+            <Button onClick={goToLoginPage} color="primary" className="ms-3">
+              <FontAwesomeIcon icon={faSignIn} />
             </Button>
           )}
         </div>
