@@ -28,7 +28,7 @@ const JobEditPage = () => {
   useEffect(() => {
     const fetchJob = async (id: string) => {
       const data = await jobsService.getJob(id);
-      Number(data.creator.id) === Number(userId)
+      Number(data.creator?.id) === Number(userId)
         ? setJob(data)
         : navigate("/jobs");
     };

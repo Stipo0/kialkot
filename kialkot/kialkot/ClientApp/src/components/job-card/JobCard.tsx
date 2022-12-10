@@ -15,7 +15,7 @@ interface JobProps {
 
 const Job = ({ job, className, isLoggedIn }: JobProps) => {
   const { id, image, name, creator, jobType, deadline } = job;
-  const creatorName = creator.firstName + " " + creator.lastName;
+  const creatorName = creator ? (creator.firstName + " " + creator.lastName) : null;
   const navigation = useNavigate();
 
   const cardAction = () => {
@@ -35,7 +35,7 @@ const Job = ({ job, className, isLoggedIn }: JobProps) => {
       <JobImage url={image} />
       <div className="d-flex flex-column">
         <h5 className="ms-3">{name}</h5>
-        {isLoggedIn && (
+        {creatorName && (
           <>
             <p className="ms-2">
               Létrehozó: <span className="text-black-50">{creatorName}</span>
