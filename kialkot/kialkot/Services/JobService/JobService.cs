@@ -16,9 +16,9 @@ namespace kialkot.Services.JobService
         {
             _jobRepository = jobRepository;
         }
-        
 
-        public async Task<JobDto> CreateJobAsync(User user,CreateJobDto createJobDto)
+
+        public async Task<JobDto> CreateJobAsync(User user, CreateJobDto createJobDto)
         {
             var job = new Job
             {
@@ -67,7 +67,7 @@ namespace kialkot.Services.JobService
             return result;
 
         }
-        
+
         public async Task UpdateJobAsync(Job job, UpdateJobDto updateJobDto)
         {
             job.Name = updateJobDto.Name;
@@ -78,13 +78,13 @@ namespace kialkot.Services.JobService
             job.UpdatedAt = DateTime.UtcNow;
             await _jobRepository.UpdateAsync(job);
         }
-        
+
         public async Task DeleteJobAsync(Job job)
         {
             await _jobRepository.DeleteAsync(job);
         }
 
-        public async Task<List<MinJobDto>> GetJobByStatus(JobStatusEnum status,User user)
+        public async Task<List<MinJobDto>> GetJobByStatus(JobStatusEnum status, User user)
         {
             var jobs = new List<Job>();
             if (user.Role == Role.User)
@@ -95,7 +95,7 @@ namespace kialkot.Services.JobService
 
             if (user.Role == Role.Admin)
                 jobs = await _jobRepository.GetJobsByStatusAsync(status);
-            
+
             List<MinJobDto> minJobs = new List<MinJobDto>();
             foreach (var job in jobs)
             {
@@ -119,11 +119,11 @@ namespace kialkot.Services.JobService
             }
             return minJobs;
         }
-        
+
         public async Task<JobDto> GetJobById(int id)
         {
             var job = await _jobRepository.GetJobByIdAsync(id);
-            var result =  new JobDto
+            var result = new JobDto
             {
                 Id = job!.Id,
                 Name = job.Name,
@@ -154,6 +154,26 @@ namespace kialkot.Services.JobService
                 };
             }
             return result;
+        }
+
+        public async Task<List<MinJobDto>> GetJobsByAnonym()
+        {
+            var jobs = await _jobRepository.GetJobsByAnonym();
+            List<MinJobDto> minJobs = new List<MinJobDto>();
+            foreach (var job in jobs)
+            {
+                minJobs.Add(new MinJobDto
+                {
+                    Id = job.Id,
+                    Name = job.Name,
+                    Creator = null!,
+                    Image = job.Image,
+                    JobType = job.JobType,
+                    Deadline = job.EndDate,
+                    JobStatus = job.Status.ToString()
+                }) ;
+            }
+            return minJobs;
         }
 
         public async Task DesingerAcceptJob(Job job, User user)

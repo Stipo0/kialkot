@@ -117,6 +117,15 @@ namespace kialkot.Controllers
             return Ok(await _jobService.GetJobByStatus(status, user));
         }
 
+        [HttpGet("jobs/anonym")]
+        [AllowAnonymous]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        public async Task<ActionResult> GetJobsByStatus()
+        {
+            return Ok(await _jobService.GetJobsByAnonym());
+        }
+
         [HttpGet ("{id}")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]

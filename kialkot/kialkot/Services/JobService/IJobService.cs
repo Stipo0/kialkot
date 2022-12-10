@@ -9,6 +9,7 @@ namespace kialkot.Services.JobService
     {
         Task<JobDto> CreateJobAsync(User user,CreateJobDto createJobDto);
         Task<List<MinJobDto>> GetJobByStatus(JobStatusEnum status, User user);
+        Task<List<MinJobDto>> GetJobsByAnonym();
         Task<JobDto> GetJobById(int id);
         Task UpdateJobAsync(Job job, UpdateJobDto updateJobDto);
         Task DeleteJobAsync(Job job);

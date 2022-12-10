@@ -57,7 +57,7 @@ class App extends Component<AppProps, AppState> {
                     <Layout isLoggedIn={!!token} setToken={this.setToken} />
                   }
                 >
-                  <Route path="/jobs" element={<JobsPage />} />
+                  <Route path="/jobs" element={<JobsPage isLoggedIn={!!token}/>} />
                   <Route path="/job/:id" element={<JobPage />} />
                   <Route path="/job/edit" element={jobRouterElement} />
                   <Route path="/job/edit/:id" element={jobRouterElement} />
@@ -76,13 +76,14 @@ class App extends Component<AppProps, AppState> {
                     <Layout isLoggedIn={!!token} setToken={this.setToken} />
                   }
                 >
+                  <Route path="/home" element={<JobsPage isLoggedIn={!!token}/>} />
                   <Route path="/registration" element={<RegistrationPage />} />
                   <Route path="/lostPassword" element={<LostPasswordPage />} />
                   <Route
                     path="/resetPassword"
                     element={<RenewPasswordPage />}
                   />
-                  <Route path="*" element={<Navigate to="/login" replace />} />
+                  <Route path="*" element={<Navigate to="/home" replace />} />
                 </Route>
               </>
             )}

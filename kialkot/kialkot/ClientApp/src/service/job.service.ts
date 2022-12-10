@@ -16,6 +16,13 @@ class JobsService {
     });
   }
 
+  async getJobsAnonim() {
+    return request<MinJobModel[]>({
+      method: Methods.GET,
+      resource: `api/Job/jobs/anonym`,
+    });
+  }
+
   async getJob(id: string) {
     return request<JobModel>({
       method: Methods.GET,
