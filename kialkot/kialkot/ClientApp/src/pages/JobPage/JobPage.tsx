@@ -73,7 +73,7 @@ const JobPage = () => {
     navigate(`job/${job?.id}`);
   };
 
-  const goToCreateJobPage = () => {
+  const goToEditJobPage = () => {
     navigate(`/job/edit/${job?.id}`);
   };
 
@@ -82,7 +82,7 @@ const JobPage = () => {
       <AccessController allowedFor={["User"]}>
         {Number(userId) === Number(job?.creator.id) && (
           <>
-            <ActionButton onClick={goToCreateJobPage}>
+            <ActionButton onClick={goToEditJobPage}>
               <FontAwesomeIcon icon={faEdit} />
             </ActionButton>
             <ActionButton color="danger" onClick={deleteJob}>
@@ -115,16 +115,19 @@ const JobPage = () => {
           <h4 className="m-auto">Feladat</h4>
           <h5 className="m-auto">{job?.jobType}</h5>
           <p className="description">{job?.description}</p>
-          <hr className="Green" />
-          <h5>Mellékletek:</h5>
-          <img
-            className="mb-3"
-            src={`${job?.image}`}
-            alt={job?.name}
-            width="50%"
-          />
+          {job?.image && (
+            <>
+              <hr className="Green" />
+              <h5>Mellékletek:</h5>
+              <img
+                className="mb-3"
+                src={`${job?.image}`}
+                alt={job?.name}
+                width="50%"
+              />
+            </>
+          )}
           <br />
-          <h5>Leadott mellékletek:</h5>
           {designerWorkOnThisJob && (
             <>
               {isShownImageAdd && (

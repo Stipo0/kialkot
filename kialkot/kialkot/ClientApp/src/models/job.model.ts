@@ -23,7 +23,7 @@ export interface ChangeJobStatusModel {
 }
 
 export interface JobFormValues
-  extends Omit<JobModel, "id" | "jobStatus" | "creator" | "worker"> {}
+  extends Omit<JobModel, "id" | "jobStatus" | "creator" | "worker" | "image"> {}
 
 export interface SubscribeJobModel {
   jobId?: number;

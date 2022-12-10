@@ -39,7 +39,6 @@ const JobEditPage = () => {
 
   const initialValues: JobFormValues = {
     name: job?.name || "",
-    image: job?.image || "",
     jobType: job?.jobType || JobTypeEnum.Custom,
     deadline: moment(job?.deadline).format("yyyy-MM-DD") || "",
     description: job?.description || "",
@@ -48,7 +47,6 @@ const JobEditPage = () => {
   const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
     name: Yup.string().required(kotelezo),
-    image: Yup.string().required(kotelezo),
     jobType: Yup.mixed<JobTypeEnum>().required(kotelezo),
     deadline: Yup.string().required(kotelezo),
     description: Yup.string().required(kotelezo),
@@ -83,7 +81,6 @@ const JobEditPage = () => {
       >
         <Form>
           <TextField name="name" label="Név" />
-          <TextField name="image" label="Kép url" />
           <TextField
             name="jobType"
             label="Tipus"
