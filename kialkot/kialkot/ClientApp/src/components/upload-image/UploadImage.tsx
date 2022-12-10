@@ -30,7 +30,31 @@ const UploadImage = ({ jobId, setJob }: UploadImageProps) => {
   const schema = Yup.object().shape({
     status: Yup.mixed<JobStatusEnum>().required(kotelezo),
     image: Yup.mixed()
-      .required(kotelezo),
+      .required(kotelezo)
+      .test("FILE_SIZE", "Túl nagy képet próbálsz feltölteni", (value) => {
+        if (value && value?.length > 0) {
+          for (let i = 0; i < value.length; i++) {
+            if (value[i].size > 1024 * 1024) {
+              return false;
+            }
+          }
+        }
+        return true;
+      })
+      .test("FILE_TYPE", "Nem kép!", (value) => {
+        if (value && value.length > 0) {
+          for (let i = 0; i < value.length; i++) {
+            if (
+              value[i].type !== "image/png" &&
+              value[i].type !== "image/jpg" &&
+              value[i].type !== "image/jpeg"
+            ) {
+              return false;
+            }
+          }
+        }
+        return true;
+      }),
   });
 
   const handleSubmit = async (values: ChangeJobStatusModel) => {
