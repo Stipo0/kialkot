@@ -6,8 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 
 import AccessController from "../../components/access-controller/AccessController";
-import Page from "../../components/page/Page";
 import ActionButton from "../../components/action-button/ActionButton";
+import Page from "../../components/page/Page";
+import UploadImage from "../../components/upload-image/UploadImage";
 
 import { JobModel } from "../../models/job.model";
 
@@ -21,8 +22,10 @@ import "./JobPage.scss";
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<JobModel>();
+  const [isShownImageAdd, setIsShownImageAdd] = useState(false);
   const userId = getDataFromTokenModel("userId");
   const navigate = useNavigate();
+  const designerWorkOnThisJob = Number(userId) === Number(job?.worker?.id);
 
   useEffect(() => {
     const fetchJob = async (id: string) => {
@@ -34,6 +37,10 @@ const JobPage = () => {
       fetchJob(id);
     }
   }, [id, navigate]);
+
+  const handleAddImageClick = () => {
+    setIsShownImageAdd((current) => !current);
+  };
 
   const acceptJob = async () => {
     try {
@@ -85,11 +92,11 @@ const JobPage = () => {
         )}
       </AccessController>
       <AccessController allowedFor={["Desinger"]}>
-        {Number(userId) === Number(job?.worker?.id) ? (
+        {designerWorkOnThisJob ? (
           <ActionButton onClick={rejectJob} color="secondary">
             Munka leadása
           </ActionButton>
-          ) : (
+        ) : (
           <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
         )}
       </AccessController>
@@ -117,6 +124,19 @@ const JobPage = () => {
             width="50%"
           />
           <br />
+          <h5>Leadott mellékletek:</h5>
+          {designerWorkOnThisJob && (
+            <>
+              {isShownImageAdd && (
+                <UploadImage jobId={job?.id as number} setJob={setJob} />
+              )}
+              <AccessController allowedFor={["Desinger"]}>
+                <ActionButton onClick={handleAddImageClick}>
+                  Melléklet hozzáadása
+                </ActionButton>
+              </AccessController>
+            </>
+          )}
           <h5 className="d-inline">Állapot: </h5>
           <p className="d-inline">{job?.jobStatus}</p>
         </div>
