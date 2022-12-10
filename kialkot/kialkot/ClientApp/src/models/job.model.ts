@@ -17,6 +17,11 @@ export interface JobModel {
 export interface MinJobModel
   extends Omit<JobModel, "description" | "jobStatus" | "worker"> {}
 
+export interface ChangeJobStatusModel {
+  image?: string;
+  status: JobStatusEnum;
+}
+
 export interface JobFormValues
   extends Omit<JobModel, "id" | "jobStatus" | "creator" | "worker"> {}
 
