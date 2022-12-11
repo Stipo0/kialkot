@@ -1,4 +1,4 @@
-import { Component, Suspense } from "react";
+import { Component, ReactNode, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
@@ -14,6 +14,7 @@ import JobEditPage from "./pages/JobEditPage/JobEditPage";
 
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
+import AdminPage from "./pages/AdminPage/AdminPage";
 
 interface AppProps {}
 
@@ -46,6 +47,10 @@ class App extends Component<AppProps, AppState> {
     const jobRouterElement =
       role === "User" ? <JobEditPage /> : <Navigate to="/jobs" replace />;
 
+    const AdminRouterElement = (children: ReactNode) => {
+      return role === "Admin" ? children : <Navigate to="/*" replace />
+    };
+
     return (
       <div className="App">
         <Suspense fallback={<div className="container">Loading...</div>}>
@@ -57,6 +62,7 @@ class App extends Component<AppProps, AppState> {
                     <Layout isLoggedIn={!!token} setToken={this.setToken} />
                   }
                 >
+                  <Route path="/admin" element={AdminRouterElement(<AdminPage/>)}/>
                   <Route path="/jobs" element={<JobsPage isLoggedIn={!!token}/>} />
                   <Route path="/job/:id" element={<JobPage />} />
                   <Route path="/job/edit" element={jobRouterElement} />
