@@ -23,6 +23,7 @@ export interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   const nickName = getDataFromTokenModel("NickName");
+  const role = getDataFromTokenModel("role");
   const location = useLocation();
   const navigation = useNavigate();
   const routes: RouteConfig[] = [
@@ -32,9 +33,18 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
     },
     {
       link: "/profil",
-      label: "Profil",
+      label: "Saját Profil",
     },
   ];
+
+  role === "Admin" && (
+    routes.push(
+    {
+      link: "/admin",
+      label: "Adminisztráció"
+    }
+    )
+  )
 
   const toImage = (link: string, label: string) => {
     return (
@@ -64,7 +74,7 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
         {isLoggedIn && (
           <div className="d-flex">
             {routes.map(({ link, label }) => (
-              <NavLink key={link} to={link} className="nav-link me-4">
+              <NavLink key={link} to={link} className="nav-link me-3">
                 {location.pathname === link ? toImage(link, label) : label}
               </NavLink>
             ))}
