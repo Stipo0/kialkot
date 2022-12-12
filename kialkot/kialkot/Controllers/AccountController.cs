@@ -213,7 +213,7 @@ namespace kialkot.Controllers
                 return BadRequest(new ErrorDto { Error = "Query User not found" });
             }
 
-            return Ok(_userService.GetUserByIdAsync(id));
+            return Ok(await _userService.GetUserByIdAsync(id));
         }
 
         [HttpPut("update")]
