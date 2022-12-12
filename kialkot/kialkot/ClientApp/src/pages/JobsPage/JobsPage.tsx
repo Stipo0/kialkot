@@ -19,10 +19,14 @@ const JobsPage = ({ isLoggedIn }: JobsPageProps) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchJobs = async (isLoggedIn:boolean) => {
-      isLoggedIn ?
-      setJobs(await jobsService.getJobs(JobStatusEnum.Open)) :
-      setJobs(await jobsService.getJobsAnonim());
+    const fetchJobs = async (isLoggedIn: boolean) => {
+      try {
+        isLoggedIn
+          ? setJobs(await jobsService.getJobs(JobStatusEnum.Open))
+          : setJobs(await jobsService.getJobsAnonim());
+      } catch (e) {
+        alert(HanleCatch(e));
+      }
     };
 
     fetchJobs(isLoggedIn);
@@ -66,7 +70,7 @@ const JobsPage = ({ isLoggedIn }: JobsPageProps) => {
         <div className="row">
           {jobs.map((job) => (
             <div key={job.id} className="col-lg-4 col-md-6 col-sm-12">
-              <JobCard job={job} isLoggedIn={isLoggedIn}/>
+              <JobCard job={job} isLoggedIn={isLoggedIn} />
             </div>
           ))}
         </div>

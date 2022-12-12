@@ -22,7 +22,11 @@ const UserPage = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      setUser(await userService.getMe());
+      try {
+        setUser(await userService.getMe());
+      } catch (e) {
+        alert(HanleCatch(e));
+      }
     };
     fetchUser();
   }, []);

@@ -27,10 +27,14 @@ const JobEditPage = () => {
 
   useEffect(() => {
     const fetchJob = async (id: string) => {
-      const data = await jobsService.getJob(id);
-      Number(data.creator?.id) === Number(userId)
-        ? setJob(data)
-        : navigate("/jobs");
+      try {
+        const data = await jobsService.getJob(id);
+        Number(data.creator?.id) === Number(userId)
+          ? setJob(data)
+          : navigate("/jobs");
+      } catch (e) {
+        alert(HanleCatch(e));
+      }
     };
     if (id && Number(id)) {
       fetchJob(id);

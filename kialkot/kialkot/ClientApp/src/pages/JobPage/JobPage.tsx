@@ -26,9 +26,13 @@ const JobPage = () => {
 
   useEffect(() => {
     const fetchJob = async (id: string) => {
-      const data = await jobsService.getJob(id);
-      if (data) setJob(data);
-      else navigate("/jobs");
+      try {
+        const data = await jobsService.getJob(id);
+        if (data) setJob(data);
+        else navigate("/jobs");
+      } catch (e) {
+        alert(HanleCatch(e));
+      }
     };
     if (id) {
       fetchJob(id);
@@ -89,7 +93,7 @@ const JobPage = () => {
           <ActionButton onClick={rejectJob} color="secondary">
             Munka leadása
           </ActionButton>
-          ) : (
+        ) : (
           <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
         )}
       </AccessController>
