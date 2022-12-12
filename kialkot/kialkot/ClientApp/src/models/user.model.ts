@@ -35,3 +35,6 @@ export interface UserFormValues
 
 export interface MinUserModel
   extends Omit<UserModel, "role" | "verified" | "createdAt" | "updatedAt"> {}
+
+export interface AdminMinUSerModel
+  extends Omit<MinUserModel,  "firstName" | "lastName"> {}
