@@ -14,22 +14,26 @@ import { userService } from "../../service/user.service";
 
 import { HanleCatch } from "../../util/handleCatch";
 
-const UserPage = () => {
+interface UserPageProps {
+  userData?: UserModel;
+}
+
+const UserPage = ({userData}: UserPageProps) => {
   const [user, setUser] = useState<UserModel>();
   const [error, setError] = useState("");
   const [success, setSucces] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchUser = async (userData: UserModel | undefined) => {
       try {
-        setUser(await userService.getMe());
+        setUser(userData ? userData : await userService.getMe());
       } catch (e) {
         alert(HanleCatch(e));
       }
     };
-    fetchUser();
-  }, []);
+    fetchUser(userData);
+  }, [userData]);
 
   const initialValues: UpdateCredentialsModel = {
     email: user?.email || "",
