@@ -186,7 +186,7 @@ namespace kialkot.Controllers
             {
                 return BadRequest(new ErrorDto { Error = "You are not admin" });
             }
-            return Ok(await _userService.GetUsersForAdminAsync(role));
+            return Ok(await _userService.GetUsersForAdminAsync(role,user.Id));
         }
 
         [HttpGet("user/{id}")]

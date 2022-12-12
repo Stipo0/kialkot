@@ -90,7 +90,7 @@ namespace kialkot.Services.JobService
             if (user.Role == Role.User)
                 jobs = await _jobRepository.GetJobsByStatusAndCreatorIdAsync(status, user.Id);
 
-            if (user.Role == Role.Desinger)
+            if (user.Role == Role.Designer)
                 jobs = await _jobRepository.GetJobsByStatusAndWorkerIdAsync(status, user.Id);
 
             if (user.Role == Role.Admin)

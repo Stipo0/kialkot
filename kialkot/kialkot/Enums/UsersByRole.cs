@@ -4,7 +4,7 @@
     {
         Admin,
         User,
-        Desinger,
-        UserAndDesinger
+        Designer,
+        UserAndDesigner
     }
 }

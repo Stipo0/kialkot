@@ -54,14 +54,14 @@ namespace kialkot.Repositories.UserRepository
             return _applicationDbContext.Users.AsNoTracking().AnyAsync(x => x.Id == id);
         }
 
-        public Task<List<User>> GetUsers()
+        public Task<List<User>> GetUsers(int id)
         {
-            return _applicationDbContext.Users.ToListAsync();
+            return _applicationDbContext.Users.Where(x => x.Role != Role.Admin && x.Id != id ).ToListAsync();
         }
         
-        public Task<List<User>> GetUsersByRole(UsersByRole role)
+        public Task<List<User>> GetUsersByRole(UsersByRole role, int id)
         {
-            return _applicationDbContext.Users.Where(x => x.Role == (Role)role).ToListAsync();
+            return _applicationDbContext.Users.Where(x => x.Role == (Role)role && x.Id != id).ToListAsync();
         }
     }
 }

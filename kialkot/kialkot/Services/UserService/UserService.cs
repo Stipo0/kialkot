@@ -46,7 +46,7 @@ namespace kialkot.Services.UserService
                     UpdatedAt = DateTime.UtcNow
                 };
 
-                if (request.IsDesinger == "1") { user.Role = Role.Desinger; }
+                if (request.IsDesinger == "1") { user.Role = Role.Designer; }
                 if (request.IsDesinger == "0") { user.Role = Role.User; }
                 
                 var customToken = new CustomToken
@@ -186,14 +186,14 @@ namespace kialkot.Services.UserService
             return true;
         }
 
-        public async Task<List<MinUserForAdminDto>> GetUsersForAdminAsync(UsersByRole role)
+        public async Task<List<MinUserForAdminDto>> GetUsersForAdminAsync(UsersByRole role, int id)
         {
             List<User> users;
-            if (role == UsersByRole.UserAndDesinger)
+            if (role == UsersByRole.UserAndDesigner)
             {
-                users = await _userRepository.GetUsers();
+                users = await _userRepository.GetUsers(id);
             }
-            else { users = await _userRepository.GetUsersByRole(role); }
+            else { users = await _userRepository.GetUsersByRole(role,id); }
             
             var usersForAdmin = new List<MinUserForAdminDto>();
             foreach (var user in users)

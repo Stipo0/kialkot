@@ -153,7 +153,7 @@ namespace kialkot.Controllers
                 return NotFound(new ErrorDto { Error = "User not found" });
             }
 
-            if (user.Role != Role.Desinger)
+            if (user.Role != Role.Designer)
             {
                 return BadRequest(new ErrorDto { Error = "You are not a designer" });
             }
@@ -192,7 +192,7 @@ namespace kialkot.Controllers
                 return NotFound(new ErrorDto { Error = "User not found" });
             }
 
-            if (user.Role != Role.Desinger)
+            if (user.Role != Role.Designer)
             {
                 return BadRequest(new ErrorDto { Error = "You are not a designer" });
             }
@@ -227,7 +227,7 @@ namespace kialkot.Controllers
                 return NotFound(new ErrorDto { Error = "User not found" });
             }
             
-            if (user.Role != Role.Desinger)
+            if (user.Role != Role.Designer)
             {
                 return BadRequest(new ErrorDto { Error = "You are not a designer" });
             }
