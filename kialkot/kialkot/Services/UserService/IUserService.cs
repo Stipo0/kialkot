@@ -1,5 +1,7 @@
-﻿using kialkot.Models.Domain;
+﻿using kialkot.Enums;
+using kialkot.Models.Domain;
 using kialkot.Models.Request;
+using kialkot.Models.Response;
 
 namespace kialkot.Services.UserService
 {
@@ -10,5 +12,7 @@ namespace kialkot.Services.UserService
         Task<bool> ResetPassword(string token, ResetPasswordDto request);
         Task<bool> CreateOrUpdateForgotTokenAsync(User user);
         Task<bool> UpdateUser(User user, UpdateUserDto request);
+        Task<List<MinUserForAdminDto>> GetUsersForAdminAsync(UsersByRole role);
+        Task<UserForAdminDto> GetUserByIdAsync(int id);
     }
 }

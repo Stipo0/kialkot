@@ -1,6 +1,7 @@
 ﻿using kialkot.Enums;
 using kialkot.Models.Domain;
 using kialkot.Models.Request;
+using kialkot.Models.Response;
 using kialkot.Repositories.CustomTokenRepository;
 using kialkot.Repositories.UserRepository;
 using kialkot.Services.SmtpService;
@@ -183,6 +184,43 @@ namespace kialkot.Services.UserService
             user.UpdatedAt = DateTime.UtcNow;
             await _userRepository.UpdateAsync(user);
             return true;
+        }
+
+        public async Task<List<MinUserForAdminDto>> GetUsersForAdminAsync(UsersByRole role)
+        {
+            List<User> users;
+            if (role == UsersByRole.UserAndDesinger)
+            {
+                users = await _userRepository.GetUsers();
+            }
+            else { users = await _userRepository.GetUsersByRole(role); }
+            
+            var usersForAdmin = new List<MinUserForAdminDto>();
+            foreach (var user in users)
+            {
+                usersForAdmin.Add(new MinUserForAdminDto
+                {
+                    Id = user.Id,
+                    NickName = user.NickName,
+                    Email = user.Email,
+                });
+            }
+            return usersForAdmin;
+        }
+        public async Task<UserForAdminDto> GetUserByIdAsync(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            return new UserForAdminDto
+            {
+                Id = user!.Id,
+                NickName = user.NickName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = user.Role.ToString(),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt
+            };
         }
     }
 }
