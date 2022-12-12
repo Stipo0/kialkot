@@ -10,7 +10,7 @@ interface PageProps {
 
 const Page = ({ children, noCard, title, className }: PageProps) => {
   return (
-    <div className={classNames("container pt-3", className )}>
+    <div className={classNames("container", className )}>
       {title ? <h5>{title}</h5> : null}
       <div className={classNames({ "card bg-white shadow p-3": !noCard })}>
         {children}

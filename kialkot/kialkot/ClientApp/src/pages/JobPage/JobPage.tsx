@@ -88,7 +88,7 @@ const JobPage = () => {
           </>
         )}
       </AccessController>
-      <AccessController allowedFor={["Desinger"]}>
+      <AccessController allowedFor={["Designer"]}>
         {Number(userId) === Number(job?.worker?.id) ? (
           <ActionButton onClick={rejectJob} color="secondary">
             Munka leadása
@@ -97,7 +97,7 @@ const JobPage = () => {
           <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
         )}
       </AccessController>
-      <Page title={`${job?.name} részletes reírás`}>
+      <Page className="pt-3" title={`${job?.name} részletes reírás`}>
         <div>
           <h6 className="d-inline">Név:</h6>
           <p className="d-inline p-2">{job?.creator?.nickName}</p>
