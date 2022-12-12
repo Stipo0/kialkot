@@ -30,7 +30,7 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        setUsers(await userService.getUsers({ role: "User" }));
+        setUsers(await userService.getUsers({ role: "UserAndDesigner" }));
       } catch (e) {
         alert(HanleCatch(e));
       }
