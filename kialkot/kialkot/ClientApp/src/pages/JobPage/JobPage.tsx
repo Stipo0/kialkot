@@ -10,7 +10,7 @@ import ActionButton from "../../components/action-button/ActionButton";
 import Page from "../../components/page/Page";
 import UploadImage from "../../components/upload-image/UploadImage";
 
-import { JobModel } from "../../models/job.model";
+import { ChangeJobStatusModel, JobModel } from "../../models/job.model";
 
 import { jobsService } from "../../service/job.service";
 
@@ -18,6 +18,7 @@ import { HanleCatch } from "../../util/handleCatch";
 import { getDataFromTokenModel } from "../../util/token";
 
 import "./JobPage.scss";
+import { JobStatusEnum } from "../../enums/job.status.enum";
 
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -77,6 +78,18 @@ const JobPage = () => {
     navigate(`/job/edit/${job?.id}`);
   };
 
+  const handleFinish = async () => {
+    try {
+      const data: ChangeJobStatusModel = {
+        status: JobStatusEnum.Finished,
+        image: job?.image,
+      };
+      setJob(await jobsService.changeStatus(data, job?.id as number));
+    } catch (e) {
+      alert(HanleCatch(e));
+    }
+  };
+
   return (
     <>
       <AccessController allowedFor={["User"]}>
@@ -128,18 +141,22 @@ const JobPage = () => {
             </>
           )}
           <br />
-          {designerWorkOnThisJob && (
-            <>
-              {isShownImageAdd && (
-                <UploadImage jobId={job?.id as number} setJob={setJob} />
-              )}
-              <AccessController allowedFor={["Desinger"]}>
+          <AccessController allowedFor={["Desinger"]}>
+            {designerWorkOnThisJob && (
+              <>
+                {isShownImageAdd && (
+                  <UploadImage jobId={job?.id as number} setJob={setJob} />
+                )}
                 <ActionButton onClick={handleAddImageClick}>
-                  Melléklet hozzáadása
+                  Melléklet cseréje
                 </ActionButton>
-              </AccessController>
-            </>
-          )}
+                {JobStatusEnum[job?.jobStatus as JobStatusEnum].toString() ===
+                  JobStatusEnum.InProgress.toString() && (
+                  <ActionButton onClick={handleFinish}>Befejezés</ActionButton>
+                )}
+              </>
+            )}
+          </AccessController>
           <h5 className="d-inline">Állapot: </h5>
           <p className="d-inline">{job?.jobStatus}</p>
         </div>
