@@ -2,7 +2,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/button/Button";
+import DeleteCheck from "../../components/delete-check/DeleteCheck";
 
 import Page from "../../components/page/Page";
 
@@ -11,8 +11,6 @@ import { AdminMinUSerModel } from "../../models/user.model";
 import { userService } from "../../service/user.service";
 
 import { HanleCatch } from "../../util/handleCatch";
-
-import "./AdminPage.scss";
 
 export interface RoleTypeProps {
   role: "User" | "Designer" | "UserAndDesigner";
@@ -119,17 +117,7 @@ const AdminPage = () => {
         </tbody>
       </table>
       {isShowDeleteCheck && (
-        <div className="deleteRequest shadow-lg">
-          <h4>Biztos hogy törli a felhasználót?</h4>
-          <div>
-            <Button color="danger" onClick={handleDeleteUser}>
-              Törlés
-            </Button>
-            <Button color="primary" onClick={() => setIsShowDeleteCheck(false)}>
-              Back
-            </Button>
-          </div>
-        </div>
+        <DeleteCheck title="felhasználót" handle={handleDeleteUser} isShow={setIsShowDeleteCheck} />
       )}
     </Page>
   );
