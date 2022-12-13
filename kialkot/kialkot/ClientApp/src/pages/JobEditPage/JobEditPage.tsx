@@ -24,12 +24,13 @@ const JobEditPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const userId = getDataFromTokenModel("userId");
+  const role = getDataFromTokenModel("role");
 
   useEffect(() => {
     const fetchJob = async (id: string) => {
       try {
         const data = await jobsService.getJob(id);
-        Number(data.creator?.id) === Number(userId)
+        (Number(data.creator?.id) === Number(userId)) || (role === "Admin")
           ? setJob(data)
           : navigate("/jobs");
       } catch (e) {
@@ -39,7 +40,7 @@ const JobEditPage = () => {
     if (id && Number(id)) {
       fetchJob(id);
     }
-  }, [id, navigate, userId]);
+  }, [id, navigate, userId, role]);
 
   const initialValues: JobFormValues = {
     name: job?.name || "",

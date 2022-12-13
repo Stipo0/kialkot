@@ -96,17 +96,13 @@ const JobPage = () => {
 
   return (
     <>
-      <AccessController allowedFor={["User"]}>
-        {Number(userId) === Number(job?.creator?.id) && (
-          <>
-            <ActionButton onClick={goToEditJobPage}>
-              <FontAwesomeIcon icon={faEdit} />
-            </ActionButton>
-            <ActionButton color="danger" onClick={deleteJob}>
-              <FontAwesomeIcon icon={faTrash} />
-            </ActionButton>
-          </>
-        )}
+      <AccessController allowedFor={["User", "Admin"]}>
+        <ActionButton onClick={goToEditJobPage}>
+          <FontAwesomeIcon icon={faEdit} />
+        </ActionButton>
+        <ActionButton color="danger" onClick={deleteJob}>
+          <FontAwesomeIcon icon={faTrash} />
+        </ActionButton>
       </AccessController>
       <AccessController allowedFor={["Designer"]}>
         {Number(userId) === Number(job?.worker?.id) ? (

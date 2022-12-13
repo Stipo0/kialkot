@@ -50,8 +50,11 @@ class App extends Component<AppProps, AppState> {
       <Layout isLoggedIn={!!token} setToken={this.setToken} />
     );
 
-    const jobRouterElement =
-      role === "User" ? <JobEditPage /> : <Navigate to="/jobs" replace />;
+    const jobRouterElement = ["User", "Admin"].includes(role as Role) ? (
+      <JobEditPage />
+    ) : (
+      <Navigate to="/jobs" replace />
+    );
 
     const AdminRouterElement = (children: ReactNode) => {
       return role === "Admin" ? children : <Navigate to="/*" replace />;
@@ -63,7 +66,7 @@ class App extends Component<AppProps, AppState> {
           <Routes>
             <Route element={LayoutElemnt}>
               <Route path="/job" element={<JobsPage isLoggedIn={!!token} />} />
-              <Route path="/home" element={<HomePage/>} />
+              <Route path="/home" element={<HomePage />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Route>
 
@@ -74,7 +77,7 @@ class App extends Component<AppProps, AppState> {
                     path="/admin"
                     element={AdminRouterElement(<AdminPage />)}
                   />
-                  <Route path="/admin/user/:id" element={<AdminUserPage/>} />
+                  <Route path="/admin/user/:id" element={<AdminUserPage />} />
                   <Route path="/job/:id" element={<JobPage />} />
                   <Route path="/job/edit" element={jobRouterElement} />
                   <Route path="/job/edit/:id" element={jobRouterElement} />
