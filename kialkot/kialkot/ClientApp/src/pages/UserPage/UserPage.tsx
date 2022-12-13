@@ -18,7 +18,7 @@ interface UserPageProps {
   userData?: UserModel;
 }
 
-const UserPage = ({userData}: UserPageProps) => {
+const UserPage = ({ userData }: UserPageProps) => {
   const [user, setUser] = useState<UserModel>();
   const [error, setError] = useState("");
   const [success, setSucces] = useState("");
@@ -68,8 +68,8 @@ const UserPage = ({userData}: UserPageProps) => {
     }
   };
 
-  const goToProfil = () => {
-    navigate("/profil");
+  const goToAdminPage = () => {
+    navigate("/admin");
   };
 
   return (
@@ -109,14 +109,16 @@ const UserPage = ({userData}: UserPageProps) => {
             </Alert>
           ) : null}
           <div className="mt-3">
-            <Button
-              color="secondary"
-              type="button"
-              className="m-2"
-              onClick={goToProfil}
-            >
-              Vissza
-            </Button>
+            {userData && (
+              <Button
+                color="secondary"
+                type="button"
+                className="m-2"
+                onClick={goToAdminPage}
+              >
+                Vissza
+              </Button>
+            )}
             <Button type="submit">Update</Button>
           </div>
         </Form>
