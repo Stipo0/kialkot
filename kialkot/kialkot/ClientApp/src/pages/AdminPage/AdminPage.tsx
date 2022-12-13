@@ -2,6 +2,7 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../../components/button/Button";
 
 import Page from "../../components/page/Page";
 
@@ -11,12 +12,16 @@ import { userService } from "../../service/user.service";
 
 import { HanleCatch } from "../../util/handleCatch";
 
+import "./AdminPage.scss";
+
 export interface RoleTypeProps {
   role: "User" | "Designer" | "UserAndDesigner";
 }
 
 const AdminPage = () => {
   const [users, setUsers] = useState<AdminMinUSerModel[]>([]);
+  const [isShowDeleteCheck, setIsShowDeleteCheck] = useState(false);
+  const [deleteUser, setDeleteUser] = useState<AdminMinUSerModel>();
   const navigate = useNavigate();
 
   const fetchUsers = async (role: RoleTypeProps) => {
@@ -37,6 +42,15 @@ const AdminPage = () => {
     };
     fetchUsers();
   }, []);
+
+  const handleDeleteUser = async () => {
+    try {
+      alert(await userService.deleteUser(deleteUser?.id as number));
+      setIsShowDeleteCheck(false);
+    } catch (e) {
+      alert(HanleCatch(e));
+    }
+  };
 
   return (
     <Page title="A regisztrált felhasználók:">
@@ -92,12 +106,31 @@ const AdminPage = () => {
                 />
               </td>
               <td>
-                <FontAwesomeIcon icon={faTrash} />
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  onClick={() => {
+                    setIsShowDeleteCheck(true);
+                    setDeleteUser(user);
+                  }}
+                />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {isShowDeleteCheck && (
+        <div className="deleteRequest position-fixed shadow card">
+          <h4>Biztos hogy törli a felhasználót?</h4>
+          <div>
+            <Button color="danger" onClick={handleDeleteUser}>
+              Törlés
+            </Button>
+            <Button color="primary" onClick={() => setIsShowDeleteCheck(false)}>
+              Back
+            </Button>
+          </div>
+        </div>
+      )}
     </Page>
   );
 };

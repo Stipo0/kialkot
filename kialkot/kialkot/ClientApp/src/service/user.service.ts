@@ -1,3 +1,4 @@
+import { ResponseModel } from "../models/response.model";
 import {
   AdminMinUSerModel,
   StoreCredentialsModel,
@@ -43,6 +44,13 @@ class UsersService {
       data,
       resource: "api/Account/update",
     });
+  }
+
+  async deleteUser(id: number) {
+    return request<ResponseModel>({
+      method: Methods.DELETE,
+      resource: `api/Account/user/delete/${id}`,
+    })
   }
 }
 
