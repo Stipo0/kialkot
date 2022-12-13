@@ -15,5 +15,6 @@ namespace kialkot.Repositories.UserRepository
         Task<bool> CheckById(int id);
         Task<List<User>> GetUsers(int id);
         Task<List<User>> GetUsersByRole(UsersByRole role, int id);
+        Task DeleteAsync(User user);
     }
 }

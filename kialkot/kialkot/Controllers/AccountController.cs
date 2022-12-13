@@ -260,5 +260,36 @@ namespace kialkot.Controllers
                 UpdatedAt = user.UpdatedAt
             });
         }
+
+        [HttpDelete("user/delete/{id}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            if (user.Role != Role.Admin)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not admin" });
+            }
+            if (id == user.Id)
+            {
+                return BadRequest(new ErrorDto { Error = "You can't delete yourself" });
+            }
+            var deleteuser = await _userRepository.GetByIdAsync(id);
+            if (deleteuser == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            await _userRepository.DeleteAsync(deleteuser);
+            return Ok(new OkDto
+            {
+                Ok = "Delete User successful"
+            });
+        }
     }
 }

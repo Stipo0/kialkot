@@ -65,9 +65,9 @@ namespace kialkot.Controllers
                 return NotFound(new ErrorDto { Error = "Job not found" });
             }
 
-            if (job.CreatorId != user.Id)
+            if (job.CreatorId != user.Id && user.Role != Role.Admin)
             {
-                return BadRequest(new ErrorDto { Error = "You are not the creator of this job" });
+                return BadRequest(new ErrorDto { Error = "You are not creator of this job" });
             }
 
             await _jobService.UpdateJobAsync(job, request);
@@ -92,15 +92,45 @@ namespace kialkot.Controllers
                 return NotFound(new ErrorDto { Error = "Job not found" });
             }
 
-            if (job.CreatorId != user.Id)
+            if (job.CreatorId != user.Id && user.Role != Role.Admin)
             {
-                return BadRequest(new ErrorDto { Error = "You are not the creator of this job" });
+                return BadRequest(new ErrorDto { Error = "You are not creator of this job" });
             }
 
             await _jobService.DeleteJobAsync(job);
             return Ok(new OkDto
             {
                 Ok = "Job deleted"
+            });
+        }
+
+        [HttpDelete("worker/{jobid}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
+        public async Task<ActionResult> DeleteWorkerFromJob(int jobid)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+
+            var job = await _jobRepository.GetJobByIdAsync(jobid);
+            if (job == null)
+            {
+                return NotFound(new ErrorDto { Error = "Job not found" });
+            }
+
+            if (user.Role != Role.Admin)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not admin" });
+            }
+
+            await _jobRepository.DeleteWorkerFromJobAsync(job);
+            return Ok(new OkDto
+            {
+                Ok = "Worker deleted from this job"
             });
         }
 
