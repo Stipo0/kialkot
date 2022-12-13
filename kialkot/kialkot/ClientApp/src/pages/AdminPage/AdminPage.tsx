@@ -119,7 +119,7 @@ const AdminPage = () => {
         </tbody>
       </table>
       {isShowDeleteCheck && (
-        <div className="deleteRequest position-fixed shadow card">
+        <div className="deleteRequest shadow-lg">
           <h4>Biztos hogy törli a felhasználót?</h4>
           <div>
             <Button color="danger" onClick={handleDeleteUser}>
