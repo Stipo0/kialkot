@@ -98,7 +98,7 @@ const JobPage = () => {
 
   return (
     <>
-      <div className="me-2">
+      <div className="me-3">
         <AccessController allowedFor={["User", "Admin"]}>
           <ActionButton onClick={goToEditJobPage}>
             <FontAwesomeIcon icon={faEdit} />

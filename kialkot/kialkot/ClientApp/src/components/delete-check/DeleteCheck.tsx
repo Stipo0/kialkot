@@ -12,7 +12,7 @@ interface DeleteCheckProps {
 const DeleteCheck = ({ handle, isShow, title="" }: DeleteCheckProps) => {
 	return (
 		<div className="deleteRequest shadow-lg">
-          <h4>Biztos hogy törli{title ? " " + title : null}?</h4>
+          <h4>Biztos hogy törli{title ? " a " + title : null}?</h4>
           <div>
             <Button color="danger" onClick={handle}>
               Törlés
