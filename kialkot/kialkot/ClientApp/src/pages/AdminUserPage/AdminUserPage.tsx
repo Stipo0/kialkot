@@ -26,7 +26,7 @@ const AdminUserPage = () => {
   }, [id, navigation]);
 
   return (
-    <Page title="Felhasználó információk">
+    <Page title="Felhasználó információk" noCard>
       <UserPage userData={user}/>
     </Page>
   );
