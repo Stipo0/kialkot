@@ -18,7 +18,7 @@ export interface MinJobModel
   extends Omit<JobModel, "description" | "jobStatus" | "worker"> {}
 
 export interface ChangeJobStatusModel {
-  image?: File | null;
+  image?: string;
   status: JobStatusEnum;
 }
 

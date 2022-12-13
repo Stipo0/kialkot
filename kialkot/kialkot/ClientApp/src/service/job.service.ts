@@ -67,13 +67,13 @@ class JobsService {
     });
   }
 
- async changeStatus(data: ChangeJobStatusModel, jobId: number) {
-  return request<JobModel>({
-    method: Methods.PUT,
-    data,
-    resource: `api/Job/desinger/changejobstatus/${jobId}`,
-  })
- }
+  async changeStatus(data: ChangeJobStatusModel, jobId: number) {
+    return request<JobModel>({
+      method: Methods.PUT,
+      data,
+      resource: `api/Job/desinger/changejobstatus/${jobId}`,
+    });
+  }
 }
 
 export const jobsService = new JobsService();
