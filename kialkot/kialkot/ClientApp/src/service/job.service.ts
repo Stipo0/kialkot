@@ -3,6 +3,7 @@ import {
   JobModel,
   MinJobModel,
   JobFormValues,
+  ChangeJobStatusModel,
 } from "../models/job.model";
 import { ResponseModel } from "../models/response.model";
 import request, { Methods } from "../util/request";
@@ -63,6 +64,14 @@ class JobsService {
     return request<ResponseModel>({
       method: Methods.PUT,
       resource: `api/Job/desinger/rejectjob/${id}`,
+    });
+  }
+
+  async changeStatus(data: ChangeJobStatusModel, jobId: number) {
+    return request<JobModel>({
+      method: Methods.PUT,
+      data,
+      resource: `api/Job/desinger/changejobstatus/${jobId}`,
     });
   }
 }
