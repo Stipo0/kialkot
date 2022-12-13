@@ -63,5 +63,11 @@ namespace kialkot.Repositories.UserRepository
         {
             return _applicationDbContext.Users.Where(x => x.Role == (Role)role && x.Id != id).ToListAsync();
         }
+        
+        public async Task DeleteAsync(User user)
+        {
+            _applicationDbContext.Remove(user);
+            await _applicationDbContext.SaveChangesAsync();
+        }
     }
 }
