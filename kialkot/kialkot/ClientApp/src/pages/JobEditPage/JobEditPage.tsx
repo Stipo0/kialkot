@@ -86,16 +86,17 @@ const JobEditPage = () => {
         validateOnChange
       >
         <Form>
-          <TextField name="name" label="Név" />
-          <TextField name="image" label="Kép url" />
+          <TextField name="name" label="Név" required />
+          <TextField name="image" label="Kép url" required />
           <TextField
             name="jobType"
             label="Tipus"
             type="select"
+            required
             options={JobTypeEnum.toOptions}
           />
-          <TextField name="deadline" label="Határidő" type="date" />
-          <TextField name="description" label="Leírás" type="textarea" />
+          <TextField name="deadline" label="Határidő" type="date" required/>
+          <TextField name="description" label="Leírás" type="textarea" required/>
           {error ? (
             <Alert className="mb-3" severity="error">
               {error}

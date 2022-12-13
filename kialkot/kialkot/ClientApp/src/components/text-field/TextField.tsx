@@ -13,6 +13,7 @@ interface TextFieldProps {
   label: string;
   name: string;
   type?: string;
+  required?: boolean;
   options?: OptionValues[];
   className?: string;
 }
@@ -21,6 +22,7 @@ const TextField = ({
   name,
   label,
   type = "text",
+  required = false,
   options,
   className,
 }: TextFieldProps) => {
@@ -30,7 +32,7 @@ const TextField = ({
         return (
           <div className="form-control mb-2 mt-2">
             <label htmlFor={name}>{label}: </label>
-            <Field name={name} as="select" className="m-2">
+            <Field name={name} as="select" className="m-2" required={required}>
               <option></option>
               {options?.map((option) => (
                 <option value={option.value}>{option.name}</option>
@@ -47,6 +49,7 @@ const TextField = ({
               placeholder={label}
               className="form-control mb-2 mt-2"
               rows="4"
+              required={required}
             />
         );
 
@@ -56,6 +59,7 @@ const TextField = ({
             name={name}
             type={type}
             placeholder={label}
+            required={required}
             className="form-control mb-2 mt-2"
           />
         );

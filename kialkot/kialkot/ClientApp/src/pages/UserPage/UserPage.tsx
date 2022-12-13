@@ -1,7 +1,6 @@
 import Alert from "@mui/material/Alert";
 import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import Button from "../../components/button/Button";
@@ -14,26 +13,21 @@ import { userService } from "../../service/user.service";
 
 import { HanleCatch } from "../../util/handleCatch";
 
-interface UserPageProps {
-  userData?: UserModel;
-}
-
-const UserPage = ({ userData }: UserPageProps) => {
+const UserPage = () => {
   const [user, setUser] = useState<UserModel>();
   const [error, setError] = useState("");
   const [success, setSucces] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUser = async (userData: UserModel | undefined) => {
+    const fetchUser = async () => {
       try {
-        setUser(userData ? userData : await userService.getMe());
+        setUser(await userService.getMe());
       } catch (e) {
         alert(HanleCatch(e));
       }
     };
-    fetchUser(userData);
-  }, [userData]);
+    fetchUser();
+  }, []);
 
   const initialValues: UpdateCredentialsModel = {
     email: user?.email || "",
@@ -68,10 +62,6 @@ const UserPage = ({ userData }: UserPageProps) => {
     }
   };
 
-  const goToAdminPage = () => {
-    navigate("/admin");
-  };
-
   return (
     <FormCard title={user ? user.firstName + " " + user.lastName : "User"}>
       <Formik
@@ -83,14 +73,15 @@ const UserPage = ({ userData }: UserPageProps) => {
         validateOnChange
       >
         <Form>
-          <TextField name="nickName" label="Felhasználó név" />
-          <TextField name="lastName" label="Vezetéknév" />
-          <TextField name="firstName" label="Keresztnév" />
-          <TextField name="email" type="email" label="Email cím" />
+          <TextField name="nickName" label="Felhasználó név" required/>
+          <TextField name="lastName" label="Vezetéknév" required/>
+          <TextField name="firstName" label="Keresztnév" required/>
+          <TextField name="email" type="email" label="Email cím" required/>
           <TextField
             name="currentPassword"
             type="password"
             label="Jelenlegi jelszó"
+            required
           />
           <TextField name="newPassword" type="password" label="Új jelszó" />
           <TextField
@@ -109,16 +100,6 @@ const UserPage = ({ userData }: UserPageProps) => {
             </Alert>
           ) : null}
           <div className="mt-3">
-            {userData && (
-              <Button
-                color="secondary"
-                type="button"
-                className="m-2"
-                onClick={goToAdminPage}
-              >
-                Vissza
-              </Button>
-            )}
             <Button type="submit">Update</Button>
           </div>
         </Form>
