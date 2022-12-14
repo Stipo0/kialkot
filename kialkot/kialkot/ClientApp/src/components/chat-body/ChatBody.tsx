@@ -23,7 +23,6 @@ interface ChatBodyProps {
 const ChatBody = ({ jobId }: ChatBodyProps) => {
   const [messages, setMessages] = useState<ChatMessagesModel[]>([]);
   const userId = getDataFromTokenModel("userId");
-  const userNinckName = getDataFromTokenModel("NickName");
 
   useEffect(() => {
     const fetchMessages = async (jobId: number) => {
@@ -39,15 +38,11 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
 
   const initialValues: ChatSendMessagesModel = {
     message: "",
-    userId: userId as number,
-    userNinckName: userNinckName as string,
   };
 
   const kotelezo = "Ez egy kötelező mező!";
   const schema = Yup.object().shape({
     message: Yup.string().required(kotelezo),
-    userId: Yup.number().required(kotelezo),
-    userNinckName: Yup.string().required(kotelezo),
   });
 
   const handleAddMessage = async (value: ChatSendMessagesModel) => {
@@ -96,8 +91,6 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
           validateOnChange
         >
           <Form className="row">
-            <TextField label="" name="userId" type="hidden" />
-            <TextField label="" name="userNinckName" type="hidden" />
             <TextField label="Üzenet" name="message" className="col-9 ms-1" />
             <Button className="col-2 mt-2" type="submit">
               Küld!

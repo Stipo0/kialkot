@@ -13,7 +13,5 @@ export interface ChatMessagesModel {
 }
 
 export interface ChatSendMessagesModel {
-	userId: number;
-	userNinckName: string;
 	message: string;
 }
