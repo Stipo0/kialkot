@@ -49,7 +49,7 @@ namespace kialkot.Controllers
             return Ok(jobs);
         }
         
-        [HttpGet("Chat/{jobId}")]
+        [HttpGet("{jobId}")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
         public async Task<ActionResult> GetChat(int jobId)

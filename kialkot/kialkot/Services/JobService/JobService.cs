@@ -207,7 +207,7 @@ namespace kialkot.Services.JobService
 
         public async Task<List<ChatJobDto>> Getjobs(User user)
         {
-            var jobs = await _jobRepository.GetJobsByCreatorIdAsync(user.Id);
+            var jobs = await _jobRepository.GetJobsByUserIdAsync(user.Id);
             List<ChatJobDto> chatJobs = new List<ChatJobDto>();
             foreach (var job in jobs)
             {
