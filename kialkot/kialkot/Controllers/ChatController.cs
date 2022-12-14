@@ -72,7 +72,7 @@ namespace kialkot.Controllers
             return Ok(messages);
         }
 
-        [HttpPost("Chat/{jobId}")]
+        [HttpPost("{jobId}")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
         public async Task<ActionResult> SendMessage(int jobId, [FromBody] SendMessageDto sendMessageDto)
