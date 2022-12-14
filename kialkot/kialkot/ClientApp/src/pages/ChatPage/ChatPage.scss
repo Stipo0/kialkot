@@ -1,6 +1,7 @@
 @import "../../styles/variables";
 
 .panel-body {
+	min-height: 200px;
   max-height: 500px;
   overflow-y: auto;
 
@@ -29,6 +30,7 @@
 	.newMessage {
 		background-color: $light-orange-color;
 	}
+
 }
 
 .panel-footer {

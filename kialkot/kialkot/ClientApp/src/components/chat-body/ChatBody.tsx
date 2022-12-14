@@ -34,8 +34,10 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
       }
     };
 
-    fetchMessages(Number(jobId ? jobId : 0));
-  });
+    (jobId !== 0) && 
+    fetchMessages(Number(jobId));
+
+  }, [jobId]);
 
   const initialValues: ChatSendMessagesModel = {
     message: "",
@@ -48,7 +50,9 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
 
   const handleAddMessage = async (value: ChatSendMessagesModel) => {
     try {
-      setMessages(await chatService.sendMessage(value, jobId));
+      const data = await chatService.sendMessage(value, jobId);
+      messages.push(data);
+      setMessages(messages);
     } catch (e) {
       alert(HanleCatch(e));
     }
@@ -58,7 +62,7 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
     <div className="panel panel-default">
       <div className="panel-body panel-chat card p-2">
         <div>
-          {messages.map((message) => (
+          {messages.length ? messages.map((message) => (
             <>
               <div
                 className={classNames(
@@ -80,7 +84,9 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
                 </section>
               </div>
             </>
-          ))}
+          )) : (
+            <h1>Válassz vagy üzenj!!</h1>
+          )}
         </div>
       </div>
       <div className="panel-footer card p-1 mt-2">
@@ -93,8 +99,8 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
           validateOnChange
         >
           <Form className="row">
-            <TextField label="Üzenet" name="message" className="col-9 ms-1" />
-            <Button className="col-2 mt-2" type="submit">
+            <TextField label="Üzenet" name="message" className="col-8 ms-1" />
+            <Button className="col-3 mt-2" type="submit">
               Küld!
             </Button>
           </Form>

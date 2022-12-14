@@ -17,8 +17,9 @@ class ChatService {
 	}
 
 	async sendMessage(data: ChatSendMessagesModel, jobId: number) {
-		return request<ChatMessagesModel[]>({
+		return request<ChatMessagesModel>({
 			method: Methods.POST,
+			data,
 			resource: `api/Chat/${jobId}`
 		});
 	}
