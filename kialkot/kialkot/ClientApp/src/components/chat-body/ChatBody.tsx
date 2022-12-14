@@ -77,8 +77,10 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
                   <b>
                     {message.message} {message.userId}
                   </b>
-									<br />
-									<small>{moment(message.sendAt).format("YYYY-MM-DD HH:mm:ss")}</small>
+                  <br />
+                  <small>
+                    {moment(message.sendAt).format("YYYY-MM-DD HH:mm:ss")}
+                  </small>
                 </section>
               </div>
             </>
