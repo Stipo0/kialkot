@@ -11,6 +11,12 @@
 
 .panel-chat {
 	max-height: 325px;
+
+	small {
+		font-size: small;
+		float: right;
+		color: grey;
+	}
 	
 	.masseges{
 		background-color: $light-green-color;
@@ -24,7 +30,6 @@
 		background-color: $orange-color;
 	}
 }
-
 
 .panel-footer {
 	max-height: 75px;

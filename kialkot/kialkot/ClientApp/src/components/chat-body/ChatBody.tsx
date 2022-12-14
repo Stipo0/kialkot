@@ -75,7 +75,7 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
                     <u>{message.userNickName}:</u>{" "}
                   </i>
                   <b>
-                    {message.message} {message.userId}
+                    {message.message}
                   </b>
                   <br />
                   <small>
