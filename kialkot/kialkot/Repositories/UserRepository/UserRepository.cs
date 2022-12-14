@@ -1,4 +1,5 @@
 ﻿using kialkot.Data;
+using kialkot.Enums;
 using kialkot.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +48,26 @@ namespace kialkot.Repositories.UserRepository
         public Task<bool> CheckExistName(string name)
         {
             return _applicationDbContext.Users.AsNoTracking().AnyAsync(x => x.NickName == name);
+        }
+        public Task<bool> CheckById(int id)
+        {
+            return _applicationDbContext.Users.AsNoTracking().AnyAsync(x => x.Id == id);
+        }
+
+        public Task<List<User>> GetUsers(int id)
+        {
+            return _applicationDbContext.Users.Where(x => x.Role != Role.Admin && x.Id != id ).ToListAsync();
+        }
+        
+        public Task<List<User>> GetUsersByRole(UsersByRole role, int id)
+        {
+            return _applicationDbContext.Users.Where(x => x.Role == (Role)role && x.Id != id).ToListAsync();
+        }
+        
+        public async Task DeleteAsync(User user)
+        {
+            _applicationDbContext.Remove(user);
+            await _applicationDbContext.SaveChangesAsync();
         }
     }
 }

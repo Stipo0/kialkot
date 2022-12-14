@@ -1,4 +1,4 @@
-import { Component, Suspense } from "react";
+import { Component, ReactNode, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
 
 import Layout from "./components/layout/Layout";
@@ -15,6 +15,9 @@ import JobEditPage from "./pages/JobEditPage/JobEditPage";
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
 import ChatPage from "./pages/ChatPage/ChatPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
+import HomePage from "./pages/HomePage/HomePage";
+import AdminUserPage from "./pages/AdminUserPage/AdminUserPage";
 
 interface AppProps {}
 
@@ -44,27 +47,43 @@ class App extends Component<AppProps, AppState> {
   render() {
     const { token, role } = this.state;
 
-    const jobRouterElement =
-      role === "User" ? <JobEditPage /> : <Navigate to="/jobs" replace />;
+    const LayoutElemnt = (
+      <Layout isLoggedIn={!!token} setToken={this.setToken} />
+    );
+
+    const jobRouterElement = ["User", "Admin"].includes(role as Role) ? (
+      <JobEditPage />
+    ) : (
+      <Navigate to="/jobs" replace />
+    );
+
+    const AdminRouterElement = (children: ReactNode) => {
+      return role === "Admin" ? children : <Navigate to="/*" replace />;
+    };
 
     return (
       <div className="App">
         <Suspense fallback={<div className="container">Loading...</div>}>
           <Routes>
+            <Route element={LayoutElemnt}>
+              <Route path="/job" element={<JobsPage isLoggedIn={!!token} />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="*" element={<Navigate to="/home" replace />} />
+            </Route>
+
             {token ? (
               <>
-                <Route
-                  element={
-                    <Layout isLoggedIn={!!token} setToken={this.setToken} />
-                  }
-                >
+                <Route element={LayoutElemnt}>
+                  <Route
+                    path="/admin"
+                    element={AdminRouterElement(<AdminPage />)}
+                  />
+                  <Route path="/admin/user/:id" element={<AdminUserPage />} />
                   <Route path="/chat" element={<ChatPage/>} />
-                  <Route path="/jobs" element={<JobsPage isLoggedIn={!!token}/>} />
                   <Route path="/job/:id" element={<JobPage />} />
                   <Route path="/job/edit" element={jobRouterElement} />
                   <Route path="/job/edit/:id" element={jobRouterElement} />
                   <Route path="/profil" element={<UserPage />} />
-                  <Route path="*" element={<Navigate to="/jobs" replace />} />
                 </Route>
               </>
             ) : (
@@ -73,19 +92,13 @@ class App extends Component<AppProps, AppState> {
                   path="/login"
                   element={<LoginPage setToken={this.setToken} />}
                 />
-                <Route
-                  element={
-                    <Layout isLoggedIn={!!token} setToken={this.setToken} />
-                  }
-                >
-                  <Route path="/home" element={<JobsPage isLoggedIn={!!token}/>} />
+                <Route element={LayoutElemnt}>
                   <Route path="/registration" element={<RegistrationPage />} />
                   <Route path="/lostPassword" element={<LostPasswordPage />} />
                   <Route
                     path="/resetPassword"
                     element={<RenewPasswordPage />}
                   />
-                  <Route path="*" element={<Navigate to="/home" replace />} />
                 </Route>
               </>
             )}

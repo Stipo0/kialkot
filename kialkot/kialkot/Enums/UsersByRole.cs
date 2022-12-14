@@ -1,9 +1,10 @@
 ﻿namespace kialkot.Enums
 {
-    public enum Role
+    public enum UsersByRole
     {
         Admin,
         User,
-        Designer
+        Designer,
+        UserAndDesigner
     }
 }

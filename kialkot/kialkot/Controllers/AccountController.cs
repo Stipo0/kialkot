@@ -172,6 +172,50 @@ namespace kialkot.Controllers
             });
         }
 
+        [HttpGet("users/{role}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        public async Task<ActionResult> UsersForAdmin(UsersByRole role)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "Users not found" });
+            }
+            if (user.Role != Role.Admin)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not admin" });
+            }
+            return Ok(await _userService.GetUsersForAdminAsync(role,user.Id));
+        }
+
+        [HttpGet("user/{id}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
+        public async Task<ActionResult<UserMeDto>> GetUser(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            if (user.Role != Role.Admin)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not admin" });
+            }
+            if (id == user.Id)
+            {
+                return BadRequest(new ErrorDto { Error = "You can't get yourself" });
+            }
+            if (!await _userRepository.CheckById(id))
+            {
+                return BadRequest(new ErrorDto { Error = "Query User not found" });
+            }
+
+            return Ok(await _userService.GetUserByIdAsync(id));
+        }
+
         [HttpPut("update")]
         [SwaggerResponse(200)]
         [SwaggerResponse(400)]
@@ -214,6 +258,37 @@ namespace kialkot.Controllers
                 Role = user.Role.ToString(),
                 CreatedAt = user.CreatedAt,
                 UpdatedAt = user.UpdatedAt
+            });
+        }
+
+        [HttpDelete("user/delete/{id}")]
+        [SwaggerResponse(200)]
+        [SwaggerResponse(400)]
+        [SwaggerResponse(404)]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            var user = await _userRepository.GetByIdAsync(_httpAccessorService.GetUserId());
+            if (user == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            if (user.Role != Role.Admin)
+            {
+                return BadRequest(new ErrorDto { Error = "You are not admin" });
+            }
+            if (id == user.Id)
+            {
+                return BadRequest(new ErrorDto { Error = "You can't delete yourself" });
+            }
+            var deleteuser = await _userRepository.GetByIdAsync(id);
+            if (deleteuser == null)
+            {
+                return NotFound(new ErrorDto { Error = "User not found" });
+            }
+            await _userRepository.DeleteAsync(deleteuser);
+            return Ok(new OkDto
+            {
+                Ok = "Delete User successful"
             });
         }
     }

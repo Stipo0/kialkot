@@ -1,4 +1,5 @@
-﻿using kialkot.Models.Domain;
+﻿using kialkot.Enums;
+using kialkot.Models.Domain;
 
 namespace kialkot.Repositories.UserRepository
 {
@@ -11,5 +12,9 @@ namespace kialkot.Repositories.UserRepository
         Task<User?> GetByIdAsync(int id);
         Task<bool> CheckExistEmail(string email);
         Task<bool> CheckExistName(string name);
+        Task<bool> CheckById(int id);
+        Task<List<User>> GetUsers(int id);
+        Task<List<User>> GetUsersByRole(UsersByRole role, int id);
+        Task DeleteAsync(User user);
     }
 }

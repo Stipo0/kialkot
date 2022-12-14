@@ -17,5 +17,6 @@ namespace kialkot.Repositories.JobRepository
         Task<List<Job>> GetJobsByStatusAndCreatorIdAsync(JobStatusEnum status, int creatorId);
         Task<List<Job>> GetJobsByStatusAndWorkerIdAsync(JobStatusEnum status, int workerId);
         Task<List<Job>> GetJobsByUserIdAsync(int id);
+        Task DeleteWorkerFromJobAsync(Job job);
     }
 }

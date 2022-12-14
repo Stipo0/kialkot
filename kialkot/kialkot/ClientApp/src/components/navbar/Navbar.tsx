@@ -1,6 +1,6 @@
 import { FC } from "react";
 import classNames from "classnames";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { faSignIn, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -23,31 +23,45 @@ export interface NavbarProps {
 
 const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   const nickName = getDataFromTokenModel("NickName");
-  const location = useLocation();
+  const role = getDataFromTokenModel("role");
   const navigation = useNavigate();
   const routes: RouteConfig[] = [
     {
-      link: "/jobs",
+      link: "/job",
       label: "Munkák",
-    },
-    {
-      link: "/chat",
-      label: "Chat",
-    },
-    {
-      link: "/profil",
-      label: "Profil",
     },
   ];
 
-  const toImage = (link: string, label: string) => {
-    return (
-      <img
-        src={require("../../images/nav" + link + ".png")}
-        alt={label}
-        width="100vw"
-      />
+  isLoggedIn &&
+    routes.push(
+      {
+        link: "/profil",
+        label: "Saját Profil",
+      },
+      {
+        link: "/chat",
+        label: "Chat",
+      }
     );
+
+  role === "Admin" &&
+    routes.push({
+      link: "/admin",
+      label: "Adminisztráció",
+    });
+
+  const toImage = (link: string, label: string) => {
+    try {
+      return (
+        <img
+          src={require("../../images/nav" + link + ".png")}
+          alt={label}
+          height="40px"
+        />
+      );
+    } catch (error) {
+      return label;
+    }
   };
 
   const goToLoginPage = () => {
@@ -65,15 +79,13 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
           "d-flex align-itmes-center justify-content-between- flex-grow-1 flex-wrap"
         )}
       >
-        {isLoggedIn && (
-          <div className="d-flex">
-            {routes.map(({ link, label }) => (
-              <NavLink key={link} to={link} className="nav-link me-4">
-                {location.pathname === link ? toImage(link, label) : label}
-              </NavLink>
-            ))}
-          </div>
-        )}
+        <div className="d-flex">
+          {routes.map(({ link, label }) => (
+            <NavLink key={link} to={link} className="nav-link me-3">
+              {({ isActive }) => (isActive ? toImage(link, label) : label)}
+            </NavLink>
+          ))}
+        </div>
         <div className={classNames("d-flex fa-pull-right", classes.MinWidth0)}>
           <p className={classNames(classes.Greeting, "mb-0")}>
             Welcome {nickName ? nickName : "to Jó Kérdés App"}

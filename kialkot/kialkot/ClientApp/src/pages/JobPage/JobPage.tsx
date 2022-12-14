@@ -19,20 +19,26 @@ import { getDataFromTokenModel } from "../../util/token";
 
 import "./JobPage.scss";
 import { JobStatusEnum } from "../../enums/job.status.enum";
+import DeleteCheck from "../../components/delete-check/DeleteCheck";
 
 const JobPage = () => {
   const { id } = useParams<{ id: string }>();
   const [job, setJob] = useState<JobModel>();
   const [isShownImageAdd, setIsShownImageAdd] = useState(false);
+  const [isShowDeleteCheck, setIsShowDeleteCheck] = useState(false);
   const userId = getDataFromTokenModel("userId");
   const navigate = useNavigate();
   const designerWorkOnThisJob = Number(userId) === Number(job?.worker?.id);
 
   useEffect(() => {
     const fetchJob = async (id: string) => {
-      const data = await jobsService.getJob(id);
-      if (data) setJob(data);
-      else navigate("/jobs");
+      try {
+        const data = await jobsService.getJob(id);
+        if (data) setJob(data);
+        else navigate("/jobs");
+      } catch (e) {
+        alert(HanleCatch(e));
+      }
     };
     if (id) {
       fetchJob(id);
@@ -92,28 +98,29 @@ const JobPage = () => {
 
   return (
     <>
-      <AccessController allowedFor={["User"]}>
-        {Number(userId) === Number(job?.creator?.id) && (
-          <>
-            <ActionButton onClick={goToEditJobPage}>
-              <FontAwesomeIcon icon={faEdit} />
-            </ActionButton>
-            <ActionButton color="danger" onClick={deleteJob}>
-              <FontAwesomeIcon icon={faTrash} />
-            </ActionButton>
-          </>
-        )}
-      </AccessController>
-      <AccessController allowedFor={["Desinger"]}>
-        {designerWorkOnThisJob ? (
-          <ActionButton onClick={rejectJob} color="secondary">
-            Munka leadása
+      <div className="me-3">
+        <AccessController allowedFor={["User", "Admin"]}>
+          <ActionButton onClick={goToEditJobPage}>
+            <FontAwesomeIcon icon={faEdit} />
           </ActionButton>
-        ) : (
-          <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
-        )}
-      </AccessController>
-      <Page title={`${job?.name} részletes reírás`}>
+          <ActionButton
+            color="danger"
+            onClick={() => setIsShowDeleteCheck(true)}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </ActionButton>
+        </AccessController>
+        <AccessController allowedFor={["Designer"]}>
+          {Number(userId) === Number(job?.worker?.id) ? (
+            <ActionButton onClick={rejectJob} color="secondary">
+              Munka leadása
+            </ActionButton>
+          ) : (
+            <ActionButton onClick={acceptJob}>Munka felvétele</ActionButton>
+          )}
+        </AccessController>
+      </div>
+      <Page className="pt-3" title={`${job?.name} részletes reírás`}>
         <div>
           <h6 className="d-inline">Név:</h6>
           <p className="d-inline p-2">{job?.creator?.nickName}</p>
@@ -141,7 +148,7 @@ const JobPage = () => {
             </>
           )}
           <br />
-          <AccessController allowedFor={["Desinger"]}>
+          <AccessController allowedFor={["Designer"]}>
             {designerWorkOnThisJob && (
               <>
                 {isShownImageAdd && (
@@ -152,7 +159,7 @@ const JobPage = () => {
                 </ActionButton>
                 {JobStatusEnum[job?.jobStatus as JobStatusEnum].toString() ===
                   JobStatusEnum.InProgress.toString() && (
-                  <ActionButton onClick={handleFinish}>Befejezés</ActionButton>
+                    <ActionButton onClick={handleFinish}>Befejezés</ActionButton>
                 )}
               </>
             )}
@@ -161,6 +168,13 @@ const JobPage = () => {
           <p className="d-inline">{job?.jobStatus}</p>
         </div>
       </Page>
+      {isShowDeleteCheck && (
+        <DeleteCheck
+          handle={deleteJob}
+          title="munkát"
+          isShow={setIsShowDeleteCheck}
+        />
+      )}
     </>
   );
 };

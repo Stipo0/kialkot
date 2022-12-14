@@ -80,6 +80,14 @@ namespace kialkot.Repositories.JobRepository
             return _context.Jobs.Where(x => x.WorkerId == id).ToListAsync();
         }
 
+        public async Task DeleteWorkerFromJobAsync(Job job)
+        {
+            job.WorkerId = null;
+            job.Worker = null;
+            job.Status = JobStatusEnum.Open;
+            await UpdateAsync(job);
+        }
+
         public Task<List<Job>> GetJobsByUserIdAsync(int id)
         {
             return _context.Jobs.Where(x => x.CreatorId == id || x.WorkerId == id && x.WorkerId != null).ToListAsync();

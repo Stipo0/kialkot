@@ -24,18 +24,23 @@ const JobEditPage = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const userId = getDataFromTokenModel("userId");
+  const role = getDataFromTokenModel("role");
 
   useEffect(() => {
     const fetchJob = async (id: string) => {
-      const data = await jobsService.getJob(id);
-      Number(data.creator?.id) === Number(userId)
-        ? setJob(data)
-        : navigate("/jobs");
+      try {
+        const data = await jobsService.getJob(id);
+        (Number(data.creator?.id) === Number(userId)) || (role === "Admin")
+          ? setJob(data)
+          : navigate("/jobs");
+      } catch (e) {
+        alert(HanleCatch(e));
+      }
     };
     if (id && Number(id)) {
       fetchJob(id);
     }
-  }, [id, navigate, userId]);
+  }, [id, navigate, userId, role]);
 
   const initialValues: JobFormValues = {
     name: job?.name || "",
@@ -80,15 +85,16 @@ const JobEditPage = () => {
         validateOnChange
       >
         <Form>
-          <TextField name="name" label="Név" />
+          <TextField name="name" label="Név" required/>
           <TextField
             name="jobType"
             label="Tipus"
             type="select"
+            required
             options={JobTypeEnum.toOptions}
           />
-          <TextField name="deadline" label="Határidő" type="date" />
-          <TextField name="description" label="Leírás" type="textarea" />
+          <TextField name="deadline" label="Határidő" type="date" required/>
+          <TextField name="description" label="Leírás" type="textarea" required/>
           {error ? (
             <Alert className="mb-3" severity="error">
               {error}
