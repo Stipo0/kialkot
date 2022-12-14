@@ -31,6 +31,10 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
       label: "Munkák",
     },
     {
+      link: "/chat",
+      label: "Chat",
+    },
+    {
       link: "/profil",
       label: "Profil",
     },
