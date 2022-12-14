@@ -18,5 +18,6 @@ namespace kialkot.Models.Domain
         public List<CustomToken> CustomTokens { get; set; } = null!;
         public List<Job> CreatedJobs { get; set; } = null!;
         public List<Job> WorkedJobs { get; set; } = null!;
+        public List<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
     }
 }

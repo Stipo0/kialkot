@@ -16,7 +16,6 @@ namespace kialkot.Services.JobService
         Task DesingerAcceptJob(Job job, User user);
         Task DesingerUpdateJobStatus(Job job, JobStatusChange request);
         Task DesingerCancelJob(Job job);
-
-
+        Task<List<ChatJobDto>> Getjobs(User user);
     }
 }
