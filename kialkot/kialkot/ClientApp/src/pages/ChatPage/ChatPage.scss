@@ -1,16 +1,16 @@
 @import "../../styles/variables";
 
 .panel-body {
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
 
 	.newMessage {
-		background-color: $orange-color;
+		background-color: $light-orange-color;
 	}
 }
 
 .panel-chat {
-	max-height: 325px;
+	max-height: 425px;
 
 	small {
 		font-size: small;
@@ -18,16 +18,16 @@
 		color: grey;
 	}
 	
-	.masseges{
+	.messages{
 		background-color: $light-green-color;
 		float: left;
 	}
 	.ownMessages {
 		float: right;
-		background-color: $green-color;
+		background-color: $ligth-blue-color;
 	}
 	.newMessage {
-		background-color: $orange-color;
+		background-color: $light-orange-color;
 	}
 }
 

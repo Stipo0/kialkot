@@ -35,7 +35,7 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
     };
 
     fetchMessages(Number(jobId ? jobId : 0));
-  }, [jobId]);
+  });
 
   const initialValues: ChatSendMessagesModel = {
     message: "",
@@ -62,7 +62,7 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
             <>
               <div
                 className={classNames(
-                  "ms-2 col-sm-6 me-e mb-2 card p-2 masseges",
+                  "ms-2 col-sm-7 me-e mb-2 card shadow-sm p-2 messages",
                   {
                     newMessage: message.newMessage,
                   },
@@ -71,12 +71,8 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
                 onClick={() => (message.newMessage = false)}
               >
                 <section key={message.id}>
-                  <i>
-                    <u>{message.userNickName}:</u>{" "}
-                  </i>
-                  <b>
-                    {message.message}
-                  </b>
+                  <small className="ms-5">{message.userNickName}</small>
+                  {message.message}
                   <br />
                   <small>
                     {moment(message.sendAt).format("YYYY-MM-DD HH:mm:ss")}
@@ -92,6 +88,7 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
           initialValues={initialValues}
           validationSchema={schema}
           onSubmit={handleAddMessage}
+          enableReinitialize
           validateOnMount
           validateOnChange
         >
