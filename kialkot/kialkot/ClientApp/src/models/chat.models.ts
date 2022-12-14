@@ -10,6 +10,7 @@ export interface ChatMessagesModel {
 	userNickName: string;
 	message: string
 	newMessage: boolean;
+	sendAt: Date;
 }
 
 export interface ChatSendMessagesModel {

@@ -15,6 +15,7 @@ import { chatService } from "../../service/chat.service";
 import { HanleCatch } from "../../util/handleCatch";
 import { getDataFromTokenModel } from "../../util/token";
 import Button from "../button/Button";
+import moment from "moment";
 
 interface ChatBodyProps {
   jobId: number;
@@ -76,6 +77,8 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
                   <b>
                     {message.message} {message.userId}
                   </b>
+									<br />
+									<small>{moment(message.sendAt).format("YYYY-MM-DD HH:mm:ss")}</small>
                 </section>
               </div>
             </>
