@@ -1,0 +1,38 @@
+@import "../../styles/variables";
+
+.panel-body {
+  max-height: 400px;
+  overflow-y: auto;
+
+	.newMessage {
+		background-color: $orange-color;
+	}
+}
+
+.panel-chat {
+	max-height: 325px;
+	
+	.masseges{
+		background-color: $light-green-color;
+		float: left;
+	}
+	.ownMessages {
+		float: right;
+		background-color: $green-color;
+	}
+	.newMessage {
+		background-color: $orange-color;
+	}
+}
+
+
+.panel-footer {
+	max-height: 75px;
+	button {
+		height: 20%;
+	}
+}
+
+.chat-button {
+  width: 50px !important;
+}
