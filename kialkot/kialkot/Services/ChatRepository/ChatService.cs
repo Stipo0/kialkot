@@ -39,7 +39,7 @@ namespace kialkot.Services.ChatRepository
             };
         }
 
-        public async Task<List<GetMessagesDto>> GetMessages(int jobId)
+        public async Task<List<GetMessagesDto>> GetMessages(int jobId, int userId)
         {
             var messages = await _chatRepository.GetMessagebyJobId(jobId);
             var getMessagesDtos = new List<GetMessagesDto>();
@@ -55,7 +55,7 @@ namespace kialkot.Services.ChatRepository
                     SendAt = message.SendAt
                 });
 
-                message.NewMessage = false;
+                if(userId != message.UserId) message.NewMessage = false;
             }
             await _chatRepository.Update(messages);
             return getMessagesDtos;

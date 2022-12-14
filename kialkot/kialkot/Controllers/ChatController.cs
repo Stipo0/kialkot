@@ -68,7 +68,7 @@ namespace kialkot.Controllers
             {
                 return BadRequest(new ErrorDto { Error = "You are not a part of this job" });
             }
-            var messages = await _chatService.GetMessages(jobId);
+            var messages = await _chatService.GetMessages(jobId,user.Id);
             return Ok(messages);
         }
 

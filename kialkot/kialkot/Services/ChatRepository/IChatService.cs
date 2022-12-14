@@ -7,6 +7,6 @@ namespace kialkot.Services.ChatRepository
     public interface IChatService
     {
         Task<GetMessagesDto> CreateAsync(User user, Job job, SendMessageDto sendMessageDto);
-        Task<List<GetMessagesDto>> GetMessages(int jobId);
+        Task<List<GetMessagesDto>> GetMessages(int jobId, int userId);
     }
 }
