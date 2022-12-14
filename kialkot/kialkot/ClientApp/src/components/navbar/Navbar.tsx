@@ -33,10 +33,16 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
   ];
 
   isLoggedIn &&
-    routes.push({
-      link: "/profil",
-      label: "Saját Profil",
-    });
+    routes.push(
+      {
+        link: "/profil",
+        label: "Saját Profil",
+      },
+      {
+        link: "/chat",
+        label: "Chat",
+      }
+    );
 
   role === "Admin" &&
     routes.push({
@@ -76,9 +82,7 @@ const Navbar: FC<NavbarProps> = ({ isLoggedIn, setToken }) => {
         <div className="d-flex">
           {routes.map(({ link, label }) => (
             <NavLink key={link} to={link} className="nav-link me-3">
-              {({ isActive }) =>
-                isActive ? toImage(link, label) : label
-              }
+              {({ isActive }) => (isActive ? toImage(link, label) : label)}
             </NavLink>
           ))}
         </div>

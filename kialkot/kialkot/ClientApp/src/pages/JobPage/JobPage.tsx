@@ -129,7 +129,7 @@ const JobPage = () => {
           <h6 className="d-inline">Email cím:</h6>
           <p className="d-inline p-2">{job?.creator?.email}</p>
           <p className="d-inline fa-pull-right">
-            {moment(job?.deadline).format("YYYY. MM DD.")}
+            {moment(job?.deadline).format("YYYY. MM. DD.")}
           </p>
           <hr className="Orange" />
           <h4 className="m-auto">Feladat</h4>

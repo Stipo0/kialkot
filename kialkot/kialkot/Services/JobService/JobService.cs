@@ -2,6 +2,7 @@
 using kialkot.Models.Domain;
 using kialkot.Models.Request;
 using kialkot.Models.Response;
+using kialkot.Repositories.ChatRepository;
 using kialkot.Repositories.JobRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
@@ -11,12 +12,14 @@ namespace kialkot.Services.JobService
     public class JobService : IJobService
     {
         private readonly IJobRepository _jobRepository;
+        private readonly IChatRepository _chatRepository;
 
-        public JobService(IJobRepository jobRepository)
+        public JobService(IJobRepository jobRepository,
+            IChatRepository chatRepository)
         {
             _jobRepository = jobRepository;
+            _chatRepository = chatRepository;
         }
-
 
         public async Task<JobDto> CreateJobAsync(User user, CreateJobDto createJobDto)
         {
@@ -201,5 +204,22 @@ namespace kialkot.Services.JobService
             job.UpdatedAt = DateTime.UtcNow;
             await _jobRepository.UpdateAsync(job);
         }
+
+        public async Task<List<ChatJobDto>> Getjobs(User user)
+        {
+            var jobs = await _jobRepository.GetJobsByUserIdAsync(user.Id);
+            List<ChatJobDto> chatJobs = new List<ChatJobDto>();
+            foreach (var job in jobs)
+            {
+                chatJobs.Add(new ChatJobDto
+                {
+                    Id = job.Id,
+                    Name = job.Name,
+                    NewMessage = await  _chatRepository.CheckNewMessage(job.Id, user.Id),
+                }) ;
+            }
+            return chatJobs;
+        }
+
     }
 }

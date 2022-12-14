@@ -14,6 +14,7 @@ import JobEditPage from "./pages/JobEditPage/JobEditPage";
 
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
+import ChatPage from "./pages/ChatPage/ChatPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import HomePage from "./pages/HomePage/HomePage";
 import AdminUserPage from "./pages/AdminUserPage/AdminUserPage";
@@ -78,6 +79,7 @@ class App extends Component<AppProps, AppState> {
                     element={AdminRouterElement(<AdminPage />)}
                   />
                   <Route path="/admin/user/:id" element={<AdminUserPage />} />
+                  <Route path="/chat" element={<ChatPage/>} />
                   <Route path="/job/:id" element={<JobPage />} />
                   <Route path="/job/edit" element={jobRouterElement} />
                   <Route path="/job/edit/:id" element={jobRouterElement} />

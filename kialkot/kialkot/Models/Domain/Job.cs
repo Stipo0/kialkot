@@ -17,5 +17,6 @@ namespace kialkot.Models.Domain
         public DateTime EndDate { get; set; }
         public User Creator { get; set; } = null!;
         public User? Worker { get; set; } = null!;
+        public List<ChatMessage> Messages { get; set; } = null!;
     }
 }
