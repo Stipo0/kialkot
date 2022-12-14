@@ -14,6 +14,7 @@ import JobEditPage from "./pages/JobEditPage/JobEditPage";
 
 import { AUTH_TOKEN } from "./util/constants";
 import { getDataFromTokenModel } from "./util/token";
+import ChatPage from "./pages/ChatPage/ChatPage";
 
 interface AppProps {}
 
@@ -57,6 +58,7 @@ class App extends Component<AppProps, AppState> {
                     <Layout isLoggedIn={!!token} setToken={this.setToken} />
                   }
                 >
+                  <Route path="/chat" element={<ChatPage/>} />
                   <Route path="/jobs" element={<JobsPage isLoggedIn={!!token}/>} />
                   <Route path="/job/:id" element={<JobPage />} />
                   <Route path="/job/edit" element={jobRouterElement} />

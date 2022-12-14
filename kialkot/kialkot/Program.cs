@@ -1,8 +1,10 @@
 using kialkot.Data;
 using kialkot.Models.Options;
+using kialkot.Repositories.ChatRepository;
 using kialkot.Repositories.CustomTokenRepository;
 using kialkot.Repositories.JobRepository;
 using kialkot.Repositories.UserRepository;
+using kialkot.Services.ChatRepository;
 using kialkot.Services.HttpAccesorService;
 using kialkot.Services.JobService;
 using kialkot.Services.JwtTokenService;
@@ -76,6 +78,9 @@ builder.Services.AddScoped<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddScoped<ISmtpService, SmtpService>();
 builder.Services.AddScoped<IJobService, JobService>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IChatService, ChatService>();
+
 
 
 builder.Services.AddHttpContextAccessor();

@@ -10,6 +10,7 @@ namespace kialkot.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<CustomToken> CustomTokens { get; set; } = null!;
         public DbSet<Job> Jobs { get; set; } = null!;
+        public DbSet<ChatMessage> Messages { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +48,15 @@ namespace kialkot.Data
                 .HasForeignKey(j => j.WorkerId)
                 .OnDelete(DeleteBehavior.SetNull);
 
+            modelBuilder.Entity<Job>()
+                .HasMany(j => j.Messages)
+                .WithOne(m => m.Job)
+                .HasForeignKey(m => m.JobId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Messages)
+                .WithOne(m => m.User)
+                .HasForeignKey(m => m.UserId);
         }
     }
 }

@@ -79,5 +79,10 @@ namespace kialkot.Repositories.JobRepository
         {
             return _context.Jobs.Where(x => x.WorkerId == id).ToListAsync();
         }
+
+        public Task<List<Job>> GetJobsByUserIdAsync(int id)
+        {
+            return _context.Jobs.Where(x => x.CreatorId == id || x.WorkerId == id && x.WorkerId != null).ToListAsync();
+        }
     }
 }
