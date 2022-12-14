@@ -33,11 +33,9 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
         alert(HanleCatch(e));
       }
     };
-
-    (jobId !== 0) && 
-    fetchMessages(Number(jobId));
-
-  }, [jobId]);
+    
+    setTimeout(() => {jobId !== 0 && fetchMessages(Number(jobId));}, 5000);
+  });
 
   const initialValues: ChatSendMessagesModel = {
     message: "",
@@ -62,29 +60,31 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
     <div className="panel panel-default">
       <div className="panel-body panel-chat card p-2">
         <div>
-          {messages.length ? messages.map((message) => (
-            <>
-              <div
-                className={classNames(
-                  "ms-2 col-sm-7 me-e mb-2 card shadow-sm p-2 messages",
-                  {
-                    newMessage: message.newMessage,
-                  },
-                  { ownMessages: message.userId === Number(userId) }
-                )}
-                onClick={() => (message.newMessage = false)}
-              >
-                <section key={message.id}>
-                  <small className="ms-5">{message.userNickName}</small>
-                  <b>{message.message}</b>
-                  <br />
-                  <small>
-                    {moment(message.sendAt).format("YYYY-MM-DD HH:mm:ss")}
-                  </small>
-                </section>
-              </div>
-            </>
-          )) : (
+          {messages.length ? (
+            messages.map((message) => (
+              <>
+                <div
+                  className={classNames(
+                    "ms-2 col-sm-7 me-e mb-2 card shadow-sm p-2 messages",
+                    {
+                      newMessage: message.newMessage,
+                    },
+                    { ownMessages: message.userId === Number(userId) }
+                  )}
+                  onClick={() => (message.newMessage = false)}
+                >
+                  <section key={message.id}>
+                    <small className="ms-5">{message.userNickName}</small>
+                    <b>{message.message}</b>
+                    <br />
+                    <small>
+                      {moment(message.sendAt).format("YYYY-MM-DD HH:mm:ss")}
+                    </small>
+                  </section>
+                </div>
+              </>
+            ))
+          ) : (
             <h1>Válassz vagy üzenj!!</h1>
           )}
         </div>

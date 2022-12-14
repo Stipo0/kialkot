@@ -19,8 +19,8 @@ const ChatJobs = ({setJobId}: ChatJobsProps) => {
 				alert(HanleCatch(e))
 			}
 		}
-		fetchJobs();
-	}, [])
+		setTimeout(() => {fetchJobs();}, 5000);
+	})
 
   return (
 		<div className="panel panel-default">
