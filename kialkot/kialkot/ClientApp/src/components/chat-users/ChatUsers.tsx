@@ -6,11 +6,17 @@ import { HanleCatch } from "../../util/handleCatch";
 
 interface ChatJobsProps {
   setJobId: (jobId: number) => void;
+  setJobName: (jobName: string) => void;
   changeJobId: boolean;
   setChangeJobId: (changeJobId: boolean) => void;
 }
 
-const ChatJobs = ({ setJobId, setChangeJobId, changeJobId }: ChatJobsProps) => {
+const ChatJobs = ({
+  setJobId,
+  setJobName,
+  setChangeJobId,
+  changeJobId,
+}: ChatJobsProps) => {
   const [jobs, setJobs] = useState<ChatJobsModel[]>([]);
 
   useEffect(() => {
@@ -37,6 +43,7 @@ const ChatJobs = ({ setJobId, setChangeJobId, changeJobId }: ChatJobsProps) => {
             key={job.id}
             onClick={() => {
               setJobId(job.id);
+              setJobName(job.name);
               setChangeJobId(true);
             }}
             className={classNames(

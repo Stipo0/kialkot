@@ -7,14 +7,16 @@ import "./ChatPage.scss";
 
 const ChatPage = () => {
   const [jobId, setJobId] = useState(0);
+  const [jobName, setJobName] = useState("");
   const [changeJobId, setChangeJobId] = useState(true);
 
   return (
-    <Page title="Chat" className="col-lg-8">
+    <Page title={"Csevegés" + (jobName === "" ? "" : (` vele: ${jobName}`))} className="col-lg-8">
       <div className="row">
         <div className="col-sm-3 me-0">
           <ChatJobs
             setJobId={setJobId}
+            setJobName={setJobName}
             setChangeJobId={setChangeJobId}
             changeJobId={changeJobId}
           />
