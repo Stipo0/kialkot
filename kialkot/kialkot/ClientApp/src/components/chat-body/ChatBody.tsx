@@ -19,9 +19,11 @@ import moment from "moment";
 
 interface ChatBodyProps {
   jobId: number;
+  changeJobId: boolean;
+  setChangeJobId: (changeJobId: boolean) => void;
 }
 
-const ChatBody = ({ jobId }: ChatBodyProps) => {
+const ChatBody = ({ jobId, changeJobId, setChangeJobId }: ChatBodyProps) => {
   const [messages, setMessages] = useState<ChatMessagesModel[]>([]);
   const userId = getDataFromTokenModel("userId");
 
@@ -33,8 +35,17 @@ const ChatBody = ({ jobId }: ChatBodyProps) => {
         alert(HanleCatch(e));
       }
     };
-    
-    setTimeout(() => {jobId !== 0 && fetchMessages(Number(jobId));}, 5000);
+
+    const fetch = () => {
+      jobId !== 0 && fetchMessages(Number(jobId));
+    };
+
+    changeJobId
+      ? fetch()
+      : setTimeout(() => {
+          fetch();
+        }, 10000);
+    setChangeJobId(false);
   });
 
   const initialValues: ChatSendMessagesModel = {
